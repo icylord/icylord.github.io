@@ -37,7 +37,66 @@
         </address>
         <p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
 <p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a></p>
-</footer><!-- /.post-info -->      <p>占个坑，有空补上</p>
+</footer><!-- /.post-info -->      <h1>First</h1>
+<p>Install Intel MKL(intel_cpp_comp_2013_mac)</p>
+<p>Download numpy and scipy and untar them.</p>
+<p>numpy from:http://sourceforge.net/projects/numpy/files/NumPy/1.7.1/</p>
+<p>scipy from:http://sourceforge.net/projects/scipy/files/scipy/</p>
+<pre><code>
+unzip numpy-1.7.0.zip
+unzip scipy-0.12.0.zip
+</code></pre>
+
+<h1>Second</h1>
+<p>(1)modify numpy-1.7.0/numpy/distutils/site.cfg</p>
+<p>change line 143~146 to</p>
+<pre><code>
+library_dirs = /opt/intel/mkl/lib
+include_dirs = /opt/intel/mkl/include
+lapack_libs = mkl_lapack95
+mkl_libs = mkl_rt
+</code></pre>
+
+<p>(2)modify python/numpy-1.7.0/numpy/distutils/intelccompiler.py</p>
+<p>change line 37 to</p>
+<pre><code>
+self.cc_exe = 'icc -m64 -fPIC -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost -undefined dynamic_lookup -bundle -DMKL_ILP64' 
+</code></pre>
+
+<p>(3) modify numpy-1.7.0/numpy/distutils/system_info.py</p>
+<p>change line 1448~1451 and add </p>
+<pre><code>
+blas_mkl_info = get_info('blas_mkl')
+        if blas_mkl_info:
+            self.set_info(**blas_mkl_info)
+            return
+</code></pre>
+
+<p>then change line 1360~1363 and add</p>
+<pre><code>
+lapack_mkl_info = get_info('lapack_mkl')
+        if lapack_mkl_info:
+            self.set_info(**lapack_mkl_info)
+            return
+</code></pre>
+
+<p>(4) compile numpy </p>
+<pre><code>
+python setup.py config --compiler=intelem build_clib --compiler=intelem build_ext --compiler=intelem install
+</code></pre>
+
+<h1>Third</h1>
+<p>compile scipy</p>
+<pre><code>
+python setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install
+</code></pre>
+
+<h1>Last</h1>
+<p>use this code to check the whether MKL is supported for numpy</p>
+<pre><code>
+import numpy as np   
+np.show_config()  
+</code></pre>
     </div><!-- /.entry-content -->
         <div class="comments">
       <h2>Comments !</h2>
