@@ -49,7 +49,7 @@ python setup.py config --compiler=intelem --fcompiler=intelem build_clib --compi
 &lt;pre&gt;&lt;code&gt;
 import numpy as np &lt;br /&gt;
 np.show_config()&lt;br /&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;</summary><category term="Computer Vision"></category></entry><entry><title>SZU Face Detector Performance</title><link href="http://icylord.github.io/szu-face-detector-performance.html" rel="alternate"></link><updated>2013-09-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-10:szu-face-detector-performance.html</id><summary type="html">&lt;p&gt;Our new face detection algorithm(Shenzhen University Face Detector) reach &lt;strong&gt;state of the art&lt;/strong&gt;  on FDDB and AFW dataset.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;</summary><category term="Computer Vision"></category><category term="Python"></category></entry><entry><title>SZU Face Detector Performance</title><link href="http://icylord.github.io/szu-face-detector-performance.html" rel="alternate"></link><updated>2013-09-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-10:szu-face-detector-performance.html</id><summary type="html">&lt;p&gt;Our new face detection algorithm(Shenzhen University Face Detector) reach &lt;strong&gt;state of the art&lt;/strong&gt;  on FDDB and AFW dataset.&lt;/p&gt;
 &lt;p&gt;For FDDB result please refer to &lt;a href="http://vis-www.cs.umass.edu/fddb/results.html"&gt;FDDB&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;For AFW result please refer to &lt;a href="http://www.ics.uci.edu/~xzhu/face"&gt;AFW&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src="/static/img/MV_FDDB_Disc_FPPI.png" height="480" width="640" alt="FDDB Result" /&gt;

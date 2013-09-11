@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>icylord's blog</title>
+    <title>icylord's blog - Python</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="icylord">
@@ -84,17 +84,44 @@
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
-            <section id="content">
-<h1>Archives for icylord's blog</h1>
+                            <div class="article">
+                <h1><a href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">Install Numpy/Scipy with Intel MKL On MacOSX 10.8</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-09-10T00:00:00">
+        <i class="icon-calendar"></i>Tue 10 September 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
 
-<dl>
-	<dt>Tue 10 September 2013</dt>
-	<dd><a href='install-numpyscipy-with-intel-mkl-on-macosx-108.html'>Install Numpy/Scipy with Intel MKL On MacOSX 10.8</a></dd>
-	<dt>Tue 10 September 2013</dt>
-	<dd><a href='szu-face-detector-performance.html'>SZU Face Detector Performance</a></dd>
-</dl>
-</section>
-        </div><!--/span-->
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/python.html"><i class="icon-tag"></i>Python</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h1>First</h1>
+<p>Install Intel MKL(intel_cpp_comp_2013_mac)</p>
+<p>Download <a href="http://sourceforge.net/projects/numpy/files/NumPy/">numpy</a> and <a href="http://sourceforge.net/projects/scipy/files/scipy/">scipy</a> and unzip them.
+<pre><code>
+unzip numpy-1.7.0.zip
+unzip scipy-0.12.0.zip
+</code></pre></p>
+<h1>Second</h1>
+<p>(1)modify numpy-1.7.0/numpy/distutils/site.cfg</p>
+<p>change line 143~146 to
+<pre><code>
+library_dirs = /opt/intel/mkl/lib
+include_dirs = /opt/intel/mkl/include
+lapack_libs = mkl_lapack95
+mkl_libs ...</code></pre></p>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        
+                        </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
             <ul class="nav nav-list">
