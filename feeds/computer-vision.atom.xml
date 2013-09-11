@@ -19,7 +19,7 @@ lapack_libs = mkl_lapack95
 mkl_libs = mkl_rt
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;(2)modify python/numpy-1.7.0/numpy/distutils/intelccompiler.py&lt;/p&gt;
+&lt;p&gt;(2)modify numpy-1.7.0/numpy/distutils/intelccompiler.py&lt;/p&gt;
 &lt;p&gt;change line 37 to&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
 self.cc_exe = 'icc -m64 -fPIC -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost -undefined dynamic_lookup -bundle -DMKL_ILP64' 
