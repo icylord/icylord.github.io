@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/all.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-09-10T00:00:00+02:00</updated><entry><title>Install Numpy/Scipy with Intel MKL On MacOSX 10.8</title><link href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html" rel="alternate"></link><updated>2013-09-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-10:install-numpyscipy-with-intel-mkl-on-macosx-108.html</id><summary type="html">&lt;h1&gt;First&lt;/h1&gt;
 &lt;p&gt;Install Intel MKL(intel_cpp_comp_2013_mac)&lt;/p&gt;
 &lt;p&gt;Download numpy and scipy and untar them.&lt;/p&gt;
-&lt;p&gt;numpy from:http://sourceforge.net/projects/numpy/files/NumPy/1.7.1/&lt;/p&gt;
+&lt;p&gt;numpy from:http://sourceforge.net/projects/numpy/files/NumPy/&lt;/p&gt;
 &lt;p&gt;scipy from:http://sourceforge.net/projects/scipy/files/scipy/&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
 unzip numpy-1.7.0.zip
