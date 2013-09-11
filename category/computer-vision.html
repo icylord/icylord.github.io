@@ -102,20 +102,19 @@
 </footer><!-- /.post-info --></div>
                 <div class="summary"><h1>First</h1>
 <p>Install Intel MKL(intel_cpp_comp_2013_mac)</p>
-<p>Download <a href="http://sourceforge.net/projects/numpy/files/NumPy/">numpy</a> and <a href="http://sourceforge.net/projects/scipy/files/scipy/">scipy</a> and unzip them.</p>
+<p>Download <a href="http://sourceforge.net/projects/numpy/files/NumPy/">numpy</a> and <a href="http://sourceforge.net/projects/scipy/files/scipy/">scipy</a> and unzip them.
 <pre><code>
 unzip numpy-1.7.0.zip
 unzip scipy-0.12.0.zip
-</code></pre>
-
+</code></pre></p>
 <h1>Second</h1>
 <p>(1)modify numpy-1.7.0/numpy/distutils/site.cfg</p>
-<p>change line 143~146 to</p>
+<p>change line 143~146 to
 <pre><code>
 library_dirs = /opt/intel/mkl/lib
 include_dirs = /opt/intel/mkl/include
 lapack_libs = mkl_lapack95
-mkl_libs ...</code></pre>
+mkl_libs ...</code></pre></p>
                         <a class="btn primary xsmall" href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">more ...</a>
                 </div>
         </div>
