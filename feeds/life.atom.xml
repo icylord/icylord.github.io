@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/all.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-09-12T00:00:00+02:00</updated><entry><title>补上去年的百度校照面试经历</title><link href="http://icylord.github.io/bu-shang-qu-nian-de-bai-du-xiao-zhao-mian-shi-jing-li.html" rel="alternate"></link><updated>2013-09-12T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-12:bu-shang-qu-nian-de-bai-du-xiao-zhao-mian-shi-jing-li.html</id><summary type="html">&lt;p&gt;新弄的博客文章太少了，就把去年写在QQ空间的面经转过来吧。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/life.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-09-12T00:00:00+02:00</updated><entry><title>补上去年的百度校照面试经历</title><link href="http://icylord.github.io/bu-shang-qu-nian-de-bai-du-xiao-zhao-mian-shi-jing-li.html" rel="alternate"></link><updated>2013-09-12T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-12:bu-shang-qu-nian-de-bai-du-xiao-zhao-mian-shi-jing-li.html</id><summary type="html">&lt;p&gt;新弄的博客文章太少了，就把去年写在QQ空间的面经转过来吧。&lt;/p&gt;
 &lt;h1&gt;流水账如下:&lt;/h1&gt;
 &lt;h1&gt;百度一面：&lt;/h1&gt;
 &lt;p&gt;2012.10.17 
@@ -24,58 +24,4 @@ blabla讲了一通，等我讲完的时候，发现面试官没啥感觉，这�
 查表就行了嘛，于是过关。第三个问题是根据用户搜索的句子返回相对应的新闻板块页面的问题，我想了一下，决定用多类SVM来解决，然后特征设计的做法使用词袋的方法，感谢BOW，让我解决了这个问题，后来面试官继续问了我一些如何把关键字从网上爬下来之后消除噪声的方法，我想了一下，没想出来，然后面试官就给了提示，最后还是解决了。这里有个个人经验是，对于碰到抽象的问题，最好的办法是把一些数据列出来，人肉看看有没有规律，这样子一般都会产生一下思路的。&lt;/p&gt;
 &lt;h1&gt;百度三面(终面)：&lt;/h1&gt;
 &lt;p&gt;2012.10.19
-主要是项目面+软问题面，项目面答得还可以，软问题部分答得个人感觉不是很好，不多说了。&lt;/p&gt;</summary><category term="Computer Vision"></category><category term="Interview"></category><category term="Life"></category></entry><entry><title>Install Numpy/Scipy with Intel MKL On MacOSX 10.8</title><link href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html" rel="alternate"></link><updated>2013-09-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-10:install-numpyscipy-with-intel-mkl-on-macosx-108.html</id><summary type="html">&lt;h1&gt;First&lt;/h1&gt;
-&lt;p&gt;Install Intel MKL(intel_cpp_comp_2013_mac)&lt;/p&gt;
-&lt;p&gt;Download &lt;a href="http://sourceforge.net/projects/numpy/files/NumPy/"&gt;numpy&lt;/a&gt; and &lt;a href="http://sourceforge.net/projects/scipy/files/scipy/"&gt;scipy&lt;/a&gt; and unzip them.
-&lt;pre&gt;&lt;code&gt;
-unzip numpy-1.7.0.zip
-unzip scipy-0.12.0.zip
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-&lt;h1&gt;Second&lt;/h1&gt;
-&lt;p&gt;(1)modify numpy-1.7.0/numpy/distutils/site.cfg&lt;/p&gt;
-&lt;p&gt;change line 143~146 to
-&lt;pre&gt;&lt;code&gt;
-library_dirs = /opt/intel/mkl/lib
-include_dirs = /opt/intel/mkl/include
-lapack_libs = mkl_lapack95
-mkl_libs = mkl_rt
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-&lt;p&gt;(2)modify numpy-1.7.0/numpy/distutils/intelccompiler.py&lt;/p&gt;
-&lt;p&gt;change line 37 to
-&lt;pre&gt;&lt;code&gt;
-self.cc_exe = 'icc -m64 -fPIC -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost -undefined dynamic_lookup -bundle -DMKL_ILP64' 
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-&lt;p&gt;(3) modify numpy-1.7.0/numpy/distutils/system_info.py&lt;/p&gt;
-&lt;p&gt;change line 1448~1451 and add 
-&lt;pre&gt;&lt;code&gt;
-blas_mkl_info = get_info('blas_mkl')
-        if blas_mkl_info:
-            self.set_info(**blas_mkl_info)
-            return
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-&lt;p&gt;then change line 1360~1363 and add
-&lt;pre&gt;&lt;code&gt;
-lapack_mkl_info = get_info('lapack_mkl')
-        if lapack_mkl_info:
-            self.set_info(**lapack_mkl_info)
-            return
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-&lt;p&gt;(4) compile numpy 
-&lt;pre&gt;&lt;code&gt;
-python setup.py config --compiler=intelem build_clib --compiler=intelem build_ext --compiler=intelem install
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-&lt;h1&gt;Third&lt;/h1&gt;
-&lt;p&gt;compile scipy
-&lt;pre&gt;&lt;code&gt;
-python setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-&lt;h1&gt;Last&lt;/h1&gt;
-&lt;p&gt;use this code to check the whether MKL is supported for numpy
-&lt;pre&gt;&lt;code&gt;
-import numpy as np &lt;br /&gt;
-np.show_config()&lt;br /&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;</summary><category term="Computer Vision"></category><category term="Python"></category></entry><entry><title>SZU Face Detector Performance</title><link href="http://icylord.github.io/szu-face-detector-performance.html" rel="alternate"></link><updated>2013-09-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-10:szu-face-detector-performance.html</id><summary type="html">&lt;p&gt;Our new face detection algorithm(Shenzhen University Face Detector) reach &lt;strong&gt;state of the art&lt;/strong&gt;  on FDDB and AFW dataset.&lt;/p&gt;
-&lt;p&gt;For FDDB result please refer to &lt;a href="http://vis-www.cs.umass.edu/fddb/results.html"&gt;FDDB&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;For AFW result please refer to &lt;a href="http://www.ics.uci.edu/~xzhu/face"&gt;AFW&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src="/static/img/MV_FDDB_Disc_FPPI.png" height="480" width="640" alt="FDDB Result" /&gt;
-&lt;img src="/static/img/MV_AFW_Disc_RP.png" height="480" width="640" alt="AFW Result" /&gt;&lt;/p&gt;</summary><category term="Computer Vision"></category></entry></feed>
+主要是项目面+软问题面，项目面答得还可以，软问题部分答得个人感觉不是很好，不多说了。&lt;/p&gt;</summary><category term="Computer Vision"></category><category term="Interview"></category><category term="Life"></category></entry></feed>
