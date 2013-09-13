@@ -1,30 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/all.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-09-12T00:00:00+02:00</updated><entry><title>补上去年的百度校招面试经历</title><link href="http://icylord.github.io/bu-shang-qu-nian-de-bai-du-xiao-zhao-mian-shi-jing-li.html" rel="alternate"></link><updated>2013-09-12T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-12:bu-shang-qu-nian-de-bai-du-xiao-zhao-mian-shi-jing-li.html</id><summary type="html">&lt;p&gt;新弄的博客文章太少了，就把去年写在QQ空间的面经转过来吧。&lt;/p&gt;
-&lt;h1&gt;流水账如下:&lt;/h1&gt;
-&lt;h1&gt;百度一面：&lt;/h1&gt;
-&lt;p&gt;2012.10.17 
-等了四天终于等到百度的面试通知，心里感慨终于可以有机会看到百度前台MM了，总算没有遗憾。
-下午一点早早出发，到了茂业大厦23楼，结果没看到前台妹子，就一个保安哥哥在那里接待，签完到
-之后保安哥哥给了我一个baidu friend贴纸，挺好玩的。因为时间还没有到，就先在门口沙发那里
-坐着了。左右瞄了一下，发现都是同样面试机器学习职位的，问了一下右边的兄弟，发现也是深大的
-战友，于是闲聊了一把。等了一会终于通知我进去面试，进去会议室之后发现是个MM面试官，她说了一下她
-名字，不过没听清楚，还有她做数据挖掘方面的，我一听，顿时蛋碎了一地，想着这下子麻烦了，哥是搞
-CV的，估计没法交流了。面试一开始就来个自我介绍，我花了大概一分钟介绍了这部分内容，接着面试官
-就指着我三个项目要我挑一个觉得最有分量的来讲，于是乎我就拿出我的拿手好戏人体检测的那个项目，
-blabla讲了一通，等我讲完的时候，发现面试官没啥感觉，这就是代沟啊。。。接着她看到我第二个项目，
-就叫我解释了一下什么是Adaboost，我blabla又说了一把，结果她还是没有领会我的意思，而且也没有
-搞懂我那个人脸检测是如何做的，结果废了好大劲去解释啥是Haar特征。。。⊙﹏⊙b汗一个啊。搞完这两个
-问题之后，于是乎就转会了基本知识方面的问题了，首先来了一个C/C++内存分配方式，再来个malloc和new的
-区别，接着是虚函数相关，再接着是C++三种继承之间的区别。然后叫我写了个strcpy函数，写完后没啥问题，
-接着写qsort，写完后也是没啥问题（那当然了，早就背的滚瓜烂熟了）。qsort面试官看完后觉得没啥问题，继续
-问头链表快速排序咋搞，我听到一下子惊呆了，马上在草稿纸上面画图思考，一时间没想出来，于是乎面试官提示了一下不一定只用一个链表，早说嘛，我还一直在想如何一个链表实现呢，其实早就相处不用一个链表的做法了，于是我立马说了自己答案，她也挺满意的。接着她有问了c/c++种动态链接库与静态链接库的区别，还有相对应的后缀名，windows的好办，不就是dll嘛，linux的有点生疏了，我就说我用macosx比较多，于是扯到macosx上面的动态链接库后缀是.dylib.可惜面试官不懂，唉，还是说了下linux的是.so，于是问题解决。后续还考了海量数据处理一个问题，最后还来个拓扑排序，我那个汗的，早就忘记了。不过后来还是解决了问题，于是一面就这样子完蛋了。&lt;/p&gt;
-&lt;h1&gt;百度二面：&lt;/h1&gt;
-&lt;p&gt;2012.10.18
-一面之后感觉不够好，以为没戏了，不过幸好晚上HRMM还是有通知第二天去面试了。第二天准时到了23楼，来的时候一个人都没有看到，等了一会来了几个战友，都是机器学习职位的，不过两个是去上海一个是北京的，闲聊了一会终于等到了我的面试官，把我领下了22楼，据说会议室全部饱满了，因此在休息室进行面试，我心里激动了一下，可以见识一下百度的休息室是怎样的，进去坐下后，面试官很nice地自我介绍了一把，他说他是做NLP的，我一听，顿时蛋又碎了一地。一开始就叫我写了一个程序，叫我实现linux命令uniq，我没听说过这个东西，面试官就解析了一下功能，我听了觉得是个比较简单的问题，问清楚所有细节之后开始码，一会写完了我还特意检查了两遍，面试官看了下，说逻辑上有问题，我就懵了，拿过来看了一下，觉得没有问题啊，之后他说是文件结束的时候判断有问题，我解析了一下我那样子写的原因，他说也行，第一问题过关。第二个问题是查询IP地址归属地的问题，这个比较简单，我就说了下我的做法，明显是
-查表就行了嘛，于是过关。第三个问题是根据用户搜索的句子返回相对应的新闻板块页面的问题，我想了一下，决定用多类SVM来解决，然后特征设计的做法使用词袋的方法，感谢BOW，让我解决了这个问题，后来面试官继续问了我一些如何把关键字从网上爬下来之后消除噪声的方法，我想了一下，没想出来，然后面试官就给了提示，最后还是解决了。这里有个个人经验是，对于碰到抽象的问题，最好的办法是把一些数据列出来，人肉看看有没有规律，这样子一般都会产生一下思路的。&lt;/p&gt;
-&lt;h1&gt;百度三面(终面)：&lt;/h1&gt;
-&lt;p&gt;2012.10.19
-主要是项目面+软问题面，项目面答得还可以，软问题部分答得个人感觉不是很好，不多说了。&lt;/p&gt;</summary><category term="Computer Vision"></category><category term="Interview"></category><category term="Life"></category></entry><entry><title>Install Numpy/Scipy with Intel MKL On MacOSX 10.8</title><link href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html" rel="alternate"></link><updated>2013-09-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-10:install-numpyscipy-with-intel-mkl-on-macosx-108.html</id><summary type="html">&lt;h1&gt;First&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/all.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-09-10T00:00:00+02:00</updated><entry><title>Install Numpy/Scipy with Intel MKL On MacOSX 10.8</title><link href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html" rel="alternate"></link><updated>2013-09-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-10:install-numpyscipy-with-intel-mkl-on-macosx-108.html</id><summary type="html">&lt;h1&gt;First&lt;/h1&gt;
 &lt;p&gt;Install Intel MKL(intel_cpp_comp_2013_mac)&lt;/p&gt;
 &lt;p&gt;Download &lt;a href="http://sourceforge.net/projects/numpy/files/NumPy/"&gt;numpy&lt;/a&gt; and &lt;a href="http://sourceforge.net/projects/scipy/files/scipy/"&gt;scipy&lt;/a&gt; and unzip them.
 &lt;pre&gt;&lt;code&gt;
