@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>SZU Face Detector Performance</title>
+    <title>opencv_traincascade 代码阅读(ml/boost.cpp)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="icylord">
@@ -90,8 +90,8 @@
                         <h1>
                                 <a href=""
                                         rel="bookmark"
-                                        title="Permalink to SZU Face Detector Performance">
-                                        SZU Face Detector Performance
+                                        title="Permalink to opencv_traincascade 代码阅读(ml/boost.cpp)">
+                                        opencv_traincascade 代码阅读(ml/boost.cpp)
                                 </a>
                                                         </h1>
                 </header>
@@ -99,8 +99,8 @@
                 <div class="well">
                         <footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2013-09-10T00:00:00">
-        <i class="icon-calendar"></i>Tue 10 September 2013
+<abbr class="published" title="2013-09-20T00:00:00">
+        <i class="icon-calendar"></i>Fri 20 September 2013
 </abbr>
 <span class="label">By</span>
 <a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
@@ -110,18 +110,112 @@
 
 <span class="label">Tags</span>
 	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
 </footer><!-- /.post-info -->                </div>
-                <p>Our new face detection algorithm(Shenzhen University Face Detector) reach <strong>state of the art</strong>  on FDDB and AFW dataset.</p>
-<p>For FDDB result please refer to <a href="http://vis-www.cs.umass.edu/fddb/results.html">FDDB</a></p>
-<p>For AFW result please refer to <a href="http://www.ics.uci.edu/~xzhu/face">AFW</a></p>
-<p><img src="/static/img/MV_FDDB_Disc_FPPI.png" height="480" width="640" alt="FDDB Result" />
-<img src="/static/img/MV_AFW_Disc_RP.png" height="480" width="640" alt="AFW Result" /></p>
+                <h1>两个分支CART作为弱分类器太弱了 -____-!!!</h1>
+<pre><code>
+CvDTreeSplit*
+CvBoostTree::find_split_cat_reg( CvDTreeNode* node, int vi, float init_quality, CvDTreeSplit* _split, uchar* _ext_buf )
+{
+    const double* weights = ensemble->get_subtree_weights()->data.db;
+    int ci = data->get_var_type(vi);
+    int n = node->sample_count;
+    int mi = data->cat_count->data.i[ci];
+    int base_size = (2*mi+3)*sizeof(double) + mi*sizeof(double*);
+    cv::AutoBuffer<uchar> inn_buf(base_size);
+    if( !_ext_buf )
+        inn_buf.allocate(base_size + n*(2*sizeof(int) + sizeof(float)));
+    uchar* base_buf = (uchar*)inn_buf;
+    uchar* ext_buf = _ext_buf ? _ext_buf : base_buf + base_size;
+
+    int* cat_labels_buf = (int*)ext_buf;
+    const int* cat_labels = data->get_cat_var_data(node, vi, cat_labels_buf);
+    float* responses_buf = (float*)(cat_labels_buf + n);
+    int* sample_indices_buf = (int*)(responses_buf + n);
+    const float* responses = data->get_ord_responses(node, responses_buf, sample_indices_buf);
+
+    double* sum = (double*)cv::alignPtr(base_buf,sizeof(double)) + 1;
+    double* counts = sum + mi + 1;
+    double** sum_ptr = (double**)(counts + mi);
+    double L = 0, R = 0, best_val = init_quality, lsum = 0, rsum = 0;
+    int i, best_subset = -1, subset_i;
+
+    for( i = -1; i < mi; i++ ) // LBP对应 [0, 255]
+        sum[i] = counts[i] = 0;
+
+    // calculate sum response and weight of each category of the input var
+    for( i = 0; i < n; i++ )
+    {
+        int idx = ((cat_labels[i] == 65535) && data->is_buf_16u) ? -1 : cat_labels[i];
+        double w = weights[i]; // 样本的当前权重
+        double s = sum[idx] + responses[i]*w; // 将样本的当前权重乘以类标(-1 or 1)累加到对应的idx里面，LBP对应 [0, 255]
+        double nc = counts[idx] + w; // 将样本的权重累加
+        sum[idx] = s;
+        counts[idx] = nc;
+    }
+
+    // calculate average response in each category
+    for( i = 0; i < mi; i++ )
+    {
+        R += counts[i];
+        rsum += sum[i];
+        sum[i] = fabs(counts[i]) > DBL_EPSILON ? sum[i]/counts[i] : 0; // 求出每个i里面的输出分数
+        sum_ptr[i] = sum + i; //保存指针，用于根据sum的值进行排序
+    }
+
+    icvSortDblPtr( sum_ptr, mi, 0 );
+
+    // revert back to unnormalized sums
+    // (there should be a very little loss in accuracy)
+    for( i = 0; i < mi; i++ )
+        sum[i] *= counts[i];
+
+    // 求解CART回归树最优切分点代码
+    for( subset_i = 0; subset_i < mi-1; subset_i++ )
+    {
+        int idx = (int)(sum_ptr[subset_i] - sum); // 排序后第subset_i大的输出分数对应的sum下标
+        double ni = counts[idx];
+
+        if( ni > FLT_EPSILON )
+        {
+            double s = sum[idx];
+            lsum += s; L += ni;
+            rsum -= s; R -= ni;
+
+            if( L > FLT_EPSILON && R > FLT_EPSILON )
+            {
+                double val = (lsum*lsum*R + rsum*rsum*L)/(L*R); //根据MBLBP论文Eq.2推出
+                if( best_val < val ) // 存在更优，则选择best_subset作为切分点
+                {
+                    best_val = val;
+                    best_subset = subset_i;
+                }
+            }
+        }
+    }
+
+    CvDTreeSplit* split = 0;
+    if( best_subset >= 0 )
+    {
+        split = _split ? _split : data->new_split_cat( 0, -1.0f);
+        split->var_idx = vi;
+        split->quality = (float)best_val;
+        memset( split->subset, 0, (data->max_c_count + 31)/32 * sizeof(int));
+        for( i = 0; i <= best_subset; i++ ) // 以best_subset作为切分点，左边的送到左子树，右边的送到右子树
+        {
+            int idx = (int)(sum_ptr[i] - sum);
+            split->subset[idx >> 5] |= 1 << (idx & 31);
+        }
+    }
+    return split;
+}
+</code></pre>
                 </div><!-- /.entry-content -->
                                 <div class="comments">
                 <h2>Comments !</h2>
                         <div id="disqus_thread"></div>
                         <script type="text/javascript">
-                           var disqus_identifier = "szu-face-detector-performance.html";
+                           var disqus_identifier = "opencv_traincascade-dai-ma-yue-du-mlboostcpp.html";
                            (function() {
                                 var dsq = document.createElement('script');
                                 dsq.type = 'text/javascript'; dsq.async = true;
