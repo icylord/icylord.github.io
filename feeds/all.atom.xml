@@ -54,6 +54,46 @@ bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
     return isTrained;
 }
 
+// 每一级的强分类器停止迭代判断函数
+bool CvCascadeBoost::isErrDesired()
+{
+    int sCount = data-&gt;sample_count,
+        numPos = 0, numNeg = 0, numFalse = 0, numPosTrue = 0;
+    vector&lt;float&gt; eval(sCount); // 保存分类器输出值
+
+    for( int i = 0; i &lt; sCount; i++ )
+        if( ((CvCascadeBoostTrainData*)data)-&gt;featureEvaluator-&gt;getCls( i ) == 1.0F )
+            eval[numPos++] = predict( i, true ); // 计算所有正样本的输出值
+    icvSortFlt( &amp;eval[0], numPos, 0 ); // 对正样本的输出值进行排序
+    int thresholdIdx = (int)((1.0F - minHitRate) * numPos); // 根据minHitRate找出阈值
+    threshold = eval[ thresholdIdx ];
+    numPosTrue = numPos - thresholdIdx;
+    for( int i = thresholdIdx - 1; i &gt;= 0; i--)
+        if ( abs( eval[i] - threshold) &lt; FLT_EPSILON )
+            numPosTrue++;
+    float hitRate = ((float) numPosTrue) / ((float) numPos);
+
+    for( int i = 0; i &lt; sCount; i++ )
+    {
+        if( ((CvCascadeBoostTrainData*)data)-&gt;featureEvaluator-&gt;getCls( i ) == 0.0F )
+        {
+            numNeg++;
+            if( predict( i ) ) // 根据上面得到的阈值组成一个强分类器用于统计false alarm的数目
+                numFalse++;
+        }
+    }
+    float falseAlarm = ((float) numFalse) / ((float) numNeg);
+
+    cout &lt;&lt; "|"; cout.width(4); cout &lt;&lt; right &lt;&lt; weak-&gt;total;
+    cout &lt;&lt; "|"; cout.width(9); cout &lt;&lt; right &lt;&lt; hitRate;
+    cout &lt;&lt; "|"; cout.width(9); cout &lt;&lt; right &lt;&lt; falseAlarm;
+    cout &lt;&lt; "|" &lt;&lt; endl;
+    cout &lt;&lt; "+----+---------+---------+" &lt;&lt; endl;
+
+    return falseAlarm &lt;= maxFalseAlarm; // 如果false alarm并未达标，则返回 false
+}
+
+
 &lt;/code&gt;&lt;/pre&gt;</summary><category term="Computer Vision"></category><category term="OpenCV"></category></entry><entry><title>opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html" rel="alternate"></link><updated>2013-09-20T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-20:opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html</id><summary type="html">&lt;pre&gt;&lt;code&gt;
 级联分类器训练函数
 bool CvCascadeClassifier::train( const string _cascadeDirName,
