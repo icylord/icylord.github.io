@@ -121,6 +121,46 @@ mkl_libs ...</code></pre></p>
         </div>
         <hr />
                 <div class="article">
+                <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-09-20T00:00:00">
+        <i class="icon-calendar"></i>Fri 20 September 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><pre><code>
+//每个Stage的训练函数
+bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
+                           int _numSamples,
+                           int _precalcValBufSize, int _precalcIdxBufSize,
+                           const CvCascadeBoostParams& _params )
+{
+    bool isTrained = false;
+    CV_Assert( !data );
+    clear();
+    // 准备CART tree的训练数据，其中包括预先计算所有训练样本的特征值
+    data = new CvCascadeBoostTrainData( _featureEvaluator, _numSamples,
+                                        _precalcValBufSize, _precalcIdxBufSize, _params );
+    CvMemStorage *storage = cvCreateMemStorage();
+    weak = cvCreateSeq( 0, sizeof(CvSeq), sizeof(CvBoostTree*), storage );
+    storage = 0;
+
+    set_params( _params );
+    if ( (_params ...</code></pre>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+                <div class="article">
                 <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html">opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
@@ -234,14 +274,14 @@ CvBoostTree::find_split_cat_reg( CvDTreeNode* node, int vi, float init_quality, 
         <i class="icon-tag icon-large"></i>Computer Vision
     </a>
 </li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
-    </a>
-</li>
 <li class="tag-4">
     <a href="http://icylord.github.io/tag/python.html">
         <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-1">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
 
