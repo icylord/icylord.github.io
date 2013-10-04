@@ -135,6 +135,32 @@ bool CvCascadeClassifier::train( const string _cascadeDirName,
 
     return true;
 }
+
+// boostrap 正负训练样本
+int CvCascadeClassifier::fillPassedSamples( int first, int count, bool isPositive, int64&amp; consumed )
+{
+    int getcount = 0;
+    Mat img(cascadeParams.winSize, CV_8UC1);
+    for( int i = first; i &lt; first + count; i++ )
+    {
+        for( ; ; )
+        {
+            bool isGetImg = isPositive ? imgReader.getPos( img ) :
+                                           imgReader.getNeg( img );
+            if( !isGetImg )
+                return getcount;
+            consumed++;
+
+            featureEvaluator-&gt;setImage( img, isPositive ? 1 : 0, i );
+            if( predict( i ) == 1.0F ) // 如果predict为人脸，则加到训练集当中，这里如果人脸图像被判断为负的话，则剔除这些样本，使得训练简单一些，但是这些样本加进去训练得到的分类器是比不加进去要强的，仍旧推荐使用
+            {
+                getcount++;
+                break;
+            }
+        }
+    }
+    return getcount;
+}
 &lt;/code&gt;&lt;/pre&gt;</summary><category term="Computer Vision"></category><category term="OpenCV"></category></entry><entry><title>opencv_traincascade 代码阅读(ml/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html" rel="alternate"></link><updated>2013-09-20T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-20:opencv_traincascade-dai-ma-yue-du-mlboostcpp.html</id><summary type="html">&lt;h1&gt;两个分支CART作为弱分类器太弱了 -____-!!!&lt;/h1&gt;
 &lt;pre&gt;&lt;code&gt;
 CvDTreeSplit*
