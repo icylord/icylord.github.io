@@ -1,5 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/all.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-09-20T00:00:00+02:00</updated><entry><title>opencv_traincascade 代码阅读(ml/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html" rel="alternate"></link><updated>2013-09-20T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-20:opencv_traincascade-dai-ma-yue-du-mlboostcpp.html</id><summary type="html">&lt;h1&gt;两个分支CART作为弱分类器太弱了 -____-!!!&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/all.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-09-20T00:00:00+02:00</updated><entry><title>opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html" rel="alternate"></link><updated>2013-09-20T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-20:opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html</id><summary type="html">&lt;pre&gt;&lt;code&gt;
+级联分类器训练函数
+bool CvCascadeClassifier::train( const string _cascadeDirName,
+                                const string _posFilename,
+                                const string _negFilename,
+                                int _numPos, int _numNeg,
+                                int _precalcValBufSize, int _precalcIdxBufSize,
+                                int _numStages,
+                                const CvCascadeParams&amp; _cascadeParams,
+                                const CvFeatureParams&amp; _featureParams,
+                                const CvCascadeBoostParams&amp; _stageParams,
+                                bool baseFormatSave )
+{
+    if( _cascadeDirName.empty() || _posFilename.empty() || _negFilename.empty() )
+        CV_Error( CV_StsBadArg, "_cascadeDirName or _bgfileName or _vecFileName is NULL" );
+
+    string dirName;
+    if (_cascadeDirName.find_last_of("/\\") == (_cascadeDirName.length() - 1) )
+        dirName = _cascadeDirName;
+    else
+        dirName = _cascadeDirName + '/';
+
+    numPos = _numPos;
+    numNeg = _numNeg;
+    numStages = _numStages;
+    // 创建训练样本
+    if ( !imgReader.create( _posFilename, _negFilename, _cascadeParams.winSize ) )
+    {
+        cout &lt;&lt; "Image reader can not be created from -vec " &lt;&lt; _posFilename
+                &lt;&lt; " and -bg " &lt;&lt; _negFilename &lt;&lt; "." &lt;&lt; endl;
+        return false;
+    }
+    if ( !load( dirName ) )
+    {
+        cascadeParams = _cascadeParams;
+        featureParams = CvFeatureParams::create(cascadeParams.featureType);
+        featureParams-&gt;init(_featureParams);
+        stageParams = makePtr&lt;CvCascadeBoostParams&gt;();
+        *stageParams = _stageParams;
+        featureEvaluator = CvFeatureEvaluator::create(cascadeParams.featureType);
+        featureEvaluator-&gt;init( featureParams, numPos + numNeg, cascadeParams.winSize );
+        stageClassifiers.reserve( numStages );
+    }
+    cout &lt;&lt; "PARAMETERS:" &lt;&lt; endl;
+    cout &lt;&lt; "cascadeDirName: " &lt;&lt; _cascadeDirName &lt;&lt; endl;
+    cout &lt;&lt; "vecFileName: " &lt;&lt; _posFilename &lt;&lt; endl;
+    cout &lt;&lt; "bgFileName: " &lt;&lt; _negFilename &lt;&lt; endl;
+    cout &lt;&lt; "numPos: " &lt;&lt; _numPos &lt;&lt; endl;
+    cout &lt;&lt; "numNeg: " &lt;&lt; _numNeg &lt;&lt; endl;
+    cout &lt;&lt; "numStages: " &lt;&lt; numStages &lt;&lt; endl;
+    cout &lt;&lt; "precalcValBufSize[Mb] : " &lt;&lt; _precalcValBufSize &lt;&lt; endl;
+    cout &lt;&lt; "precalcIdxBufSize[Mb] : " &lt;&lt; _precalcIdxBufSize &lt;&lt; endl;
+    cascadeParams.printAttrs();
+    stageParams-&gt;printAttrs();
+    featureParams-&gt;printAttrs();
+
+    int startNumStages = (int)stageClassifiers.size();
+    if ( startNumStages &gt; 1 )
+        cout &lt;&lt; endl &lt;&lt; "Stages 0-" &lt;&lt; startNumStages-1 &lt;&lt; " are loaded" &lt;&lt; endl;
+    else if ( startNumStages == 1)
+        cout &lt;&lt; endl &lt;&lt; "Stage 0 is loaded" &lt;&lt; endl;
+
+    double requiredLeafFARate = pow( (double) stageParams-&gt;maxFalseAlarm, (double) numStages ) /
+                                (double)stageParams-&gt;max_depth;
+    double tempLeafFARate;
+
+    for( int i = startNumStages; i &lt; numStages; i++ )
+    {
+        cout &lt;&lt; endl &lt;&lt; "===== TRAINING " &lt;&lt; i &lt;&lt; "-stage =====" &lt;&lt; endl;
+        cout &lt;&lt; "&lt;BEGIN" &lt;&lt; endl;
+
+        if ( !updateTrainingSet( tempLeafFARate ) )
+        {
+            cout &lt;&lt; "Train dataset for temp stage can not be filled. "
+                "Branch training terminated." &lt;&lt; endl;
+            break;
+        }
+        if( tempLeafFARate &lt;= requiredLeafFARate )
+        {
+            cout &lt;&lt; "Required leaf false alarm rate achieved. "
+                 "Branch training terminated." &lt;&lt; endl;
+            break;
+        }
+
+        Ptr&lt;CvCascadeBoost&gt; tempStage = makePtr&lt;CvCascadeBoost&gt;();
+        bool isStageTrained = tempStage-&gt;train( featureEvaluator,
+                                                curNumSamples, _precalcValBufSize, _precalcIdxBufSize,
+                                                *stageParams );
+        cout &lt;&lt; "END&gt;" &lt;&lt; endl;
+
+        if(!isStageTrained)
+            break;
+
+        stageClassifiers.push_back( tempStage );
+
+        // save params
+        if( i == 0) // 如果是第一级，则保存训练的参数
+        {
+            std::string paramsFilename = dirName + CC_PARAMS_FILENAME;
+            FileStorage fs( paramsFilename, FileStorage::WRITE);
+            if ( !fs.isOpened() )
+            {
+                cout &lt;&lt; "Parameters can not be written, because file " &lt;&lt; paramsFilename
+                        &lt;&lt; " can not be opened." &lt;&lt; endl;
+                return false;
+            }
+            fs &lt;&lt; FileStorage::getDefaultObjectName(paramsFilename) &lt;&lt; "{";
+            writeParams( fs );
+            fs &lt;&lt; "}";
+        }
+        // save current stage
+        char buf[10];
+        sprintf(buf, "%s%d", "stage", i );
+        string stageFilename = dirName + buf + ".xml";
+        FileStorage fs( stageFilename, FileStorage::WRITE );
+        if ( !fs.isOpened() )
+        {
+            cout &lt;&lt; "Current stage can not be written, because file " &lt;&lt; stageFilename
+                    &lt;&lt; " can not be opened." &lt;&lt; endl;
+            return false;
+        }
+        fs &lt;&lt; FileStorage::getDefaultObjectName(stageFilename) &lt;&lt; "{";
+        tempStage-&gt;write( fs, Mat() ); // 将中间的每级的分类器写入到目录中
+        fs &lt;&lt; "}";
+    }
+
+    if(stageClassifiers.size() == 0)
+    {
+        cout &lt;&lt; "Cascade classifier can't be trained. Check the used training parameters." &lt;&lt; endl;
+        return false;
+    }
+
+    save( dirName + CC_CASCADE_FILENAME, baseFormatSave );
+
+    return true;
+}
+&lt;/code&gt;&lt;/pre&gt;</summary><category term="Computer Vision"></category><category term="OpenCV"></category></entry><entry><title>opencv_traincascade 代码阅读(ml/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html" rel="alternate"></link><updated>2013-09-20T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-20:opencv_traincascade-dai-ma-yue-du-mlboostcpp.html</id><summary type="html">&lt;h1&gt;两个分支CART作为弱分类器太弱了 -____-!!!&lt;/h1&gt;
 &lt;pre&gt;&lt;code&gt;
 CvDTreeSplit*
 CvBoostTree::find_split_cat_reg( CvDTreeNode* node, int vi, float init_quality, CvDTreeSplit* _split, uchar* _ext_buf )
