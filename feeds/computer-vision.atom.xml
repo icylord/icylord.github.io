@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/computer-vision.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-09-20T00:00:00+02:00</updated><entry><title>opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html" rel="alternate"></link><updated>2013-09-20T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-20:opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html</id><summary type="html">&lt;pre&gt;&lt;code&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/computer-vision.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-10-05T00:00:00+02:00</updated><entry><title>opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html" rel="alternate"></link><updated>2013-10-05T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-10-05:opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html</id><summary type="html">&lt;pre&gt;&lt;code&gt;
 //每个Stage的训练函数
 bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
                            int _numSamples,
@@ -94,7 +94,7 @@ bool CvCascadeBoost::isErrDesired()
 }
 
 
-&lt;/code&gt;&lt;/pre&gt;</summary><category term="Computer Vision"></category><category term="OpenCV"></category></entry><entry><title>opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html" rel="alternate"></link><updated>2013-09-20T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-20:opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html</id><summary type="html">&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;</summary><category term="Computer Vision"></category><category term="OpenCV"></category></entry><entry><title>opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html" rel="alternate"></link><updated>2013-10-05T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-10-05:opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html</id><summary type="html">&lt;pre&gt;&lt;code&gt;
 级联分类器训练函数
 bool CvCascadeClassifier::train( const string _cascadeDirName,
                                 const string _posFilename,
@@ -256,7 +256,7 @@ int CvCascadeClassifier::fillPassedSamples( int first, int count, bool isPositiv
     }
     return getcount;
 }
-&lt;/code&gt;&lt;/pre&gt;</summary><category term="Computer Vision"></category><category term="OpenCV"></category></entry><entry><title>opencv_traincascade 代码阅读(ml/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html" rel="alternate"></link><updated>2013-09-20T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-09-20:opencv_traincascade-dai-ma-yue-du-mlboostcpp.html</id><summary type="html">&lt;h1&gt;两个分支CART作为弱分类器太弱了 -____-!!!&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;</summary><category term="Computer Vision"></category><category term="OpenCV"></category></entry><entry><title>opencv_traincascade 代码阅读(ml/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html" rel="alternate"></link><updated>2013-10-04T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-10-04:opencv_traincascade-dai-ma-yue-du-mlboostcpp.html</id><summary type="html">&lt;h1&gt;两个分支CART作为弱分类器太弱了 -____-!!!&lt;/h1&gt;
 &lt;pre&gt;&lt;code&gt;
 CvDTreeSplit*
 CvBoostTree::find_split_cat_reg( CvDTreeNode* node, int vi, float init_quality, CvDTreeSplit* _split, uchar* _ext_buf )
