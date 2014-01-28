@@ -15,46 +15,12 @@
                 <h1><a href="http://icylord.github.io/">icylord's blog </a></h1>
                 <nav><ul>
                     <li><a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a></li>
-                    <li><a href="http://icylord.github.io/category/life.html">Life</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://icylord.github.io/plans-of-year-2014.html">Plans of year 2014</a></h1>
-<footer class="post-info">
-        <abbr class="published" title="2014-01-01T00:00:00">
-                Wed 01 January 2014
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://icylord.github.io/author/icylord.html">icylord</a>
-        </address>
-<p>In <a href="http://icylord.github.io/category/life.html">Life</a>. </p>
-<p>tags: <a href="http://icylord.github.io/tag/life.html">Life</a></p>
-</footer><!-- /.post-info --><p>2013年过去了，发现自己仍然是一事无成 -____-,工作在年底前算是有着落了，也做了有两个多月了。而且本Blog也很久没更新过了。
-新的一年还是给自己定下一些目标吧：</p>
-<p>a) 找个妹子，呵呵呵呵；</p>
-<p>b) 技术能够再进一步，当然包括知识面还有工程上的能力；</p>
-<p>c) 买车？</p>
-<p>d) 拓展除开技术方面的能力；</p>
-<p>e) 认识多些非技术方面的朋友。</p>
-<p>f) 学会炒菜 -___-</p>
-<p>g) 去台湾逛逛</p>
-<p>暂时就这些吧，到年底回来看看完成了多少。加油！</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html" rel="bookmark"
-                           title="Permalink to opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)">opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</a></h1>
-                </header>
-
-                <div class="entry-content">
+                    <h1 class="entry-title"><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2013-10-05T00:00:00">
                 Sat 05 October 2013
@@ -65,7 +31,7 @@
         </address>
 <p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
 <p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a><a href="http://icylord.github.io/tag/opencv.html">OpenCV</a></p>
-</footer><!-- /.post-info -->                <pre><code>
+</footer><!-- /.post-info --><pre><code>
 //每个Stage的训练函数
 bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
                            int _numSamples,
@@ -83,10 +49,89 @@ bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
     storage = 0;
 
     set_params( _params );
-    if ( (_params ...</code></pre>
-                <a class="readmore" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
+    if ( (_params.boost_type == LOGIT) || (_params.boost_type == GENTLE) )
+        data->do_responses_copy();
+
+    update_weights( 0 ); // 首次设置训练样本的权重
+
+    cout << "+----+---------+---------+" << endl;
+    cout << "|  N |    HR   |    FA   |" << endl;
+    cout << "+----+---------+---------+" << endl;
+
+    do
+    {
+        CvCascadeBoostTree* tree = new CvCascadeBoostTree;
+        if( !tree->train( data, subsample_mask, this ) )
+        {
+            delete tree;
+            break;
+        }
+        cvSeqPush( weak, &tree ); // 添加弱分类器
+        update_weights( tree ); // 更新训练样本的权重
+        trim_weights(); // 根据trim_weights剔除一部分训练样本
+        if( cvCountNonZero(subsample_mask) == 0 )
+            break;
+    }
+    while( !isErrDesired() && (weak->total < params.weak_count) ); // false alarm值达到预期或者弱分类器数目达到最大值，则停止迭代
+
+    if(weak->total > 0)
+    {
+        data->is_classifier = true;
+        data->free_train_data();
+        isTrained = true;
+    }
+    else
+        clear();
+
+    return isTrained;
+}
+
+// 每一级的强分类器停止迭代判断函数
+bool CvCascadeBoost::isErrDesired()
+{
+    int sCount = data->sample_count,
+        numPos = 0, numNeg = 0, numFalse = 0, numPosTrue = 0;
+    vector<float> eval(sCount); // 保存分类器输出值
+
+    for( int i = 0; i < sCount; i++ )
+        if( ((CvCascadeBoostTrainData*)data)->featureEvaluator->getCls( i ) == 1.0F )
+            eval[numPos++] = predict( i, true ); // 计算所有正样本的输出值
+    icvSortFlt( &eval[0], numPos, 0 ); // 对正样本的输出值进行排序
+    int thresholdIdx = (int)((1.0F - minHitRate) * numPos); // 根据minHitRate找出阈值
+    threshold = eval[ thresholdIdx ];
+    numPosTrue = numPos - thresholdIdx;
+    for( int i = thresholdIdx - 1; i >= 0; i--)
+        if ( abs( eval[i] - threshold) < FLT_EPSILON )
+            numPosTrue++;
+    float hitRate = ((float) numPosTrue) / ((float) numPos);
+
+    for( int i = 0; i < sCount; i++ )
+    {
+        if( ((CvCascadeBoostTrainData*)data)->featureEvaluator->getCls( i ) == 0.0F )
+        {
+            numNeg++;
+            if( predict( i ) ) // 根据上面得到的阈值组成一个强分类器用于统计false alarm的数目
+                numFalse++;
+        }
+    }
+    float falseAlarm = ((float) numFalse) / ((float) numNeg);
+
+    cout << "|"; cout.width(4); cout << right << weak->total;
+    cout << "|"; cout.width(9); cout << right << hitRate;
+    cout << "|"; cout.width(9); cout << right << falseAlarm;
+    cout << "|" << endl;
+    cout << "+----+---------+---------+" << endl;
+
+    return falseAlarm <= maxFalseAlarm; // 如果false alarm并未达标，则返回 false
+}
+
+
+</code></pre>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
 
             <li><article class="hentry">
                 <header>
