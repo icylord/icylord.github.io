@@ -1,37 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-        <meta charset="utf-8" />
-        <title>icylord's blog - Computer Vision</title>
-        <link rel="stylesheet" href="http://icylord.github.io/theme/css/main.css" />
+  <head>
+    <meta charset="utf-8">
+    <title>icylord's blog - Computer Vision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="icylord">
 
-        <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-</head>
+    <!-- Le styles -->
+    <link rel="stylesheet" href="http://icylord.github.io/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="http://icylord.github.io/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="http://icylord.github.io/theme/css/font-awesome.css" rel="stylesheet">
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="http://icylord.github.io/">icylord's blog </a></h1>
-                <nav><ul>
-                    <li><a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
+    <link href="http://icylord.github.io/theme/css/pygments.css" rel="stylesheet">
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</a></h1>
-<footer class="post-info">
-        <abbr class="published" title="2013-10-05T00:00:00">
-                Sat 05 October 2013
-        </abbr>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-        <address class="vcard author">
-                By <a class="url fn" href="http://icylord.github.io/author/icylord.html">icylord</a>
-        </address>
-<p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
-<p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a><a href="http://icylord.github.io/tag/opencv.html">OpenCV</a></p>
-</footer><!-- /.post-info --><pre><code>
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://icylord.github.io/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="http://icylord.github.io/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://icylord.github.io/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://icylord.github.io/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="http://icylord.github.io/" type="application/atom+xml" rel="alternate" title="icylord's blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="http://icylord.github.io/index.html">icylord's blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="http://icylord.github.io/category/computer-vision.html">
+						<i class="icon-folder-open icon-large"></i>Computer Vision
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="http://icylord.github.io/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+        <div class="article">
+                <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-10-05T00:00:00">
+        <i class="icon-calendar"></i>Sat 05 October 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><pre><code>
 //每个Stage的训练函数
 bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
                            int _numSamples,
@@ -49,108 +119,29 @@ bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
     storage = 0;
 
     set_params( _params );
-    if ( (_params.boost_type == LOGIT) || (_params.boost_type == GENTLE) )
-        data->do_responses_copy();
-
-    update_weights( 0 ); // 首次设置训练样本的权重
-
-    cout << "+----+---------+---------+" << endl;
-    cout << "|  N |    HR   |    FA   |" << endl;
-    cout << "+----+---------+---------+" << endl;
-
-    do
-    {
-        CvCascadeBoostTree* tree = new CvCascadeBoostTree;
-        if( !tree->train( data, subsample_mask, this ) )
-        {
-            delete tree;
-            break;
-        }
-        cvSeqPush( weak, &tree ); // 添加弱分类器
-        update_weights( tree ); // 更新训练样本的权重
-        trim_weights(); // 根据trim_weights剔除一部分训练样本
-        if( cvCountNonZero(subsample_mask) == 0 )
-            break;
-    }
-    while( !isErrDesired() && (weak->total < params.weak_count) ); // false alarm值达到预期或者弱分类器数目达到最大值，则停止迭代
-
-    if(weak->total > 0)
-    {
-        data->is_classifier = true;
-        data->free_train_data();
-        isTrained = true;
-    }
-    else
-        clear();
-
-    return isTrained;
-}
-
-// 每一级的强分类器停止迭代判断函数
-bool CvCascadeBoost::isErrDesired()
-{
-    int sCount = data->sample_count,
-        numPos = 0, numNeg = 0, numFalse = 0, numPosTrue = 0;
-    vector<float> eval(sCount); // 保存分类器输出值
-
-    for( int i = 0; i < sCount; i++ )
-        if( ((CvCascadeBoostTrainData*)data)->featureEvaluator->getCls( i ) == 1.0F )
-            eval[numPos++] = predict( i, true ); // 计算所有正样本的输出值
-    icvSortFlt( &eval[0], numPos, 0 ); // 对正样本的输出值进行排序
-    int thresholdIdx = (int)((1.0F - minHitRate) * numPos); // 根据minHitRate找出阈值
-    threshold = eval[ thresholdIdx ];
-    numPosTrue = numPos - thresholdIdx;
-    for( int i = thresholdIdx - 1; i >= 0; i--)
-        if ( abs( eval[i] - threshold) < FLT_EPSILON )
-            numPosTrue++;
-    float hitRate = ((float) numPosTrue) / ((float) numPos);
-
-    for( int i = 0; i < sCount; i++ )
-    {
-        if( ((CvCascadeBoostTrainData*)data)->featureEvaluator->getCls( i ) == 0.0F )
-        {
-            numNeg++;
-            if( predict( i ) ) // 根据上面得到的阈值组成一个强分类器用于统计false alarm的数目
-                numFalse++;
-        }
-    }
-    float falseAlarm = ((float) numFalse) / ((float) numNeg);
-
-    cout << "|"; cout.width(4); cout << right << weak->total;
-    cout << "|"; cout.width(9); cout << right << hitRate;
-    cout << "|"; cout.width(9); cout << right << falseAlarm;
-    cout << "|" << endl;
-    cout << "+----+---------+---------+" << endl;
-
-    return falseAlarm <= maxFalseAlarm; // 如果false alarm并未达标，则返回 false
-}
+    if ( (_params ...</code></pre>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
+                <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html">opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-10-05T00:00:00">
+        <i class="icon-calendar"></i>Sat 05 October 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
 
 
-</code></pre>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html" rel="bookmark"
-                           title="Permalink to opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)">opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-10-05T00:00:00">
-                Sat 05 October 2013
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://icylord.github.io/author/icylord.html">icylord</a>
-        </address>
-<p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
-<p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a><a href="http://icylord.github.io/tag/opencv.html">OpenCV</a></p>
-</footer><!-- /.post-info -->                <pre><code>
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><pre><code>
 级联分类器训练函数
 bool CvCascadeClassifier::train( const string _cascadeDirName,
                                 const string _posFilename,
@@ -165,28 +156,28 @@ bool CvCascadeClassifier::train( const string _cascadeDirName,
 {
     if( _cascadeDirName.empty() || _posFilename.empty() || _negFilename.empty() )
         CV_Error( CV_StsBadArg, "_cascadeDirName or _bgfileName or _vecFileName is NULL ...</code></pre>
-                <a class="readmore" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
+                <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html">opencv_traincascade 代码阅读(ml/boost.cpp)</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-10-04T00:00:00">
+        <i class="icon-calendar"></i>Fri 04 October 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html" rel="bookmark"
-                           title="Permalink to opencv_traincascade 代码阅读(ml/boost.cpp)">opencv_traincascade 代码阅读(ml/boost.cpp)</a></h1>
-                </header>
 
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-10-04T00:00:00">
-                Fri 04 October 2013
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://icylord.github.io/author/icylord.html">icylord</a>
-        </address>
-<p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
-<p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a><a href="http://icylord.github.io/tag/opencv.html">OpenCV</a></p>
-</footer><!-- /.post-info -->                <h1>两个分支CART作为弱分类器太弱了 -____-!!!</h1>
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h1>两个分支CART作为弱分类器太弱了 -____-!!!</h1>
 <pre><code>
 CvDTreeSplit*
 CvBoostTree::find_split_cat_reg( CvDTreeNode* node, int vi, float init_quality, CvDTreeSplit* _split, uchar* _ext_buf )
@@ -197,28 +188,28 @@ CvBoostTree::find_split_cat_reg( CvDTreeNode* node, int vi, float init_quality, 
     int mi = data->cat_count->data.i[ci];
     int base_size = (2*mi+3)*sizeof(double) + mi*sizeof(double*);
     cv::AutoBuffer ...</code></pre>
-                <a class="readmore" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
+                <h1><a href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">Install Numpy/Scipy with Intel MKL On MacOSX 10.8</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-09-10T00:00:00">
+        <i class="icon-calendar"></i>Tue 10 September 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html" rel="bookmark"
-                           title="Permalink to Install Numpy/Scipy with Intel MKL On MacOSX 10.8">Install Numpy/Scipy with Intel MKL On MacOSX 10.8</a></h1>
-                </header>
 
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-09-10T00:00:00">
-                Tue 10 September 2013
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://icylord.github.io/author/icylord.html">icylord</a>
-        </address>
-<p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
-<p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a><a href="http://icylord.github.io/tag/python.html">Python</a></p>
-</footer><!-- /.post-info -->                <h1>First</h1>
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/python.html"><i class="icon-tag"></i>Python</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h1>First</h1>
 <p>Install Intel MKL(intel_cpp_comp_2013_mac)</p>
 <p>Download <a href="http://sourceforge.net/projects/numpy/files/NumPy/">numpy</a> and <a href="http://sourceforge.net/projects/scipy/files/scipy/">scipy</a> and unzip them.
 <pre><code>
@@ -233,67 +224,107 @@ library_dirs = /opt/intel/mkl/lib
 include_dirs = /opt/intel/mkl/include
 lapack_libs = mkl_lapack95
 mkl_libs ...</code></pre></p>
-                <a class="readmore" href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
+                <h1><a href="http://icylord.github.io/szu-face-detector-performance.html">SZU Face Detector Performance</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-09-10T00:00:00">
+        <i class="icon-calendar"></i>Tue 10 September 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://icylord.github.io/szu-face-detector-performance.html" rel="bookmark"
-                           title="Permalink to SZU Face Detector Performance">SZU Face Detector Performance</a></h1>
-                </header>
 
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-09-10T00:00:00">
-                Tue 10 September 2013
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://icylord.github.io/author/icylord.html">icylord</a>
-        </address>
-<p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
-<p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a></p>
-</footer><!-- /.post-info -->                <p>Our new face detection algorithm(Shenzhen University Face Detector) reach <strong>state of the art</strong>  on FDDB and AFW dataset.</p>
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><p>Our new face detection algorithm(Shenzhen University Face Detector) reach <strong>state of the art</strong>  on FDDB and AFW dataset.</p>
 <p>For FDDB result please refer to <a href="http://vis-www.cs.umass.edu/fddb/results.html">FDDB</a></p>
 <p>For AFW result please refer to <a href="http://www.ics.uci.edu/~xzhu/face">AFW</a></p>
 <p><img src="/static/img/MV_FDDB_Disc_FPPI.png" height="480" width="640" alt="FDDB Result" />
 <img src="/static/img/MV_AFW_Disc_RP.png" height="480" width="640" alt="AFW Result" /></p>
-                <a class="readmore" href="http://icylord.github.io/szu-face-detector-performance.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 1
-</p>
-            </section><!-- /#content -->
-        <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>blogroll</h2>
-                        <ul>
-                            <li><a href="http://getpelican.com/">Pelican</a></li>
-                            <li><a href="http://python.org/">Python.org</a></li>
-                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/szu-face-detector-performance.html">more ...</a>
+                </div>
+        </div>
+        <hr />
 
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
+        </div><!--/span-->
 
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+    <li><a href="#"><i class="icon-external-link"></i>You can modify those links in your config file</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="http://icylord.github.io/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="#"><i class="icon-You can add links in your config file-sign icon-large"></i>You can add links in your config file</a></li>
+    <li><a href="#"><i class="icon-Another social link-sign icon-large"></i>Another social link</a></li>
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="http://icylord.github.io/category/computer-vision.html">
+    <i class="icon-folder-open icon-large"></i>Computer Vision
+</a>
+</li>
 
-</body>
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-1">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-1">
+    <a href="http://icylord.github.io/tag/computer-vision.html">
+        <i class="icon-tag icon-large"></i>Computer Vision
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'icylord';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://icylord.github.io/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="http://icylord.github.io/theme/js/bootstrap.min.js"></script>
+  </body>
 </html>

@@ -1,37 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-        <meta charset="utf-8" />
-        <title>icylord's blog - Python</title>
-        <link rel="stylesheet" href="http://icylord.github.io/theme/css/main.css" />
+  <head>
+    <meta charset="utf-8">
+    <title>icylord's blog - Python</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="icylord">
 
-        <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-</head>
+    <!-- Le styles -->
+    <link rel="stylesheet" href="http://icylord.github.io/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="http://icylord.github.io/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="http://icylord.github.io/theme/css/font-awesome.css" rel="stylesheet">
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="http://icylord.github.io/">icylord's blog </a></h1>
-                <nav><ul>
-                    <li><a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
+    <link href="http://icylord.github.io/theme/css/pygments.css" rel="stylesheet">
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">Install Numpy/Scipy with Intel MKL On MacOSX 10.8</a></h1>
-<footer class="post-info">
-        <abbr class="published" title="2013-09-10T00:00:00">
-                Tue 10 September 2013
-        </abbr>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-        <address class="vcard author">
-                By <a class="url fn" href="http://icylord.github.io/author/icylord.html">icylord</a>
-        </address>
-<p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
-<p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a><a href="http://icylord.github.io/tag/python.html">Python</a></p>
-</footer><!-- /.post-info --><h1>First</h1>
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://icylord.github.io/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="http://icylord.github.io/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://icylord.github.io/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://icylord.github.io/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="http://icylord.github.io/" type="application/atom+xml" rel="alternate" title="icylord's blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="http://icylord.github.io/index.html">icylord's blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="http://icylord.github.io/category/computer-vision.html">
+						<i class="icon-folder-open icon-large"></i>Computer Vision
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="http://icylord.github.io/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+        <div class="article">
+                <h1><a href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">Install Numpy/Scipy with Intel MKL On MacOSX 10.8</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-09-10T00:00:00">
+        <i class="icon-calendar"></i>Tue 10 September 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/python.html"><i class="icon-tag"></i>Python</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h1>First</h1>
 <p>Install Intel MKL(intel_cpp_comp_2013_mac)</p>
 <p>Download <a href="http://sourceforge.net/projects/numpy/files/NumPy/">numpy</a> and <a href="http://sourceforge.net/projects/scipy/files/scipy/">scipy</a> and unzip them.
 <pre><code>
@@ -45,76 +115,83 @@ unzip scipy-0.12.0.zip
 library_dirs = /opt/intel/mkl/lib
 include_dirs = /opt/intel/mkl/include
 lapack_libs = mkl_lapack95
-mkl_libs = mkl_rt
-</code></pre></p>
-<p>(2)modify numpy-1.7.0/numpy/distutils/intelccompiler.py</p>
-<p>change line 37 to
-<pre><code>
-self.cc_exe = 'icc -m64 -fPIC -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost -undefined dynamic_lookup -bundle -DMKL_ILP64' 
-</code></pre></p>
-<p>(3) modify numpy-1.7.0/numpy/distutils/system_info.py</p>
-<p>change line 1448~1451 and add 
-<pre><code>
-blas_mkl_info = get_info('blas_mkl')
-        if blas_mkl_info:
-            self.set_info(**blas_mkl_info)
-            return
-</code></pre></p>
-<p>then change line 1360~1363 and add
-<pre><code>
-lapack_mkl_info = get_info('lapack_mkl')
-        if lapack_mkl_info:
-            self.set_info(**lapack_mkl_info)
-            return
-</code></pre></p>
-<p>(4) compile numpy 
-<pre><code>
-python setup.py config --compiler=intelem build_clib --compiler=intelem build_ext --compiler=intelem install
-</code></pre></p>
-<h1>Third</h1>
-<p>compile scipy
-<pre><code>
-python setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install
-</code></pre></p>
-<h1>Last</h1>
-<p>use this code to check the whether MKL is supported for numpy
-<pre><code>
-import numpy as np <br />
-np.show_config()<br />
-</code></pre></p>                </article>
-<p class="paginator">
-    Page 1 / 1
-</p>
-            </aside><!-- /#featured -->
-            </ol><!-- /#posts-list -->
-            </section><!-- /#content -->
-        <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>blogroll</h2>
-                        <ul>
-                            <li><a href="http://getpelican.com/">Pelican</a></li>
-                            <li><a href="http://python.org/">Python.org</a></li>
-                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
+mkl_libs ...</code></pre></p>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/install-numpyscipy-with-intel-mkl-on-macosx-108.html">more ...</a>
+                </div>
+        </div>
+        <hr />
 
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
+        </div><!--/span-->
 
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-external-link"></i>blogroll</h4></li>
+    <li><a href="http://getpelican.com/"><i class="icon-external-link"></i>Pelican</a></li>
+    <li><a href="http://python.org/"><i class="icon-external-link"></i>Python.org</a></li>
+    <li><a href="http://jinja.pocoo.org/"><i class="icon-external-link"></i>Jinja2</a></li>
+    <li><a href="#"><i class="icon-external-link"></i>You can modify those links in your config file</a></li>
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="http://icylord.github.io/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="#"><i class="icon-You can add links in your config file-sign icon-large"></i>You can add links in your config file</a></li>
+    <li><a href="#"><i class="icon-Another social link-sign icon-large"></i>Another social link</a></li>
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="http://icylord.github.io/category/computer-vision.html">
+    <i class="icon-folder-open icon-large"></i>Computer Vision
+</a>
+</li>
 
-</body>
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-1">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-1">
+    <a href="http://icylord.github.io/tag/computer-vision.html">
+        <i class="icon-tag icon-large"></i>Computer Vision
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'icylord';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://icylord.github.io/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="http://icylord.github.io/theme/js/bootstrap.min.js"></script>
+  </body>
 </html>
