@@ -15,12 +15,40 @@
                 <h1><a href="http://icylord.github.io/">icylord's blog </a></h1>
                 <nav><ul>
                     <li><a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a></li>
+                    <li><a href="http://icylord.github.io/category/job.html">Job</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://icylord.github.io/compile-mysql-in-vs2010.html">Compile MYSQL++ in VS2010</a></h1>
+                    <h1 class="entry-title"><a href="http://icylord.github.io/plans-of-year-2014.html">Plans of year 2014</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-06-10T00:00:00">
+                Tue 10 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://icylord.github.io/author/icylord.html">icylord</a>
+        </address>
+<p>In <a href="http://icylord.github.io/category/job.html">Job</a>. </p>
+<p>tags: <a href="http://icylord.github.io/tag/video.html">Video</a></p>
+</footer><!-- /.post-info --><p>最近一个月打了不少鸡血，收获很大。
+主要是在FFMPEG LIVE555 RTSP/RTP H.264 AAC WAV RtAudio Directshow Filter方面做了不少工作，实现了对
+Camera Video和麦克风的 Streaming，同时在Windows上面写了类似Driver的东西，可以从聊天软件选取虚拟好的
+Camera 和 Microphone设备接受远端的Video和Audio数据传输。迟点有时间再总结一下了。</p><p>There are <a href="http://icylord.github.io/plans-of-year-2014.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://icylord.github.io/compile-mysql-in-vs2010.html" rel="bookmark"
+                           title="Permalink to Compile MYSQL++ in VS2010">Compile MYSQL++ in VS2010</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-02-11T00:00:00">
                 Tue 11 February 2014
@@ -31,7 +59,7 @@
         </address>
 <p>In <a href="http://icylord.github.io/category/computer-vision.html">Computer Vision</a>. </p>
 <p>tags: <a href="http://icylord.github.io/tag/computer-vision.html">Computer Vision</a><a href="http://icylord.github.io/tag/python.html">Python</a></p>
-</footer><!-- /.post-info --><p>1、到http://tangentsoft.net/mysql++/下载mysql++-3.2.1 </p>
+</footer><!-- /.post-info -->                <p>1、到http://tangentsoft.net/mysql++/下载mysql++-3.2.1 </p>
 <p>链接:<a href="http://tangentsoft.net/mysql++/releases/mysql++-3.2.1.tar.gz">MYSQL++</a></p>
 <p>2、解压缩文件</p>
 <p>3、进入mysql++-3.2.1\vc2008目录</p>
@@ -40,17 +68,10 @@ sln，让VS2010做自动转换，因为VS2010的工程配置目录改变了，�
 5、默认的工程是编译x64的库，非常好编译，因此下文主要处理32位的情况。</p>
 <p>6、首先点击vs2010上方的x64，选择Configuration Manager，在active sulution 
 platform选择new一个win32的配置，并复制x64的配置。然后把mysqlpp的platform改成win32。</p>
-<p>7、接着在工程中additional include directories添加mysql connector c的include路径。并且在preprocessor definitions 添加WIN32;_USRDLL;DLL_EXPORTS;_DEBUG;UNICODE;_UNICODE;MYSQLPP_MAKING_DLL;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)，这段宏定义可以在x64的相同位置找到。</p>
-<p>8、接着在mysqlpp工程中修改configuration type为 Dynamic Library；</p>
-<p>9、在mysqlpp工程中Linker-&gt;General-&gt;Additional Library Directories中添加C:\Program Files (x86)\MySQL\MySQL Connector C 6.1\lib，然后在Linker-&gt;Input-&gt;Additional Dependencies中添加libmysql.lib和wsock32.lib；</p>
-<p>10、最后一步需要修改工程的Runtime Library为MT的，进入C/C++-&gt;Code Generation-&gt;Runtime Library，修改为/MDd</p>
-<p>11、右键Solution Explorer点击mysqlpp点击build，即可生成mysqlpp.dll和mysqlpp.lib.</p>
-<p>12、Release版本的跟Debug类似，后续就不进行描述了。</p><p>There are <a href="http://icylord.github.io/compile-mysql-in-vs2010.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>7、接着在工程中additional include directories添加mysql connector c的include路径 ...</p>
+                <a class="readmore" href="http://icylord.github.io/compile-mysql-in-vs2010.html">read more</a>
+<p>There are <a href="http://icylord.github.io/compile-mysql-in-vs2010.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
