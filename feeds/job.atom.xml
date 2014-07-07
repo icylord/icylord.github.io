@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/job.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2014-06-10T00:00:00+02:00</updated><entry><title>Recent work</title><link href="http://icylord.github.io/recent-work.html" rel="alternate"></link><updated>2014-06-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-06-10:recent-work.html</id><summary type="html">&lt;p&gt;最近一个月打了不少鸡血，收获很大。
+主要是在FFMPEG LIVE555 RTSP/RTP H.264 AAC WAV RtAudio Directshow Filter方面做了不少工作，实现了对
+Camera Video和麦克风的 Streaming，同时在Windows上面写了类似Driver的东西，可以从聊天软件选取虚拟好的
+Camera 和 Microphone设备接受远端的Video和Audio数据传输。迟点有时间再总结一下了。&lt;/p&gt;</summary><category term="Video"></category></entry></feed>

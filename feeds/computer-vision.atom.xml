@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/computer-vision.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2013-10-05T00:00:00+02:00</updated><entry><title>opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html" rel="alternate"></link><updated>2013-10-05T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-10-05:opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html</id><summary type="html">&lt;pre&gt;&lt;code&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/computer-vision.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2014-02-11T00:00:00+01:00</updated><entry><title>Compile MYSQL++ in VS2010</title><link href="http://icylord.github.io/compile-mysql-in-vs2010.html" rel="alternate"></link><updated>2014-02-11T00:00:00+01:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-02-11:compile-mysql-in-vs2010.html</id><summary type="html">&lt;p&gt;1、到http://tangentsoft.net/mysql++/下载mysql++-3.2.1 &lt;/p&gt;
+&lt;p&gt;链接:&lt;a href="http://tangentsoft.net/mysql++/releases/mysql++-3.2.1.tar.gz"&gt;MYSQL++&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2、解压缩文件&lt;/p&gt;
+&lt;p&gt;3、进入mysql++-3.2.1\vc2008目录&lt;/p&gt;
+&lt;p&gt;4、打开mysql++.
+sln，让VS2010做自动转换，因为VS2010的工程配置目录改变了，因此VS2008的一些配置会丢失，因此需要手动添加mysql c connector的目录。同时只需要编译mysqlpp的lib，因此其他例子程序就编译了，所以下文只修改mysqlpp的工程目录。
+5、默认的工程是编译x64的库，非常好编译，因此下文主要处理32位的情况。&lt;/p&gt;
+&lt;p&gt;6、首先点击vs2010上方的x64，选择Configuration Manager，在active sulution 
+platform选择new一个win32的配置，并复制x64的配置。然后把mysqlpp的platform改成win32。&lt;/p&gt;
+&lt;p&gt;7、接着在工程中additional include directories添加mysql connector c的include路径。并且在preprocessor definitions 添加WIN32;_USRDLL;DLL_EXPORTS;_DEBUG;UNICODE;_UNICODE;MYSQLPP_MAKING_DLL;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)，这段宏定义可以在x64的相同位置找到。&lt;/p&gt;
+&lt;p&gt;8、接着在mysqlpp工程中修改configuration type为 Dynamic Library；&lt;/p&gt;
+&lt;p&gt;9、在mysqlpp工程中Linker-&amp;gt;General-&amp;gt;Additional Library Directories中添加C:\Program Files (x86)\MySQL\MySQL Connector C 6.1\lib，然后在Linker-&amp;gt;Input-&amp;gt;Additional Dependencies中添加libmysql.lib和wsock32.lib；&lt;/p&gt;
+&lt;p&gt;10、最后一步需要修改工程的Runtime Library为MT的，进入C/C++-&amp;gt;Code Generation-&amp;gt;Runtime Library，修改为/MDd&lt;/p&gt;
+&lt;p&gt;11、右键Solution Explorer点击mysqlpp点击build，即可生成mysqlpp.dll和mysqlpp.lib.&lt;/p&gt;
+&lt;p&gt;12、Release版本的跟Debug类似，后续就不进行描述了。&lt;/p&gt;</summary><category term="Computer Vision"></category><category term="Python"></category></entry><entry><title>opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</title><link href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html" rel="alternate"></link><updated>2013-10-05T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2013-10-05:opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html</id><summary type="html">&lt;pre&gt;&lt;code&gt;
 //每个Stage的训练函数
 bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
                            int _numSamples,
