@@ -47,7 +47,7 @@
 <p>DirectShow Filter包括<strong>Source Filter</strong>、<strong>Transform Filter</strong>和<strong>Render Filter</strong>。</p>
 <p>在Windows平台下，常见的聊天软件都是使用DirectShow获取摄像头并得到图像数据的，因此若要实现一个虚拟摄像头的功能，DirectShow是必不可少的。 至于DirectShow Filter，因为在需要实现的虚拟摄像头的功能中，图像的输入数据并不是直接由摄像头的提供方提供的驱动得到硬件设备数据，而是我们自己提供的数据，比如可以使本地的视频文件，或者是远端的图像数据。 微软提供了DirectShow Filter这种框架可以方便开发者进行自定义的数据输入的功能，当然，这只是DirectShow Filter能够做到的众多功能其中之一。 本文使用的是DirectShow Filter中的其中的Source Filter。</p>
 <p>下面给出一张实现了需要摄像头后，QQ选取摄像头设备的效果图，其中Virtual Camera为虚拟的设备：</p>
-<p><img alt="image" src="virtualcameraselection.jpg" /></p>
+<p><img alt="image" src="/static/img/virtualcameraselection.jpg" /></p>
 <p>实现虚拟摄像头需要进行如下步骤：</p>
 <p>（1）实现DLL注册函数，使得虚拟的设备能够在聊天软件或者VLC等软件在DShow列表中选取；</p>
 <p>（2）实现DirectShow Source Filter，包括得到图像输入数据，转换成标准的输出格式，提供给调用此Source filter的调用对象；</p>
@@ -127,7 +127,7 @@
 
 
 <p>其中CLSID_VirtualCamera为我们自己生成的GUID，每个COM组件使用一个唯一的GUID来标识，当创建一个COM组件的时候，都是首先通过该ID调用CoCreateInstance函数来创建对应的组件类工厂。我们可以使用自带软件GUID Generator生成，见图：</p>
-<p><img alt="image" src="guid.jpg" /></p>
+<p><img alt="image" src="/static/img/guid.jpg" /></p>
 <p>生成后，将Result部分贴到源代码当中，并将name修改成我们自定义的名称，比如CLSID_VirtualCamera</p>
 <p>按照上述，将编译好的Dll进行注册，那么应该可以在聊天软件中的下拉列表看到我们虚拟出来的设备名称了。前提是已经实现了Source Filter，否则会编译不过的，呵呵。因为关键的Filter类还没有实现！</p>
 <h3>第二部分</h3>
