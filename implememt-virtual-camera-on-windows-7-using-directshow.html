@@ -123,7 +123,7 @@
 </footer><!-- /.post-info -->                </div>
                 <h2>Windows7下使用Directshow实现虚拟摄像头</h2>
 <h3>介绍</h3>
-<p>近期因项目需求，需要在Windows平台下实现一个虚拟摄像头，使得Skype、QQ等聊天软件能够使用远端的Web Camera设备的视频数据作为输入端进行视频聊天，在网上搜刮了一番资料后，花了点时间将其实现了。近期有时间，就把整个实现方法和过程写下来方便以后回顾</p>
+<p>近期碰到了个项目，破解了某个摄像头设备的视频数据流到PC的方法(Linux+RTSP Streaming -&gt; PC -&gt; Virtual Camera -&gt; Skype/Link/QQ)，打算扔掉这个设备自带的驱动，自己写一个，需要在Windows平台下实现一个虚拟摄像头，使得Skype、QQ等聊天软件能够使用远端的Web Camera设备的视频数据作为输入端进行视频聊天，在网上搜刮了一番资料后，花了点时间将其实现了。近期有时间，就把整个实现方法和过程写下来方便以后回顾</p>
 <p>在进行之前首先需要知道什么是<strong>DirectShow</strong>和<strong>DirectShow filter。</strong></p>
 <p><strong>DirectShow</strong>（摘自wikipedia）：DirectShow (sometimes abbreviated as DS or DShow), codename Quartz, is a multimedia framework and API produced by Microsoft for software developers to perform various operations with media files or streams. It is the replacement for Microsoft's earlier Video for Windows technology. <strong>Based on the Microsoft Windows Component Object Model (COM) framework, DirectShow provides a common interface for media across various programming languages, and is an extensible, filter-based framework that can render or record media files on demand at the request of the user or developer</strong>. 也就是说，DirectShow为多媒体流的捕捉和回放提供了强而有力的支持。 通过DirectShow，我们可以很方便地从支持WDM驱动模型的采集卡上采集数据，并进行相应的后期处理乃至存储到文件当中。DirectShow是一种开放式的开发环境，我们可以根据自己的需求定制自己的组件。</p>
 <p><strong>DirectShow Filter</strong>（摘自MSDN）：DirectShow provides a set of default filters in Windows. <strong>These filters support many data formats while providing a high degree of hardware independence</strong>. An application can also register and install custom filters on the target system. DirectShow是基于模块化的，每个功能模块采取COM组件的方式，成为Filter。Filter是DirectShow的最基本的概念。DirectShow使用Filter Graph来管理Filter。Filter Graph是Filter的“容器”，而Filter是Filter Graph的最小功能模块。粗略地说，可以认为Filter是一个插件。 我们可以自定义实现Filter提供给Filter Graph来使用达到我们特殊的应用目的。</p>
@@ -341,14 +341,14 @@
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-0">
-    <a href="http://icylord.github.io/tag/computer-vision.html">
-        <i class="icon-tag icon-large"></i>Computer Vision
-    </a>
-</li>
 <li class="tag-4">
     <a href="http://icylord.github.io/tag/directshow.html">
         <i class="icon-tag icon-large"></i>Directshow
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/video.html">
+        <i class="icon-tag icon-large"></i>Video
     </a>
 </li>
 <li class="tag-2">
@@ -361,9 +361,9 @@
         <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/video.html">
-        <i class="icon-tag icon-large"></i>Video
+<li class="tag-0">
+    <a href="http://icylord.github.io/tag/computer-vision.html">
+        <i class="icon-tag icon-large"></i>Computer Vision
     </a>
 </li>
 
