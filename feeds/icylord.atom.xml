@@ -174,10 +174,7 @@
 &lt;li&gt;注册：regsvr32.exe XXX.dll&lt;/li&gt;
 &lt;li&gt;反注册： regsvr32.exe -u XXX.dll&lt;/li&gt;
 &lt;li&gt;如果想取消注册完成的弹出提示窗口，可以再regsvr32.exe之后加上-s参数&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="Directshow"></category></entry><entry><title>Recent work</title><link href="http://icylord.github.io/recent-work.html" rel="alternate"></link><updated>2014-06-10T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-06-10:recent-work.html</id><summary type="html">&lt;p&gt;最近一个月打了不少鸡血，收获很大。
-主要是在FFMPEG LIVE555 RTSP/RTP H.264 AAC WAV RtAudio Directshow Filter方面做了不少工作，实现了对
-Camera Video和麦克风的 Streaming，同时在Windows上面写了类似Driver的东西，可以从聊天软件选取虚拟好的
-Camera 和 Microphone设备接受远端的Video和Audio数据传输。迟点有时间再总结一下了。&lt;/p&gt;</summary><category term="Video"></category></entry><entry><title>Compile MYSQL++ in VS2010</title><link href="http://icylord.github.io/compile-mysql-in-vs2010.html" rel="alternate"></link><updated>2014-02-11T00:00:00+01:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-02-11:compile-mysql-in-vs2010.html</id><summary type="html">&lt;p&gt;1、到http://tangentsoft.net/mysql++/下载mysql++-3.2.1 &lt;/p&gt;
+&lt;/ul&gt;</summary><category term="Directshow"></category></entry><entry><title>Compile MYSQL++ in VS2010</title><link href="http://icylord.github.io/compile-mysql-in-vs2010.html" rel="alternate"></link><updated>2014-02-11T00:00:00+01:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-02-11:compile-mysql-in-vs2010.html</id><summary type="html">&lt;p&gt;1、到http://tangentsoft.net/mysql++/下载mysql++-3.2.1 &lt;/p&gt;
 &lt;p&gt;链接:&lt;a href="http://tangentsoft.net/mysql++/releases/mysql++-3.2.1.tar.gz"&gt;MYSQL++&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2、解压缩文件&lt;/p&gt;
 &lt;p&gt;3、进入mysql++-3.2.1\vc2008目录&lt;/p&gt;
