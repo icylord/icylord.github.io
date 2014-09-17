@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Implement virtual camera on Windows 7 using DirectShow</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="icylord">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="http://icylord.github.io/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="http://icylord.github.io/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="http://icylord.github.io/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="http://icylord.github.io/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://icylord.github.io/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="http://icylord.github.io/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://icylord.github.io/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://icylord.github.io/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="http://icylord.github.io/" type="application/atom+xml" rel="alternate" title="icylord's blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="http://icylord.github.io/index.html">icylord's blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="http://icylord.github.io/category/computer-vision.html">
+						<i class="icon-folder-open icon-large"></i>Computer Vision
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="http://icylord.github.io/category/multimedia.html">
+						<i class="icon-folder-open icon-large"></i>Multimedia
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="http://icylord.github.io/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Implement virtual camera on Windows 7 using DirectShow">
+                                        Implement virtual camera on Windows 7 using DirectShow
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-07-01T00:00:00">
+        <i class="icon-calendar"></i>Tue 01 July 2014
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/directshow.html"><i class="icon-tag"></i>Directshow</a>
+</footer><!-- /.post-info -->                </div>
+                <h2>Windows7下使用Directshow实现虚拟摄像头</h2>
+<h3>介绍</h3>
+<p>近期碰到了个项目，破解了某个摄像头设备的视频数据流到PC的方法(Linux+RTSP Streaming -&gt; PC -&gt; Virtual Camera -&gt; Skype/Link/QQ)，打算扔掉这个设备自带的驱动，自己写一个，需要在Windows平台下实现一个虚拟摄像头，使得Skype、QQ等聊天软件能够使用远端的Web Camera设备的视频数据作为输入端进行视频聊天，在网上搜刮了一番资料后，花了点时间将其实现了。近期有时间，就把整个实现方法和过程写下来方便以后回顾</p>
+<p>在进行之前首先需要知道什么是<strong>DirectShow</strong>和<strong>DirectShow filter。</strong></p>
+<p><strong>DirectShow</strong>（摘自wikipedia）：DirectShow (sometimes abbreviated as DS or DShow), codename Quartz, is a multimedia framework and API produced by Microsoft for software developers to perform various operations with media files or streams. It is the replacement for Microsoft's earlier Video for Windows technology. <strong>Based on the Microsoft Windows Component Object Model (COM) framework, DirectShow provides a common interface for media across various programming languages, and is an extensible, filter-based framework that can render or record media files on demand at the request of the user or developer</strong>. 也就是说，DirectShow为多媒体流的捕捉和回放提供了强而有力的支持。 通过DirectShow，我们可以很方便地从支持WDM驱动模型的采集卡上采集数据，并进行相应的后期处理乃至存储到文件当中。DirectShow是一种开放式的开发环境，我们可以根据自己的需求定制自己的组件。</p>
+<p><strong>DirectShow Filter</strong>（摘自MSDN）：DirectShow provides a set of default filters in Windows. <strong>These filters support many data formats while providing a high degree of hardware independence</strong>. An application can also register and install custom filters on the target system. DirectShow是基于模块化的，每个功能模块采取COM组件的方式，成为Filter。Filter是DirectShow的最基本的概念。DirectShow使用Filter Graph来管理Filter。Filter Graph是Filter的“容器”，而Filter是Filter Graph的最小功能模块。粗略地说，可以认为Filter是一个插件。 我们可以自定义实现Filter提供给Filter Graph来使用达到我们特殊的应用目的。</p>
+<p>DirectShow Filter包括<strong>Source Filter</strong>、<strong>Transform Filter</strong>和<strong>Render Filter</strong>。</p>
+<p>在Windows平台下，常见的聊天软件都是使用DirectShow获取摄像头并得到图像数据的，因此若要实现一个虚拟摄像头的功能，DirectShow是必不可少的。 至于DirectShow Filter，因为在需要实现的虚拟摄像头的功能中，图像的输入数据并不是直接由摄像头的提供方提供的驱动得到硬件设备数据，而是我们自己提供的数据，比如可以使本地的视频文件，或者是远端的图像数据。 微软提供了DirectShow Filter这种框架可以方便开发者进行自定义的数据输入的功能，当然，这只是DirectShow Filter能够做到的众多功能其中之一。 本文使用的是DirectShow Filter中的其中的Source Filter。</p>
+<p>下面给出一张实现了需要摄像头后，QQ选取摄像头设备的效果图，其中Virtual Camera为虚拟的设备：</p>
+<p><img alt="image" src="/static/img/virtualcameraselection.jpg" /></p>
+<p>实现虚拟摄像头需要进行如下步骤：</p>
+<p>（1）实现DLL注册函数，使得虚拟的设备能够在聊天软件或者VLC等软件在DShow列表中选取；</p>
+<p>（2）实现DirectShow Source Filter，包括得到图像输入数据，转换成标准的输出格式，提供给调用此Source filter的调用对象；</p>
+<p>（3）将生成的Dll文件注册到系统注册表中。</p>
+<h3>下面按照步骤逐一介绍实现方法</h3>
+<h3>第一部分</h3>
+<p>Filter是一个基于Dll的COM组件，一般Filter需要实现下面几个入口函数：</p>
+<ul>
+<li>DllMain</li>
+<li>DllRegisterServer</li>
+<li>DllUnregisterServer</li>
+</ul>
+<p>具体可以参考DirectShow自带的Ball例子。需要注意的是，要使得设备能够被DirectShow选取到，则需要额外实现将Dll注册为CLSID_VideoInputDeviceCategory的函数。见下面：</p>
+<div class="highlight"><pre><span class="n">STDAPI</span> <span class="nf">DllRegisterServer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">RegisterFilters</span><span class="p">(</span><span class="n">TRUE</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">STDAPI</span> <span class="nf">DllUnregisterServer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">RegisterFilters</span><span class="p">(</span><span class="n">FALSE</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="n">BOOL</span> <span class="n">WINAPI</span> <span class="n">DllEntryPoint</span><span class="p">(</span><span class="n">HINSTANCE</span><span class="p">,</span> <span class="n">ULONG</span><span class="p">,</span> <span class="n">LPVOID</span><span class="p">);</span>
+
+<span class="n">BOOL</span> <span class="n">APIENTRY</span> <span class="nf">DllMain</span><span class="p">(</span><span class="n">HANDLE</span> <span class="n">hModule</span><span class="p">,</span> 
+                      <span class="n">DWORD</span>  <span class="n">dwReason</span><span class="p">,</span> 
+                      <span class="n">LPVOID</span> <span class="n">lpReserved</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">DllEntryPoint</span><span class="p">((</span><span class="n">HINSTANCE</span><span class="p">)(</span><span class="n">hModule</span><span class="p">),</span> <span class="n">dwReason</span><span class="p">,</span> <span class="n">lpReserved</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">STDAPI</span> <span class="nf">RegisterFilters</span><span class="p">(</span> <span class="n">BOOL</span> <span class="n">bRegister</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="n">HRESULT</span> <span class="n">hr</span> <span class="o">=</span> <span class="n">NOERROR</span><span class="p">;</span>
+    <span class="n">WCHAR</span> <span class="n">achFileName</span><span class="p">[</span><span class="n">MAX_PATH</span><span class="p">];</span>
+    <span class="kt">char</span> <span class="n">achTemp</span><span class="p">[</span><span class="n">MAX_PATH</span><span class="p">];</span>
+    <span class="n">ASSERT</span><span class="p">(</span><span class="n">g_hInst</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">GetModuleFileNameA</span><span class="p">(</span><span class="n">g_hInst</span><span class="p">,</span> <span class="n">achTemp</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">achTemp</span><span class="p">)))</span> 
+        <span class="k">return</span> <span class="n">AmHresultFromWin32</span><span class="p">(</span><span class="n">GetLastError</span><span class="p">());</span>
+
+    <span class="n">MultiByteToWideChar</span><span class="p">(</span><span class="n">CP_ACP</span><span class="p">,</span> <span class="mi">0L</span><span class="p">,</span> <span class="n">achTemp</span><span class="p">,</span> <span class="n">lstrlenA</span><span class="p">(</span><span class="n">achTemp</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> 
+        <span class="n">achFileName</span><span class="p">,</span> <span class="n">NUMELMS</span><span class="p">(</span><span class="n">achFileName</span><span class="p">));</span>
+
+    <span class="n">hr</span> <span class="o">=</span> <span class="n">CoInitialize</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">bRegister</span><span class="p">){</span>
+        <span class="c1">// The AMovieDllRegisterServer2 function creates registry entries for every component in the g_Templates</span>
+        <span class="n">hr</span> <span class="o">=</span> <span class="n">AMovieSetupRegisterServer</span><span class="p">(</span><span class="n">CLSID_VirtualCamera</span><span class="p">,</span> <span class="n">g_wszName</span><span class="p">,</span> <span class="n">achFileName</span><span class="p">,</span> <span class="s">L&quot;Both&quot;</span><span class="p">,</span> <span class="s">L&quot;InprocServer32&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">SUCCEEDED</span><span class="p">(</span><span class="n">hr</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">IFilterMapper2</span> <span class="o">*</span><span class="n">pFM2</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+        <span class="n">hr</span> <span class="o">=</span> <span class="n">CoCreateInstance</span><span class="p">(</span><span class="n">CLSID_FilterMapper2</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">CLSCTX_INPROC_SERVER</span><span class="p">,</span>
+            <span class="n">IID_IFilterMapper2</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pFM2</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">SUCCEEDED</span><span class="p">(</span><span class="n">hr</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">bRegister</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">IMoniker</span> <span class="o">*</span><span class="n">pMoniker</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="n">hr</span> <span class="o">=</span> <span class="n">pFM2</span><span class="o">-&gt;</span><span class="n">RegisterFilter</span><span class="p">(</span><span class="n">CLSID_VirtualCamera</span><span class="p">,</span> <span class="n">g_wszName</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pMoniker</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">CLSID_VideoInputDeviceCategory</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf2FilterReg</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="n">hr</span> <span class="o">=</span> <span class="n">pFM2</span><span class="o">-&gt;</span><span class="n">UnregisterFilter</span><span class="p">(</span><span class="o">&amp;</span><span class="n">CLSID_VideoInputDeviceCategory</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CLSID_VirtualCamera</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// release interface</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">pFM2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">pFM2</span><span class="o">-&gt;</span><span class="n">Release</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">SUCCEEDED</span><span class="p">(</span><span class="n">hr</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">bRegister</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">hr</span> <span class="o">=</span> <span class="n">AMovieSetupUnregisterServer</span><span class="p">(</span><span class="n">CLSID_VirtualCamera</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">CoFreeUnusedLibraries</span><span class="p">();</span>
+    <span class="n">CoUninitialize</span><span class="p">();</span>
+    <span class="k">return</span> <span class="n">hr</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>其中CLSID_VirtualCamera为我们自己生成的GUID，每个COM组件使用一个唯一的GUID来标识，当创建一个COM组件的时候，都是首先通过该ID调用CoCreateInstance函数来创建对应的组件类工厂。我们可以使用自带软件GUID Generator生成，见图：</p>
+<p><img alt="image" src="/static/img/guid.jpg" /></p>
+<p>生成后，将Result部分贴到源代码当中，并将name修改成我们自定义的名称，比如CLSID_VirtualCamera</p>
+<p>按照上述，将编译好的Dll进行注册，那么应该可以在聊天软件中的下拉列表看到我们虚拟出来的设备名称了。前提是已经实现了Source Filter，否则会编译不过的，呵呵。因为关键的Filter类还没有实现！</p>
+<h3>第二部分</h3>
+<p>Source Filter的实现
+关键是需要实现继承CSource和CSourceStream这两个类，并实现相关的接口，列举如下：</p>
+<p>其中CSourceStream的子类必须继承IAMStreamConfig, IKsPropertySet这两个接口</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">VirtualCamera</span> <span class="o">:</span> <span class="k">public</span> <span class="n">CSource</span> <span class="p">{</span>
+<span class="nl">public:</span>
+
+    <span class="k">static</span> <span class="n">CUnknown</span> <span class="o">*</span> <span class="n">WINAPI</span> <span class="n">CreateInstance</span><span class="p">(</span><span class="n">LPUNKNOWN</span> <span class="n">lpunk</span><span class="p">,</span> <span class="n">HRESULT</span> <span class="o">*</span><span class="n">phr</span><span class="p">);</span>
+
+    <span class="n">STDMETHODIMP</span> <span class="nf">QueryInterface</span><span class="p">(</span><span class="n">REFIID</span> <span class="n">riid</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="n">ppv</span><span class="p">);</span>
+    <span class="n">IFilterGraph</span> <span class="o">*</span><span class="nf">GetGraph</span><span class="p">()</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_pGraph</span><span class="p">;}</span>
+<span class="nl">private:</span>
+
+    <span class="c1">// It is only allowed to to create these objects with CreateInstance</span>
+    <span class="n">VirtualCamera</span><span class="p">(</span><span class="n">LPUNKNOWN</span> <span class="n">lpunk</span><span class="p">,</span> <span class="n">HRESULT</span> <span class="o">*</span><span class="n">phr</span><span class="p">);</span>
+    <span class="n">STDMETHODIMP</span> <span class="nf">Stop</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">VirtualCameraStream</span> <span class="o">:</span> <span class="k">public</span> <span class="n">CSourceStream</span><span class="p">,</span> <span class="n">IAMStreamConfig</span><span class="p">,</span> <span class="n">IKsPropertySet</span> <span class="p">{</span>
+
+<span class="nl">public:</span>
+
+    <span class="n">VirtualCameraStream</span><span class="p">(</span><span class="n">HRESULT</span> <span class="o">*</span><span class="n">phr</span><span class="p">,</span> <span class="n">VirtualCamera</span> <span class="o">*</span><span class="n">pParent</span><span class="p">,</span> <span class="n">LPCWSTR</span> <span class="n">pPinName</span><span class="p">);</span>
+    <span class="o">~</span><span class="n">VirtualCameraStream</span><span class="p">();</span>
+
+    <span class="c1">// plots a ball into the supplied video frame</span>
+    <span class="n">HRESULT</span> <span class="nf">FillBuffer</span><span class="p">(</span><span class="n">IMediaSample</span> <span class="o">*</span><span class="n">pms</span><span class="p">);</span>
+
+    <span class="c1">// Ask for buffers of the size appropriate to the agreed media type</span>
+    <span class="n">HRESULT</span> <span class="nf">DecideBufferSize</span><span class="p">(</span><span class="n">IMemAllocator</span> <span class="o">*</span><span class="n">pIMemAlloc</span><span class="p">,</span>
+                             <span class="n">ALLOCATOR_PROPERTIES</span> <span class="o">*</span><span class="n">pProperties</span><span class="p">);</span>
+
+    <span class="c1">// Set the agreed media type, and set up the necessary ball parameters</span>
+    <span class="n">HRESULT</span> <span class="nf">SetMediaType</span><span class="p">(</span><span class="k">const</span> <span class="n">CMediaType</span> <span class="o">*</span><span class="n">pMediaType</span><span class="p">);</span>
+
+    <span class="c1">// Because we calculate the ball there is no reason why we</span>
+    <span class="c1">// can&#39;t calculate it in any one of a set of formats...</span>
+    <span class="n">HRESULT</span> <span class="nf">CheckMediaType</span><span class="p">(</span><span class="k">const</span> <span class="n">CMediaType</span> <span class="o">*</span><span class="n">pMediaType</span><span class="p">);</span>
+    <span class="n">HRESULT</span> <span class="nf">GetMediaType</span><span class="p">(</span><span class="kt">int</span> <span class="n">iPosition</span><span class="p">,</span> <span class="n">CMediaType</span> <span class="o">*</span><span class="n">pmt</span><span class="p">);</span>
+
+    <span class="c1">// Resets the stream time to zero</span>
+    <span class="n">HRESULT</span> <span class="nf">OnThreadCreate</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+    <span class="c1">// Quality control notifications sent to us</span>
+    <span class="n">STDMETHODIMP</span> <span class="nf">Notify</span><span class="p">(</span><span class="n">IBaseFilter</span> <span class="o">*</span> <span class="n">pSender</span><span class="p">,</span> <span class="n">Quality</span> <span class="n">q</span><span class="p">);</span>
+
+    <span class="c1">//////////////////////////////////////////////////////////////////////////</span>
+    <span class="c1">//  IUnknown</span>
+    <span class="c1">//////////////////////////////////////////////////////////////////////////</span>
+    <span class="n">STDMETHODIMP</span> <span class="nf">QueryInterface</span><span class="p">(</span><span class="n">REFIID</span> <span class="n">riid</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="n">ppv</span><span class="p">);</span>
+    <span class="n">STDMETHODIMP_</span><span class="p">(</span><span class="n">ULONG</span><span class="p">)</span> <span class="n">AddRef</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">GetOwner</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">AddRef</span><span class="p">();</span> <span class="p">}</span>
+    <span class="n">STDMETHODIMP_</span><span class="p">(</span><span class="n">ULONG</span><span class="p">)</span> <span class="n">Release</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">GetOwner</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Release</span><span class="p">();</span> <span class="p">}</span>
+
+    <span class="c1">//////////////////////////////////////////////////////////////////////////</span>
+    <span class="c1">//  IAMStreamConfig</span>
+    <span class="c1">//////////////////////////////////////////////////////////////////////////</span>
+    <span class="n">HRESULT</span> <span class="n">STDMETHODCALLTYPE</span> <span class="n">SetFormat</span><span class="p">(</span><span class="n">AM_MEDIA_TYPE</span> <span class="o">*</span><span class="n">pmt</span><span class="p">);</span>
+    <span class="n">HRESULT</span> <span class="n">STDMETHODCALLTYPE</span> <span class="nf">GetFormat</span><span class="p">(</span><span class="n">AM_MEDIA_TYPE</span> <span class="o">**</span><span class="n">ppmt</span><span class="p">);</span>
+    <span class="n">HRESULT</span> <span class="n">STDMETHODCALLTYPE</span> <span class="nf">GetNumberOfCapabilities</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">piCount</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">piSize</span><span class="p">);</span>
+    <span class="n">HRESULT</span> <span class="n">STDMETHODCALLTYPE</span> <span class="nf">GetStreamCaps</span><span class="p">(</span><span class="kt">int</span> <span class="n">iIndex</span><span class="p">,</span> <span class="n">AM_MEDIA_TYPE</span> <span class="o">**</span><span class="n">pmt</span><span class="p">,</span> <span class="n">BYTE</span> <span class="o">*</span><span class="n">pSCC</span><span class="p">);</span>
+
+    <span class="c1">//////////////////////////////////////////////////////////////////////////</span>
+    <span class="c1">//  IKsPropertySet</span>
+    <span class="c1">//////////////////////////////////////////////////////////////////////////</span>
+    <span class="n">HRESULT</span> <span class="n">STDMETHODCALLTYPE</span> <span class="nf">Set</span><span class="p">(</span><span class="n">REFGUID</span> <span class="n">guidPropSet</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">dwID</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">pInstanceData</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">cbInstanceData</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">pPropData</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">cbPropData</span><span class="p">);</span>
+    <span class="n">HRESULT</span> <span class="n">STDMETHODCALLTYPE</span> <span class="nf">Get</span><span class="p">(</span><span class="n">REFGUID</span> <span class="n">guidPropSet</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">dwPropID</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">pInstanceData</span><span class="p">,</span><span class="n">DWORD</span> <span class="n">cbInstanceData</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">pPropData</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">cbPropData</span><span class="p">,</span> <span class="n">DWORD</span> <span class="o">*</span><span class="n">pcbReturned</span><span class="p">);</span>
+    <span class="n">HRESULT</span> <span class="n">STDMETHODCALLTYPE</span> <span class="nf">QuerySupported</span><span class="p">(</span><span class="n">REFGUID</span> <span class="n">guidPropSet</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">dwPropID</span><span class="p">,</span> <span class="n">DWORD</span> <span class="o">*</span><span class="n">pTypeSupport</span><span class="p">);</span>
+
+<span class="nl">private:</span>
+    <span class="n">CCritSec</span> <span class="n">shared_state_</span><span class="p">;</span>            <span class="c1">// Lock on shared_state_</span>
+    <span class="n">CRefTime</span> <span class="n">sample_time_</span><span class="p">;</span>            <span class="c1">// The time stamp for each sample</span>
+    <span class="n">VirtualCamera</span> <span class="o">*</span><span class="n">parent_</span><span class="p">;</span>
+<span class="p">};</span> 
+</pre></div>
+
+
+<p><strong><em>此部分持续更新</em></strong></p>
+<h3>第三部分</h3>
+<p>实现完毕并且编译得到的Filter Dll需要注册到注册表中，才得到我们能够选取到的虚拟摄像头。 Filter本身是种COM组件，一般使用regsvr32.exe将其注册到注册表中。具体用法为：</p>
+<ul>
+<li>注册：regsvr32.exe XXX.dll</li>
+<li>反注册： regsvr32.exe -u XXX.dll</li>
+<li>如果想取消注册完成的弹出提示窗口，可以再regsvr32.exe之后加上-s参数</li>
+</ul>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "implement-virtual-camera-on-windows-7-using-directshow.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://icylord.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="http://icylord.github.io/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="#"><i class="icon-You can add links in your config file-sign icon-large"></i>You can add links in your config file</a></li>
+    <li><a href="#"><i class="icon-Another social link-sign icon-large"></i>Another social link</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="http://icylord.github.io/category/computer-vision.html">
+    <i class="icon-folder-open icon-large"></i>Computer Vision
+</a>
+</li>
+<li>
+<a href="http://icylord.github.io/category/multimedia.html">
+    <i class="icon-folder-open icon-large"></i>Multimedia
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/directshow.html">
+        <i class="icon-tag icon-large"></i>Directshow
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-0">
+    <a href="http://icylord.github.io/tag/computer-vision.html">
+        <i class="icon-tag icon-large"></i>Computer Vision
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'icylord';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://icylord.github.io/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="http://icylord.github.io/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>
