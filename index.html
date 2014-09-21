@@ -90,6 +90,45 @@
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
+                <h1><a href="http://icylord.github.io/libx264-x264_param_t.html">libx264 x264_param_t</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-09-21T00:00:00">
+        <i class="icon-calendar"></i>Sun 21 September 2014
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/h264.html"><i class="icon-tag"></i>H.264</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h2>libx264 x264_param_t</h2>
+<h3>转一个别人写好的libx264参数结构体x264_param_t的参数解析</h3>
+<div class="highlight"><pre><span class="cm">/* 结构体x264_param_t定义在x264.h中 */</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="kt">x264_param_t</span>
+<span class="p">{</span>
+    <span class="cm">/* CPU 标志位 */</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
+<span class="kt">int</span>  <span class="n">i_threads</span><span class="p">;</span>                 <span class="c1">// 并行编码多帧; 线程数，为0则自动多线程编码</span>
+<span class="kt">int</span>  <span class="n">b_sliced_threads</span><span class="p">;</span>          <span class="c1">// 如果为false，则一个slice只编码成一个NALU;</span>
+                                <span class="c1">// 否则有几个线程，在编码成几个NALU。缺省为true。</span>
+<span class="kt">int</span>  <span class="n">b_deterministic</span><span class="p">;</span>           <span class="c1">// 是否允许非确定性时线程优化</span>
+<span class="kt">int</span>  <span class="n">b_cpu_independent</span><span class="p">;</span>     <span class="c1">// 强制采用典型行为，而不是采用独立于cpu的优化算法</span>
+<span class="kt">int</span>  <span class="n">i_sync_lookahead</span><span class="p">;</span>          <span class="c1">// 线程超前缓存帧数</span>
+
+<span class="cm">/* 视频属性 */</span>
+<span class="kt">int</span>  <span class="n">i_width</span><span class="p">;</span>               <span class="c1">// 视频图像的宽</span>
+<span class="kt">int</span>  <span class="n">i_height</span><span class="p">;</span>              <span class="c1">// 视频图像的高</span>
+<span class="kt">int</span>  <span class="n">i_csp</span><span class="p">;</span>                     <span class="c1">// 编码比特流的CSP，仅支持i420，色彩空间设置</span>
+<span class="kt">int</span>  <span class="n">i_level_idc</span><span class="p">;</span>           <span class="c1">// 指明作用的level值 ...</span></pre></div>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/libx264-x264_param_t.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
                 <h1><a href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html">Implement virtual camera on Windows 7 using DirectShow</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
@@ -337,19 +376,24 @@ mkl_libs ...</code></pre></p>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/directshow.html">
-        <i class="icon-tag icon-large"></i>Directshow
-    </a>
-</li>
 <li class="tag-2">
     <a href="http://icylord.github.io/tag/python.html">
         <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
+    </a>
+</li>
 <li class="tag-0">
     <a href="http://icylord.github.io/tag/computer-vision.html">
         <i class="icon-tag icon-large"></i>Computer Vision
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/directshow.html">
+        <i class="icon-tag icon-large"></i>Directshow
     </a>
 </li>
 <li class="tag-2">
