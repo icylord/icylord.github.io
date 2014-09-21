@@ -287,7 +287,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Original post: http://nkwavelet.blog.163.com/blog/static/2277560382013102010375030/&lt;/p&gt;</summary><category term="H.264"></category></entry><entry><title>Implement virtual camera on Windows 7 using DirectShow</title><link href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html" rel="alternate"></link><updated>2014-07-01T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-07-01:implement-virtual-camera-on-windows-7-using-directshow.html</id><summary type="html">&lt;h2&gt;Windows7下使用Directshow实现虚拟摄像头&lt;/h2&gt;
+&lt;p&gt;Original post: http://nkwavelet.blog.163.com/blog/static/2277560382013102923912753/&lt;/p&gt;</summary><category term="H.264"></category></entry><entry><title>Implement virtual camera on Windows 7 using DirectShow</title><link href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html" rel="alternate"></link><updated>2014-07-01T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-07-01:implement-virtual-camera-on-windows-7-using-directshow.html</id><summary type="html">&lt;h2&gt;Windows7下使用Directshow实现虚拟摄像头&lt;/h2&gt;
 &lt;h3&gt;介绍&lt;/h3&gt;
 &lt;p&gt;近期碰到了个项目，破解了某个摄像头设备的视频数据流到PC的方法(Linux+RTSP Streaming -&amp;gt; PC -&amp;gt; Virtual Camera -&amp;gt; Skype/Link/QQ)，打算扔掉这个设备自带的驱动，自己写一个，需要在Windows平台下实现一个虚拟摄像头，使得Skype、QQ等聊天软件能够使用远端的Web Camera设备的视频数据作为输入端进行视频聊天，在网上搜刮了一番资料后，花了点时间将其实现了。近期有时间，就把整个实现方法和过程写下来方便以后回顾&lt;/p&gt;
 &lt;p&gt;在进行之前首先需要知道什么是&lt;strong&gt;DirectShow&lt;/strong&gt;和&lt;strong&gt;DirectShow filter。&lt;/strong&gt;&lt;/p&gt;
