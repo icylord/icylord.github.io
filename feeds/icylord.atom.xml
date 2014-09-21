@@ -210,6 +210,83 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;Original post: http://nkwavelet.blog.163.com/blog/static/2277560382013102010375030/&lt;/p&gt;</summary><category term="H.264"></category></entry><entry><title>libx264 x264_param_t (2)</title><link href="http://icylord.github.io/libx264-x264_param_t-2.html" rel="alternate"></link><updated>2014-09-21T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-09-21:libx264-x264_param_t-2.html</id><summary type="html">&lt;h2&gt;libx264 x264_param_t (2)&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cm"&gt;/********************************************************************************************&lt;/span&gt;
+&lt;span class="cm"&gt; x264_image_t 结构用于存放一帧图像实际像素数据。该结构体定义在x264.h中&lt;/span&gt;
+&lt;span class="cm"&gt;*********************************************************************************************/&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;     &lt;span class="n"&gt;i_csp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;           &lt;span class="c1"&gt;// 设置彩色空间，通常取值 X264_CSP_I420，所有可能取值定义在x264.h中&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;     &lt;span class="n"&gt;i_plane&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;        &lt;span class="c1"&gt;//  图像平面个数，例如彩色空间是YUV420格式的，此处取值3&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;     &lt;span class="n"&gt;i_stride&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;    &lt;span class="c1"&gt;// 每个图像平面的跨度，也就是每一行数据的字节数&lt;/span&gt;
+    &lt;span class="kt"&gt;uint8_t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;plane&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;      &lt;span class="c1"&gt;//  每个图像平面存放数据的起始地址, plane[0]是Y平面，&lt;/span&gt;
+                &lt;span class="c1"&gt;// plane[1]和plane[2]分别代表U和V平面&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="kt"&gt;x264_image_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+
+&lt;span class="cm"&gt;/********************************************************************************************&lt;/span&gt;
+&lt;span class="cm"&gt;x264_picture_t 结构体描述一视频帧的特征，该结构体定义在x264.h中。&lt;/span&gt;
+&lt;span class="cm"&gt;*********************************************************************************************/&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;   &lt;span class="n"&gt;i_type&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;               &lt;span class="c1"&gt;// 帧的类型，取值有X264_TYPE_KEYFRAME、X264_TYPE_P、&lt;/span&gt;
+                                &lt;span class="c1"&gt;// X264_TYPE_AUTO等。初始化为auto，则在编码过程自行控制。&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;   &lt;span class="n"&gt;i_qpplus1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;            &lt;span class="c1"&gt;// 此参数减1代表当前帧的量化参数值&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;   &lt;span class="n"&gt;i_pic_struct&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;         &lt;span class="c1"&gt;// 帧的结构类型，表示是帧还是场，是逐行还是隔行，&lt;/span&gt;
+                                &lt;span class="c1"&gt;// 取值为枚举值 pic_struct_e，定义在x264.h中&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;   &lt;span class="n"&gt;b_keyframe&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;           &lt;span class="c1"&gt;// 输出：是否是关键帧&lt;/span&gt;
+    &lt;span class="kt"&gt;int64_t&lt;/span&gt;   &lt;span class="n"&gt;i_pts&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;            &lt;span class="c1"&gt;// 一帧的显示时间戳&lt;/span&gt;
+    &lt;span class="kt"&gt;int64_t&lt;/span&gt;   &lt;span class="n"&gt;i_dts&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;            &lt;span class="c1"&gt;// 输出：解码时间戳。当一帧的pts非常接近0时，该dts值可能为负。&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 编码器参数设置，如果为NULL则表示继续使用前一帧的设置。某些参数&lt;/span&gt;
+&lt;span class="cm"&gt;       (例如aspect ratio) 由于收到H264本身的限制，只能每隔一个GOP才能改变。&lt;/span&gt;
+&lt;span class="cm"&gt;       这种情况下，如果想让这些改变的参数立即生效，则必须强制生成一个IDR帧。*/&lt;/span&gt; 
+    &lt;span class="kt"&gt;x264_param_t&lt;/span&gt;    &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;param&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kt"&gt;x264_image_t&lt;/span&gt;     &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;               &lt;span class="c1"&gt;// 存放一帧图像的真实数据&lt;/span&gt;
+    &lt;span class="kt"&gt;x264_image_properties_t&lt;/span&gt;    &lt;span class="n"&gt;prop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;x264_hrd_t&lt;/span&gt;    &lt;span class="n"&gt;hrd_timing&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;           &lt;span class="c1"&gt;// 输出：HRD时间信息，仅当i_nal_hrd设置了才有效&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt;    &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;opaque&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;                    &lt;span class="c1"&gt;// 私有数据存放区，将输入数据拷贝到输出帧中&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kt"&gt;x264_picture_t&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;
+
+
+&lt;span class="cm"&gt;/****************************************************************************************************************&lt;/span&gt;
+&lt;span class="cm"&gt;x264_nal_t中的数据在下一次调用x264_encoder_encode之后就无效了，因此必须在调用&lt;/span&gt;
+&lt;span class="cm"&gt;x264_encoder_encode 或 x264_encoder_headers 之前使用或拷贝其中的数据。&lt;/span&gt;
+&lt;span class="cm"&gt;*****************************************************************************************************************/&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;  &lt;span class="n"&gt;i_ref_idc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;        &lt;span class="c1"&gt;// Nal的优先级&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;  &lt;span class="n"&gt;i_type&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;           &lt;span class="c1"&gt;// Nal的类型&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;  &lt;span class="n"&gt;b_long_startcode&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// 是否采用长前缀码0x00000001&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;  &lt;span class="n"&gt;i_first_mb&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;       &lt;span class="c1"&gt;// 如果Nal为一条带，则表示该条带第一个宏块的指数&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;  &lt;span class="n"&gt;i_last_mb&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;        &lt;span class="c1"&gt;// 如果Nal为一条带，则表示该条带最后一个宏块的指数&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;  &lt;span class="n"&gt;i_payload&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;        &lt;span class="c1"&gt;// payload 的字节大小&lt;/span&gt;
+    &lt;span class="kt"&gt;uint8_t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p_payload&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;    &lt;span class="c1"&gt;// 存放编码后的数据，已经封装成Nal单元&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kt"&gt;x264_nal_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+
+&lt;span class="cm"&gt;/****************************************************************************************************************&lt;/span&gt;
+&lt;span class="cm"&gt;cli_opt_t结构体主要记录一些与编码关系较小的设置信息，其变量可通过读取main()的参数获得。&lt;/span&gt;
+&lt;span class="cm"&gt;*****************************************************************************************************************/&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;   &lt;span class="n"&gt;b_progress&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;       &lt;span class="c1"&gt;// bool类型的变量,用来控制是否显示编码进度。取值为0或1。&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;   &lt;span class="n"&gt;i_seek&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;           &lt;span class="c1"&gt;// 整数类型 表示开始从哪一帧开始编码。&lt;/span&gt;
+                            &lt;span class="c1"&gt;// 因为不一定从文件的第一帧开始编码，这是可以控制的。&lt;/span&gt;
+    &lt;span class="cm"&gt;/* hnd_t(hnd=handle)是一个空指针， 定义在x264cli.h 中。void *在C语言里空指针是有几个&lt;/span&gt;
+&lt;span class="cm"&gt;    特性的，它是一个一般化指针，可以指向任何一种类型，但却不能解引用，需要解引&lt;/span&gt;
+&lt;span class="cm"&gt;    用的时候，需要进行强制转换。采用空指针的策略，是为了声明变量的简便和统一。 */&lt;/span&gt;
+    &lt;span class="kt"&gt;hnd_t&lt;/span&gt;   &lt;span class="n"&gt;hin&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;            &lt;span class="c1"&gt;// 指向输入yuv文件的指针&lt;/span&gt;
+    &lt;span class="kt"&gt;hnd_t&lt;/span&gt;  &lt;span class="n"&gt;hout&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;            &lt;span class="c1"&gt;// 指向编码过后生成的文件的指针。&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 一个指向文件类型的指针，它是文本文件，其每一行的格式是 ：framenum frametye  &lt;/span&gt;
+&lt;span class="cm"&gt;    QP用于强制指定某些帧或者全部帧的帧类型和QP(quant param量化参数)的值. */&lt;/span&gt;
+    &lt;span class="kt"&gt;FILE&lt;/span&gt;   &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;qpfile&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kt"&gt;cli_opt_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Original post: http://nkwavelet.blog.163.com/blog/static/2277560382013102010375030/&lt;/p&gt;</summary><category term="H.264"></category></entry><entry><title>Implement virtual camera on Windows 7 using DirectShow</title><link href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html" rel="alternate"></link><updated>2014-07-01T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-07-01:implement-virtual-camera-on-windows-7-using-directshow.html</id><summary type="html">&lt;h2&gt;Windows7下使用Directshow实现虚拟摄像头&lt;/h2&gt;
 &lt;h3&gt;介绍&lt;/h3&gt;
 &lt;p&gt;近期碰到了个项目，破解了某个摄像头设备的视频数据流到PC的方法(Linux+RTSP Streaming -&amp;gt; PC -&amp;gt; Virtual Camera -&amp;gt; Skype/Link/QQ)，打算扔掉这个设备自带的驱动，自己写一个，需要在Windows平台下实现一个虚拟摄像头，使得Skype、QQ等聊天软件能够使用远端的Web Camera设备的视频数据作为输入端进行视频聊天，在网上搜刮了一番资料后，花了点时间将其实现了。近期有时间，就把整个实现方法和过程写下来方便以后回顾&lt;/p&gt;

@@ -129,6 +129,46 @@
         </div>
         <hr />
         <div class="article">
+                <h1><a href="http://icylord.github.io/libx264-x264_param_t-2.html">libx264 x264_param_t (2)</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-09-21T00:00:00">
+        <i class="icon-calendar"></i>Sun 21 September 2014
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/h264.html"><i class="icon-tag"></i>H.264</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h2>libx264 x264_param_t (2)</h2>
+<div class="highlight"><pre><span class="cm">/********************************************************************************************</span>
+<span class="cm"> x264_image_t 结构用于存放一帧图像实际像素数据。该结构体定义在x264.h中</span>
+<span class="cm">*********************************************************************************************/</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+    <span class="kt">int</span>     <span class="n">i_csp</span><span class="p">;</span>           <span class="c1">// 设置彩色空间，通常取值 X264_CSP_I420，所有可能取值定义在x264.h中</span>
+    <span class="kt">int</span>     <span class="n">i_plane</span><span class="p">;</span>        <span class="c1">//  图像平面个数，例如彩色空间是YUV420格式的，此处取值3</span>
+    <span class="kt">int</span>     <span class="n">i_stride</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>    <span class="c1">// 每个图像平面的跨度，也就是每一行数据的字节数</span>
+    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">plane</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>      <span class="c1">//  每个图像平面存放数据的起始地址, plane[0]是Y平面，</span>
+                <span class="c1">// plane[1]和plane[2]分别代表U和V平面</span>
+<span class="p">}</span>  <span class="kt">x264_image_t</span><span class="p">;</span>
+
+
+<span class="cm">/********************************************************************************************</span>
+<span class="cm">x264_picture_t 结构体描述一视频帧的特征，该结构体定义在x264.h中。</span>
+<span class="cm">*********************************************************************************************/</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+    <span class="kt">int</span>   <span class="n">i_type</span><span class="p">;</span>               <span class="c1">// 帧的类型，取值有X264_TYPE_KEYFRAME、X264_TYPE_P ...</span></pre></div>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/libx264-x264_param_t-2.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
                 <h1><a href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html">Implement virtual camera on Windows 7 using DirectShow</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
@@ -376,9 +416,9 @@ mkl_libs ...</code></pre></p>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
 <li class="tag-0">
@@ -387,13 +427,13 @@ mkl_libs ...</code></pre></p>
     </a>
 </li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
     </a>
 </li>
 <li class="tag-4">

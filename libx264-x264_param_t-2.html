@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>icylord's blog - Multimedia</title>
+    <title>libx264 x264_param_t (2)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="icylord">
@@ -89,9 +89,20 @@
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
-        <div class="article">
-                <h1><a href="http://icylord.github.io/libx264-x264_param_t.html">libx264 x264_param_t</a></h1>
-                <div class="well small"><footer class="post-info">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to libx264 x264_param_t (2)">
+                                        libx264 x264_param_t (2)
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
 <span class="label">Date</span>
 <abbr class="published" title="2014-09-21T00:00:00">
         <i class="icon-calendar"></i>Sun 21 September 2014
@@ -104,47 +115,8 @@
 
 <span class="label">Tags</span>
 	<a href="http://icylord.github.io/tag/h264.html"><i class="icon-tag"></i>H.264</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h2>libx264 x264_param_t</h2>
-<h3>转一个别人写好的libx264参数结构体x264_param_t的参数解析</h3>
-<div class="highlight"><pre><span class="cm">/* 结构体x264_param_t定义在x264.h中 */</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="kt">x264_param_t</span>
-<span class="p">{</span>
-    <span class="cm">/* CPU 标志位 */</span>
-    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
-    <span class="kt">int</span>  <span class="n">i_threads</span><span class="p">;</span>                 <span class="c1">// 并行编码多帧; 线程数，为0则自动多线程编码</span>
-    <span class="kt">int</span>  <span class="n">b_sliced_threads</span><span class="p">;</span>          <span class="c1">// 如果为false，则一个slice只编码成一个NALU;</span>
-                                    <span class="c1">// 否则有几个线程，在编码成几个NALU。缺省为true。</span>
-    <span class="kt">int</span>  <span class="n">b_deterministic</span><span class="p">;</span>           <span class="c1">// 是否允许非确定性时线程优化</span>
-    <span class="kt">int</span>  <span class="n">b_cpu_independent</span><span class="p">;</span>     <span class="c1">// 强制采用典型行为，而不是采用独立于cpu的优化算法</span>
-    <span class="kt">int</span>  <span class="n">i_sync_lookahead</span><span class="p">;</span>          <span class="c1">// 线程超前缓存帧数</span>
-
-    <span class="cm">/* 视频属性 */</span>
-    <span class="kt">int</span>  <span class="n">i_width</span><span class="p">;</span>               <span class="c1">// 视频图像的宽</span>
-    <span class="kt">int</span>  <span class="n">i_height</span><span class="p">;</span>              <span class="c1">// 视频图像的高</span>
-    <span class="kt">int</span>  <span class="n">i_csp</span><span class="p">;</span>                     <span class="c1">// 编码比特流的CSP，仅支持i420，色彩空间设置</span>
-    <span class="kt">int</span>  <span class="n">i_level_idc</span><span class="p">;</span>           <span class="c1">// 指明作用的level值 ...</span></pre></div>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/libx264-x264_param_t.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="http://icylord.github.io/libx264-x264_param_t-2.html">libx264 x264_param_t (2)</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2014-09-21T00:00:00">
-        <i class="icon-calendar"></i>Sun 21 September 2014
-</abbr>
-<span class="label">By</span>
-<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
-<span class="label">Category</span>
-<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
-
-
-<span class="label">Tags</span>
-	<a href="http://icylord.github.io/tag/h264.html"><i class="icon-tag"></i>H.264</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h2>libx264 x264_param_t (2)</h2>
+</footer><!-- /.post-info -->                </div>
+                <h2>libx264 x264_param_t (2)</h2>
 <div class="highlight"><pre><span class="cm">/********************************************************************************************</span>
 <span class="cm"> x264_image_t 结构用于存放一帧图像实际像素数据。该结构体定义在x264.h中</span>
 <span class="cm">*********************************************************************************************/</span>
@@ -163,37 +135,82 @@
 <span class="cm">*********************************************************************************************/</span>
 <span class="k">typedef</span> <span class="k">struct</span>
 <span class="p">{</span>
-    <span class="kt">int</span>   <span class="n">i_type</span><span class="p">;</span>               <span class="c1">// 帧的类型，取值有X264_TYPE_KEYFRAME、X264_TYPE_P ...</span></pre></div>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/libx264-x264_param_t-2.html">more ...</a>
+    <span class="kt">int</span>   <span class="n">i_type</span><span class="p">;</span>               <span class="c1">// 帧的类型，取值有X264_TYPE_KEYFRAME、X264_TYPE_P、</span>
+                                <span class="c1">// X264_TYPE_AUTO等。初始化为auto，则在编码过程自行控制。</span>
+    <span class="kt">int</span>   <span class="n">i_qpplus1</span><span class="p">;</span>            <span class="c1">// 此参数减1代表当前帧的量化参数值</span>
+    <span class="kt">int</span>   <span class="n">i_pic_struct</span><span class="p">;</span>         <span class="c1">// 帧的结构类型，表示是帧还是场，是逐行还是隔行，</span>
+                                <span class="c1">// 取值为枚举值 pic_struct_e，定义在x264.h中</span>
+    <span class="kt">int</span>   <span class="n">b_keyframe</span><span class="p">;</span>           <span class="c1">// 输出：是否是关键帧</span>
+    <span class="kt">int64_t</span>   <span class="n">i_pts</span><span class="p">;</span>            <span class="c1">// 一帧的显示时间戳</span>
+    <span class="kt">int64_t</span>   <span class="n">i_dts</span><span class="p">;</span>            <span class="c1">// 输出：解码时间戳。当一帧的pts非常接近0时，该dts值可能为负。</span>
+
+    <span class="cm">/* 编码器参数设置，如果为NULL则表示继续使用前一帧的设置。某些参数</span>
+<span class="cm">       (例如aspect ratio) 由于收到H264本身的限制，只能每隔一个GOP才能改变。</span>
+<span class="cm">       这种情况下，如果想让这些改变的参数立即生效，则必须强制生成一个IDR帧。*/</span> 
+    <span class="kt">x264_param_t</span>    <span class="o">*</span><span class="n">param</span><span class="p">;</span>
+
+    <span class="kt">x264_image_t</span>     <span class="n">img</span><span class="p">;</span>               <span class="c1">// 存放一帧图像的真实数据</span>
+    <span class="kt">x264_image_properties_t</span>    <span class="n">prop</span><span class="p">;</span>
+    <span class="kt">x264_hrd_t</span>    <span class="n">hrd_timing</span><span class="p">;</span>           <span class="c1">// 输出：HRD时间信息，仅当i_nal_hrd设置了才有效</span>
+    <span class="kt">void</span>    <span class="o">*</span><span class="n">opaque</span><span class="p">;</span>                    <span class="c1">// 私有数据存放区，将输入数据拷贝到输出帧中</span>
+<span class="p">}</span> <span class="kt">x264_picture_t</span> <span class="p">;</span>
+
+
+<span class="cm">/****************************************************************************************************************</span>
+<span class="cm">x264_nal_t中的数据在下一次调用x264_encoder_encode之后就无效了，因此必须在调用</span>
+<span class="cm">x264_encoder_encode 或 x264_encoder_headers 之前使用或拷贝其中的数据。</span>
+<span class="cm">*****************************************************************************************************************/</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+    <span class="kt">int</span>  <span class="n">i_ref_idc</span><span class="p">;</span>        <span class="c1">// Nal的优先级</span>
+    <span class="kt">int</span>  <span class="n">i_type</span><span class="p">;</span>           <span class="c1">// Nal的类型</span>
+    <span class="kt">int</span>  <span class="n">b_long_startcode</span><span class="p">;</span> <span class="c1">// 是否采用长前缀码0x00000001</span>
+    <span class="kt">int</span>  <span class="n">i_first_mb</span><span class="p">;</span>       <span class="c1">// 如果Nal为一条带，则表示该条带第一个宏块的指数</span>
+    <span class="kt">int</span>  <span class="n">i_last_mb</span><span class="p">;</span>        <span class="c1">// 如果Nal为一条带，则表示该条带最后一个宏块的指数</span>
+    <span class="kt">int</span>  <span class="n">i_payload</span><span class="p">;</span>        <span class="c1">// payload 的字节大小</span>
+    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">p_payload</span><span class="p">;</span>    <span class="c1">// 存放编码后的数据，已经封装成Nal单元</span>
+<span class="p">}</span> <span class="kt">x264_nal_t</span><span class="p">;</span>
+
+
+<span class="cm">/****************************************************************************************************************</span>
+<span class="cm">cli_opt_t结构体主要记录一些与编码关系较小的设置信息，其变量可通过读取main()的参数获得。</span>
+<span class="cm">*****************************************************************************************************************/</span>
+<span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+    <span class="kt">int</span>   <span class="n">b_progress</span><span class="p">;</span>       <span class="c1">// bool类型的变量,用来控制是否显示编码进度。取值为0或1。</span>
+    <span class="kt">int</span>   <span class="n">i_seek</span><span class="p">;</span>           <span class="c1">// 整数类型 表示开始从哪一帧开始编码。</span>
+                            <span class="c1">// 因为不一定从文件的第一帧开始编码，这是可以控制的。</span>
+    <span class="cm">/* hnd_t(hnd=handle)是一个空指针， 定义在x264cli.h 中。void *在C语言里空指针是有几个</span>
+<span class="cm">    特性的，它是一个一般化指针，可以指向任何一种类型，但却不能解引用，需要解引</span>
+<span class="cm">    用的时候，需要进行强制转换。采用空指针的策略，是为了声明变量的简便和统一。 */</span>
+    <span class="kt">hnd_t</span>   <span class="n">hin</span><span class="p">;</span>            <span class="c1">// 指向输入yuv文件的指针</span>
+    <span class="kt">hnd_t</span>  <span class="n">hout</span><span class="p">;</span>            <span class="c1">// 指向编码过后生成的文件的指针。</span>
+
+    <span class="cm">/* 一个指向文件类型的指针，它是文本文件，其每一行的格式是 ：framenum frametye  </span>
+<span class="cm">    QP用于强制指定某些帧或者全部帧的帧类型和QP(quant param量化参数)的值. */</span>
+    <span class="kt">FILE</span>   <span class="o">*</span><span class="n">qpfile</span><span class="p">;</span>
+<span class="p">}</span> <span class="kt">cli_opt_t</span><span class="p">;</span>
+</pre></div>
+
+
+<p>Original post: http://nkwavelet.blog.163.com/blog/static/2277560382013102010375030/</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "libx264-x264_param_t-2.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://icylord.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
                 </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html">Implement virtual camera on Windows 7 using DirectShow</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2014-07-01T00:00:00">
-        <i class="icon-calendar"></i>Tue 01 July 2014
-</abbr>
-<span class="label">By</span>
-<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
-<span class="label">Category</span>
-<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
-
-
-<span class="label">Tags</span>
-	<a href="http://icylord.github.io/tag/directshow.html"><i class="icon-tag"></i>Directshow</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h2>Windows7下使用Directshow实现虚拟摄像头</h2>
-<h3>介绍</h3>
-<p>近期碰到了个项目，破解了某个摄像头设备的视频数据流到PC的方法(Linux+RTSP Streaming -&gt; PC -&gt; Virtual Camera -&gt; Skype/Link/QQ)，打算扔掉这个设备自带的驱动，自己写一个，需要在Windows平台下实现一个虚拟摄像头，使得Skype、QQ等聊天软件能够使用远端的Web Camera设备的视频数据作为输入端进行视频聊天，在网上搜刮了一番资料后，花了点时间将其实现了。近期有时间，就把整个实现方法和过程写下来方便以后回顾</p>
-<p>在进行之前首先需要知道什么是<strong>DirectShow</strong>和<strong>DirectShow filter。</strong></p>
-<p><strong>DirectShow</strong>（摘自wikipedia）：DirectShow (sometimes abbreviated as DS or DShow), codename Quartz, is a multimedia framework and API produced by Microsoft for software ...</p>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-
+        </article>
+</section>
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
