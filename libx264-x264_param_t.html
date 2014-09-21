@@ -210,77 +210,77 @@
     <span class="cm">/* 编码分析参数 */</span>
     <span class="k">struct</span>
     <span class="p">{</span>
-    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">intra</span><span class="p">;</span>             <span class="c1">//  帧内分区</span>
+        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">intra</span><span class="p">;</span>             <span class="c1">//  帧内分区</span>
         <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">inter</span><span class="p">;</span>             <span class="c1">//  帧间分区</span>
-    <span class="kt">int</span>  <span class="n">b_transform_8x8</span><span class="p">;</span>           <span class="c1">// </span>
-    <span class="kt">int</span>  <span class="n">i_weighted_pred</span><span class="p">;</span>           <span class="c1">// P帧权重</span>
-    <span class="kt">int</span>  <span class="n">b_weighted_bipred</span><span class="p">;</span>         <span class="c1">// B帧隐式加权</span>
-    <span class="kt">int</span>  <span class="n">i_direct_mv_pred</span><span class="p">;</span>          <span class="c1">// 时间空间运动向量预测模式</span>
-    <span class="kt">int</span>  <span class="n">i_chroma_qp_offset</span><span class="p">;</span>        <span class="c1">// 色度量化步长偏移量</span>
-    <span class="kt">int</span>  <span class="n">i_me_method</span><span class="p">;</span>               <span class="c1">// 运动估计算法 (X264_ME_*)</span>
-    <span class="kt">int</span>  <span class="n">i_me_range</span><span class="p">;</span>                <span class="c1">// 整像素运动估计搜索范围 (from predicted mv) </span>
-    <span class="kt">int</span>  <span class="n">i_mv_range</span><span class="p">;</span>                <span class="c1">// 运动矢量最大长度. -1 = auto, based on level</span>
-    <span class="kt">int</span>  <span class="n">i_mv_range_thread</span><span class="p">;</span>         <span class="c1">// 线程之间的最小运动向量缓冲.  -1 = auto, based on number of threads.</span>
-    <span class="kt">int</span>  <span class="n">i_subpel_refine</span><span class="p">;</span>           <span class="c1">// 亚像素运动估计质量</span>
-    <span class="kt">int</span>  <span class="n">b_chroma_me</span><span class="p">;</span>               <span class="c1">// 亚像素色度运动估计和P帧的模式选择</span>
-    <span class="kt">int</span>  <span class="n">b_mixed_references</span><span class="p">;</span>        <span class="c1">// 允许每个宏块的分区有它自己的参考号</span>
-    <span class="kt">int</span>  <span class="n">i_trellis</span><span class="p">;</span>                 <span class="c1">// Trellis量化提高效率，对每个8x8的块寻找合适的量化值，需要CABAC，</span>
-                                    <span class="c1">// 0 ：即关闭  1：只在最后编码时使用  2：在所有模式决策上启用</span>
-    <span class="kt">int</span>  <span class="n">b_fast_pskip</span><span class="p">;</span>              <span class="c1">// 快速P帧跳过检测</span>
-    <span class="kt">int</span>  <span class="n">b_dct_decimate</span><span class="p">;</span>            <span class="c1">// P帧变换系数阈值</span>
-    <span class="kt">int</span>  <span class="n">i_noise_reduction</span><span class="p">;</span>         <span class="c1">// 自适应伪盲区</span>
-    <span class="kt">int</span>  <span class="n">b_psy</span><span class="p">;</span>                     <span class="c1">// Psy优化开关，可能会增强细节</span>
-    <span class="kt">float</span>  <span class="n">f_psy_rd</span><span class="p">;</span>                <span class="c1">// Psy RD强度</span>
-    <span class="kt">float</span>  <span class="n">f_psy_trellis</span><span class="p">;</span>           <span class="c1">// Psy Trellis强度</span>
-    <span class="kt">int</span>  <span class="n">i_luma_deadzone</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>        <span class="c1">// 亮度量化中使用的盲区大小，{ 帧间, 帧内 }</span>
-    <span class="kt">int</span>  <span class="n">b_psnr</span><span class="p">;</span>                    <span class="c1">// 计算和打印PSNR信息</span>
-    <span class="kt">int</span>  <span class="n">b_ssim</span><span class="p">;</span>                    <span class="c1">// 计算和打印SSIM信息</span>
+        <span class="kt">int</span>  <span class="n">b_transform_8x8</span><span class="p">;</span>           <span class="c1">// </span>
+        <span class="kt">int</span>  <span class="n">i_weighted_pred</span><span class="p">;</span>           <span class="c1">// P帧权重</span>
+        <span class="kt">int</span>  <span class="n">b_weighted_bipred</span><span class="p">;</span>         <span class="c1">// B帧隐式加权</span>
+        <span class="kt">int</span>  <span class="n">i_direct_mv_pred</span><span class="p">;</span>          <span class="c1">// 时间空间运动向量预测模式</span>
+        <span class="kt">int</span>  <span class="n">i_chroma_qp_offset</span><span class="p">;</span>        <span class="c1">// 色度量化步长偏移量</span>
+        <span class="kt">int</span>  <span class="n">i_me_method</span><span class="p">;</span>               <span class="c1">// 运动估计算法 (X264_ME_*)</span>
+        <span class="kt">int</span>  <span class="n">i_me_range</span><span class="p">;</span>                <span class="c1">// 整像素运动估计搜索范围 (from predicted mv) </span>
+        <span class="kt">int</span>  <span class="n">i_mv_range</span><span class="p">;</span>                <span class="c1">// 运动矢量最大长度. -1 = auto, based on level</span>
+        <span class="kt">int</span>  <span class="n">i_mv_range_thread</span><span class="p">;</span>         <span class="c1">// 线程之间的最小运动向量缓冲.  -1 = auto, based on number of threads.</span>
+        <span class="kt">int</span>  <span class="n">i_subpel_refine</span><span class="p">;</span>           <span class="c1">// 亚像素运动估计质量</span>
+        <span class="kt">int</span>  <span class="n">b_chroma_me</span><span class="p">;</span>               <span class="c1">// 亚像素色度运动估计和P帧的模式选择</span>
+        <span class="kt">int</span>  <span class="n">b_mixed_references</span><span class="p">;</span>        <span class="c1">// 允许每个宏块的分区有它自己的参考号</span>
+        <span class="kt">int</span>  <span class="n">i_trellis</span><span class="p">;</span>                 <span class="c1">// Trellis量化提高效率，对每个8x8的块寻找合适的量化值，需要CABAC，</span>
+                                        <span class="c1">// 0 ：即关闭  1：只在最后编码时使用  2：在所有模式决策上启用</span>
+        <span class="kt">int</span>  <span class="n">b_fast_pskip</span><span class="p">;</span>              <span class="c1">// 快速P帧跳过检测</span>
+        <span class="kt">int</span>  <span class="n">b_dct_decimate</span><span class="p">;</span>            <span class="c1">// P帧变换系数阈值</span>
+        <span class="kt">int</span>  <span class="n">i_noise_reduction</span><span class="p">;</span>         <span class="c1">// 自适应伪盲区</span>
+        <span class="kt">int</span>  <span class="n">b_psy</span><span class="p">;</span>                     <span class="c1">// Psy优化开关，可能会增强细节</span>
+        <span class="kt">float</span>  <span class="n">f_psy_rd</span><span class="p">;</span>                <span class="c1">// Psy RD强度</span>
+        <span class="kt">float</span>  <span class="n">f_psy_trellis</span><span class="p">;</span>           <span class="c1">// Psy Trellis强度</span>
+        <span class="kt">int</span>  <span class="n">i_luma_deadzone</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>        <span class="c1">// 亮度量化中使用的盲区大小，{ 帧间, 帧内 }</span>
+        <span class="kt">int</span>  <span class="n">b_psnr</span><span class="p">;</span>                    <span class="c1">// 计算和打印PSNR信息</span>
+        <span class="kt">int</span>  <span class="n">b_ssim</span><span class="p">;</span>                    <span class="c1">// 计算和打印SSIM信息</span>
     <span class="p">}</span> <span class="n">analyse</span><span class="p">;</span>
 
     <span class="cm">/* 码率控制参数 */</span>
     <span class="k">struct</span>
     <span class="p">{</span>
-    <span class="kt">int</span>  <span class="n">i_rc_method</span><span class="p">;</span>               <span class="c1">// 码率控制方式 ： X264_RC_CQP恒定质量,  </span>
-                                    <span class="c1">// X264_RC_CRF恒定码率,  X264_RC_ABR平均码率</span>
-    <span class="kt">int</span>  <span class="n">i_qp_constant</span><span class="p">;</span>             <span class="c1">// 指定P帧的量化值，0 - 51，0表示无损</span>
-    <span class="kt">int</span>  <span class="n">i_qp_min</span><span class="p">;</span>                  <span class="c1">// 允许的最小量化值，默认10</span>
-    <span class="kt">int</span>  <span class="n">i_qp_max</span><span class="p">;</span>                  <span class="c1">// 允许的最大量化值，默认51</span>
-    <span class="kt">int</span>  <span class="n">i_qp_step</span><span class="p">;</span>                 <span class="c1">// 量化步长，即相邻两帧之间量化值之差的最大值</span>
-    <span class="kt">int</span>   <span class="n">i_bitrate</span><span class="p">;</span>                <span class="c1">// 平均码率大小</span>
-    <span class="kt">float</span>  <span class="n">f_rf_constant</span><span class="p">;</span>           <span class="c1">// 1pass VBR, nominal QP. 实际质量，值越大图像越花,越小越清晰</span>
-    <span class="kt">float</span>  <span class="n">f_rf_constant_max</span><span class="p">;</span>       <span class="c1">// 最大码率因子，该选项仅在使用CRF并开启VBV时有效，</span>
-                                    <span class="c1">// 图像质量的最大值，可能会导致VBV下溢。</span>
-    <span class="kt">float</span>  <span class="n">f_rate_tolerance</span><span class="p">;</span>        <span class="c1">// 允许的误差</span>
-    <span class="kt">int</span>    <span class="n">i_vbv_max_bitrate</span><span class="p">;</span>       <span class="c1">// 平均码率模式下，最大瞬时码率，默认0</span>
-    <span class="kt">int</span>    <span class="n">i_vbv_buffer_size</span><span class="p">;</span>       <span class="c1">// 码率控制缓冲区的大小，单位kbit，默认0</span>
-    <span class="kt">float</span>  <span class="n">f_vbv_buffer_init</span><span class="p">;</span>       <span class="c1">// 设置码率控制缓冲区（VBV）缓冲达到多满(百分比)，才开始回放，</span>
-                                    <span class="c1">// 范围0~1.0，默认0.9</span>
-    <span class="kt">float</span>  <span class="n">f_ip_factor</span><span class="p">;</span>             <span class="c1">// I帧和P帧之间的量化因子（QP）比值，默认1.4</span>
-    <span class="kt">float</span>  <span class="n">f_pb_factor</span><span class="p">;</span>             <span class="c1">// P帧和B帧之间的量化因子（QP）比值，默认1.3</span>
-    <span class="kt">int</span>   <span class="n">i_aq_mode</span><span class="p">;</span>                <span class="c1">// 自适应量化（AQ）模式。 0：关闭AQ  </span>
-                                    <span class="c1">// 1：允许AQ在整个视频中和帧内重新分配码</span>
-                                    <span class="c1">// 2：自方差AQ(实验阶段)，尝试逐帧调整强度</span>
-    <span class="kt">float</span>  <span class="n">f_aq_strength</span><span class="p">;</span>           <span class="c1">// AQ强度，减少平趟和纹理区域的块效应和模糊度</span>
+        <span class="kt">int</span>  <span class="n">i_rc_method</span><span class="p">;</span>               <span class="c1">// 码率控制方式 ： X264_RC_CQP恒定质量,  </span>
+                                        <span class="c1">// X264_RC_CRF恒定码率,  X264_RC_ABR平均码率</span>
+        <span class="kt">int</span>  <span class="n">i_qp_constant</span><span class="p">;</span>             <span class="c1">// 指定P帧的量化值，0 - 51，0表示无损</span>
+        <span class="kt">int</span>  <span class="n">i_qp_min</span><span class="p">;</span>                  <span class="c1">// 允许的最小量化值，默认10</span>
+        <span class="kt">int</span>  <span class="n">i_qp_max</span><span class="p">;</span>                  <span class="c1">// 允许的最大量化值，默认51</span>
+        <span class="kt">int</span>  <span class="n">i_qp_step</span><span class="p">;</span>                 <span class="c1">// 量化步长，即相邻两帧之间量化值之差的最大值</span>
+        <span class="kt">int</span>   <span class="n">i_bitrate</span><span class="p">;</span>                <span class="c1">// 平均码率大小</span>
+        <span class="kt">float</span>  <span class="n">f_rf_constant</span><span class="p">;</span>           <span class="c1">// 1pass VBR, nominal QP. 实际质量，值越大图像越花,越小越清晰</span>
+        <span class="kt">float</span>  <span class="n">f_rf_constant_max</span><span class="p">;</span>       <span class="c1">// 最大码率因子，该选项仅在使用CRF并开启VBV时有效，</span>
+                                        <span class="c1">// 图像质量的最大值，可能会导致VBV下溢。</span>
+        <span class="kt">float</span>  <span class="n">f_rate_tolerance</span><span class="p">;</span>        <span class="c1">// 允许的误差</span>
+        <span class="kt">int</span>    <span class="n">i_vbv_max_bitrate</span><span class="p">;</span>       <span class="c1">// 平均码率模式下，最大瞬时码率，默认0</span>
+        <span class="kt">int</span>    <span class="n">i_vbv_buffer_size</span><span class="p">;</span>       <span class="c1">// 码率控制缓冲区的大小，单位kbit，默认0</span>
+        <span class="kt">float</span>  <span class="n">f_vbv_buffer_init</span><span class="p">;</span>       <span class="c1">// 设置码率控制缓冲区（VBV）缓冲达到多满(百分比)，才开始回放，</span>
+                                        <span class="c1">// 范围0~1.0，默认0.9</span>
+        <span class="kt">float</span>  <span class="n">f_ip_factor</span><span class="p">;</span>             <span class="c1">// I帧和P帧之间的量化因子（QP）比值，默认1.4</span>
+        <span class="kt">float</span>  <span class="n">f_pb_factor</span><span class="p">;</span>             <span class="c1">// P帧和B帧之间的量化因子（QP）比值，默认1.3</span>
+        <span class="kt">int</span>   <span class="n">i_aq_mode</span><span class="p">;</span>                <span class="c1">// 自适应量化（AQ）模式。 0：关闭AQ  </span>
+                                        <span class="c1">// 1：允许AQ在整个视频中和帧内重新分配码</span>
+                                        <span class="c1">// 2：自方差AQ(实验阶段)，尝试逐帧调整强度</span>
+        <span class="kt">float</span>  <span class="n">f_aq_strength</span><span class="p">;</span>           <span class="c1">// AQ强度，减少平趟和纹理区域的块效应和模糊度</span>
 
-    <span class="cm">/* MBTree File是一个临时文件，记录了每个P帧中每个MB被参考的情况。</span>
-<span class="cm">      目前mbtree只处理P帧的MB，同时也不支持b_pyramid. */</span>
-    <span class="kt">int</span>   <span class="n">b_mb_tree</span><span class="p">;</span>                <span class="c1">// 是否开启基于macroblock的qp控制方法</span>
-    <span class="kt">int</span>   <span class="n">i_lookahead</span><span class="p">;</span>              <span class="c1">// 决定mbtree向前预测的帧数</span>
+        <span class="cm">/* MBTree File是一个临时文件，记录了每个P帧中每个MB被参考的情况。</span>
+<span class="cm">          目前mbtree只处理P帧的MB，同时也不支持b_pyramid. */</span>
+        <span class="kt">int</span>   <span class="n">b_mb_tree</span><span class="p">;</span>                <span class="c1">// 是否开启基于macroblock的qp控制方法</span>
+        <span class="kt">int</span>   <span class="n">i_lookahead</span><span class="p">;</span>              <span class="c1">// 决定mbtree向前预测的帧数</span>
 
-    <span class="cm">/* 2pass */</span>
-    <span class="kt">int</span>   <span class="n">b_stat_write</span><span class="p">;</span>             <span class="c1">// 是否将统计数据写入到文件psz_stat_out中</span>
-    <span class="kt">char</span>  <span class="o">*</span><span class="n">psz_stat_out</span><span class="p">;</span>            <span class="c1">// 输出文件用于保存第一次编码统计数据</span>
-    <span class="kt">int</span>   <span class="n">b_stat_read</span><span class="p">;</span>              <span class="c1">// 是否从文件psz_stat_in中读入统计数据</span>
-    <span class="kt">char</span>  <span class="o">*</span><span class="n">psz_stat_in</span><span class="p">;</span>             <span class="c1">// 输入文件存有第一次编码的统计数据</span>
+        <span class="cm">/* 2pass */</span>
+        <span class="kt">int</span>   <span class="n">b_stat_write</span><span class="p">;</span>             <span class="c1">// 是否将统计数据写入到文件psz_stat_out中</span>
+        <span class="kt">char</span>  <span class="o">*</span><span class="n">psz_stat_out</span><span class="p">;</span>            <span class="c1">// 输出文件用于保存第一次编码统计数据</span>
+        <span class="kt">int</span>   <span class="n">b_stat_read</span><span class="p">;</span>              <span class="c1">// 是否从文件psz_stat_in中读入统计数据</span>
+        <span class="kt">char</span>  <span class="o">*</span><span class="n">psz_stat_in</span><span class="p">;</span>             <span class="c1">// 输入文件存有第一次编码的统计数据</span>
 
-    <span class="cm">/* 2pass params (same as ffmpeg ones) */</span>
-    <span class="kt">float</span>  <span class="n">f_qcompress</span><span class="p">;</span>             <span class="c1">// 量化曲线(quantizer curve)压缩因子。</span>
-                                    <span class="c1">// 0.0 =&gt; 恒定比特率，1.0 =&gt; 恒定量化值。</span>
-    <span class="kt">float</span>  <span class="n">f_qblur</span><span class="p">;</span>                 <span class="c1">// 时间上模糊量化，减少QP的波动(after curve compression)</span>
-    <span class="kt">float</span>  <span class="n">f_complexity_blur</span><span class="p">;</span>       <span class="c1">// 时间上模糊复杂性，减少QP的波动(before curve compression)</span>
-    <span class="kt">x264_zone_t</span> <span class="o">*</span><span class="n">zones</span><span class="p">;</span>             <span class="c1">// 码率控制覆盖</span>
-    <span class="kt">int</span>    <span class="n">i_zones</span><span class="p">;</span>                 <span class="c1">// number of zone_t&#39;s</span>
-    <span class="kt">char</span>  <span class="o">*</span><span class="n">psz_zones</span><span class="p">;</span>               <span class="c1">// 指定区的另一种方法</span>
+        <span class="cm">/* 2pass params (same as ffmpeg ones) */</span>
+        <span class="kt">float</span>  <span class="n">f_qcompress</span><span class="p">;</span>             <span class="c1">// 量化曲线(quantizer curve)压缩因子。</span>
+                                        <span class="c1">// 0.0 =&gt; 恒定比特率，1.0 =&gt; 恒定量化值。</span>
+        <span class="kt">float</span>  <span class="n">f_qblur</span><span class="p">;</span>                 <span class="c1">// 时间上模糊量化，减少QP的波动(after curve compression)</span>
+        <span class="kt">float</span>  <span class="n">f_complexity_blur</span><span class="p">;</span>       <span class="c1">// 时间上模糊复杂性，减少QP的波动(before curve compression)</span>
+        <span class="kt">x264_zone_t</span> <span class="o">*</span><span class="n">zones</span><span class="p">;</span>             <span class="c1">// 码率控制覆盖</span>
+        <span class="kt">int</span>    <span class="n">i_zones</span><span class="p">;</span>                 <span class="c1">// number of zone_t&#39;s</span>
+        <span class="kt">char</span>  <span class="o">*</span><span class="n">psz_zones</span><span class="p">;</span>               <span class="c1">// 指定区的另一种方法</span>
     <span class="p">}</span> <span class="n">rc</span><span class="p">;</span>
 
     <span class="cm">/* 裁剪矩形窗口参数：隐式添加到分辨率非16倍数的视频中 */</span>
@@ -288,7 +288,7 @@
 <span class="cm">       但希望解码器在回放时进行切除，可使用此项。单位为像素。 */</span>
     <span class="k">struct</span>
     <span class="p">{</span>
-    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i_left</span><span class="p">;</span>
+        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i_left</span><span class="p">;</span>
         <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i_top</span><span class="p">;</span>
         <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i_right</span><span class="p">;</span>
         <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i_bottom</span><span class="p">;</span>
@@ -373,13 +373,13 @@
     </a>
 </li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
     </a>
 </li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/directshow.html">
-        <i class="icon-tag icon-large"></i>Directshow
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
 <li class="tag-0">
@@ -387,9 +387,9 @@
         <i class="icon-tag icon-large"></i>Computer Vision
     </a>
 </li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/directshow.html">
+        <i class="icon-tag icon-large"></i>Directshow
     </a>
 </li>
 
