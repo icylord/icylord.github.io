@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>x264_encoder_encode analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="icylord">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="http://icylord.github.io/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="http://icylord.github.io/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="http://icylord.github.io/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="http://icylord.github.io/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://icylord.github.io/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="http://icylord.github.io/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://icylord.github.io/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://icylord.github.io/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="http://icylord.github.io/" type="application/atom+xml" rel="alternate" title="icylord's blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="http://icylord.github.io/index.html">icylord's blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="http://icylord.github.io/category/computer-vision.html">
+						<i class="icon-folder-open icon-large"></i>Computer Vision
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="http://icylord.github.io/category/multimedia.html">
+						<i class="icon-folder-open icon-large"></i>Multimedia
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="http://icylord.github.io/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to x264_encoder_encode analysis">
+                                        x264_encoder_encode analysis
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-09-21T00:00:00">
+        <i class="icon-calendar"></i>Sun 21 September 2014
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/h264.html"><i class="icon-tag"></i>H.264</a>
+</footer><!-- /.post-info -->                </div>
+                <div class="highlight"><pre><span class="cm">/*****************************************************************************************</span>
+<span class="cm"> *  x264_encoder_encode:    该函数定义在encoder/encoder.c文件中</span>
+<span class="cm"> *  XXX : i_poc   :  is the poc of the current given picture</span>
+<span class="cm"> *         i_frame  :  is the number of the frame being coded</span>
+<span class="cm"> *  ex:  type  frame    poc</span>
+<span class="cm"> *         I       0       2*0</span>
+<span class="cm"> *         P       1       2*3</span>
+<span class="cm"> *         B       2       2*1</span>
+<span class="cm"> *         B       3       2*2</span>
+<span class="cm"> *         P       4       2*6</span>
+<span class="cm"> *         B       5       2*4</span>
+<span class="cm"> *         B       6       2*5</span>
+<span class="cm">要搞清poc和frame的区别。假设一个视频播放序列如下 :   I   B   B   P   B   B   P</span>
+<span class="cm">我们编码是按I   P   B   B   P   B   B的顺序, 这就是frame的编号，也就是编码序号。</span>
+<span class="cm">而我们视频序列的播放序号是POC的序号,这里是乘以了2.，也就是播放序号。</span>
+<span class="cm">注意：考虑到场编码，POC每帧增长为2，如果是场编码POC增长为1.</span>
+<span class="cm">注意：本人debug详细跟踪了20多帧，观察该函数的编码流程及变量的变化，详细的</span>
+<span class="cm">过程举例可见 x264_encoder_encode编码过程详细举例  </span>
+<span class="cm">************************************************************************************************/</span>
+<span class="kt">int</span>  <span class="nf">x264_encoder_encode</span><span class="p">(</span> <span class="kt">x264_t</span> <span class="o">*</span><span class="n">h</span><span class="p">,</span>  <span class="kt">x264_nal_t</span> <span class="o">**</span><span class="n">pp_nal</span><span class="p">,</span>  <span class="kt">int</span> <span class="o">*</span><span class="n">pi_nal</span><span class="p">,</span>
+                    <span class="kt">x264_picture_t</span> <span class="o">*</span><span class="n">pic_in</span><span class="p">,</span>  <span class="kt">x264_picture_t</span> <span class="o">*</span><span class="n">pic_out</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* no data out */</span>
+    <span class="o">*</span><span class="n">pi_nal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="o">*</span><span class="n">pp_nal</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+
+         <span class="cm">/* ------------------- Setup new frame from picture -------------------- */</span>
+         <span class="k">if</span><span class="p">(</span> <span class="n">pic_in</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="p">)</span>
+         <span class="p">{</span>          <span class="cm">/* 1: Copy the picture to a frame and move it to a buffer */</span>
+
+                   <span class="c1">// 从unused队列里取出一帧给fenc，该函数定义在common/frame.c中</span>
+           <span class="c1">// 该函数的详细分析见：x264_frame_pop_unused函数代码分析</span>
+          <span class="kt">x264_frame_t</span> <span class="o">*</span><span class="n">fenc</span> <span class="o">=</span> <span class="n">x264_frame_pop_unused</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+
+                  <span class="c1">// 然后将输入的YUV数据复制到fenc的缓冲区里，该函数定义在common/frame.c中</span>
+                  <span class="k">if</span><span class="p">(</span> <span class="n">x264_frame_copy_picture</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">fenc</span><span class="p">,</span> <span class="n">pic_in</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span>
+                           <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+                  <span class="c1">// 图像宽度和高度不为16的倍数时进行扩边，该函数定义在文件 common/frame.c 中</span>
+                 <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">i_width</span> <span class="o">!=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">mb</span><span class="p">.</span><span class="n">i_mb_width</span> <span class="o">||</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">i_height</span> <span class="o">!=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">mb</span><span class="p">.</span><span class="n">i_mb_height</span> <span class="p">)</span>
+                            <span class="n">x264_frame_expand_border_mod16</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">fenc</span> <span class="p">);</span>
+
+                 <span class="c1">// h-&gt;frames.i_input记录图像的输入顺序。将fenc指针放到next队列里</span>
+        <span class="c1">// 全局控制输入帧数的h-&gt;frames.i_input自增，同时给当前帧数的 </span>
+        <span class="c1">// fenc-&gt;i_frame赋值，此处的fenc-&gt;i_frame其实就是poc </span>
+        <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_input</span><span class="o">++</span><span class="p">;</span>
+
+        <span class="c1">// dts 解码时间戳，pts显示时间戳分别是解码器进行解码和显示时间</span>
+        <span class="c1">// 如果是第一帧的话 全局控制帧的时间戳等于最开始图像所赋值的那个时间戳</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span>
+            <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_first_pts</span> <span class="o">=</span> <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pts</span><span class="p">;</span>
+
+                 <span class="c1">// h-&gt;frames.i_bframe_delay 是最开始通过参数(应该是i_bframe)设置的，</span>
+         <span class="c1">// h-&gt;frames.i_bframe_delay 的获取详见：x264_encoder_open 函数代码分析</span>
+         <span class="c1">// 如果是B帧进行预测话，要缓存起来。当全局控制帧数目等于B帧延缓的</span>
+         <span class="c1">// 数目时，就设置B帧延迟时间为当前时间戳与第一帧时间戳之差</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay</span> <span class="o">&amp;&amp;</span> <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">==</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay</span> <span class="p">)</span>
+            <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay_time</span> <span class="o">=</span> <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pts</span> <span class="o">-</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_first_pts</span><span class="p">;</span>
+
+        <span class="cm">/* 时间基和时间戳用于码率控制，当前编码的时间戳比已知的最大时间戳还小，则报Warning信息  */</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">b_vfr_input</span> <span class="o">&amp;&amp;</span> <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pts</span> <span class="o">&lt;=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_largest_pts</span> <span class="p">)</span>
+            <span class="n">x264_log</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">X264_LOG_WARNING</span><span class="p">,</span> <span class="s">&quot;non-strictly-monotonic PTS</span><span class="se">\n</span><span class="s">&quot;</span> <span class="p">);</span>
+
+        <span class="c1">// 这两个应该是循环进行的,设置当前的最大和次大时间戳</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_second_largest_pts</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_largest_pts</span><span class="p">;</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_largest_pts</span> <span class="o">=</span> <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pts</span><span class="p">;</span>
+
+                 <span class="c1">// 根据条件编译判断是否存在场，和根据设置来看编码帧到底是帧场的类型</span>
+        <span class="c1">// 图片结构类型：顶场、底场、逐行、double、triple、auto等，定义在x264.h中。通常图片结构类型为0，即auto</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pic_struct</span> <span class="o">&lt;</span> <span class="n">PIC_STRUCT_AUTO</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pic_struct</span> <span class="o">&gt;</span> <span class="n">PIC_STRUCT_TRIPLE</span><span class="p">)</span> <span class="p">)</span>
+            <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pic_struct</span> <span class="o">=</span> <span class="n">PIC_STRUCT_AUTO</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span> <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pic_struct</span> <span class="o">==</span> <span class="n">PIC_STRUCT_AUTO</span> <span class="p">)</span>        <span class="c1">// 目前不考虑隔行，因此结构为逐行</span>
+                <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">b_interlaced</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="p">...</span> <span class="p">...</span><span class="n">b</span> <span class="n">in</span>
+            <span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pic_struct</span> <span class="o">=</span> <span class="n">PIC_STRUCT_PROGRESSIVE</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 2 pass mode</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">rc</span><span class="p">.</span><span class="n">b_mb_tree</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">rc</span><span class="p">.</span><span class="n">b_stat_read</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// 量化是可以配置的，通过配置可以自适应量化，也可以从外部读取固定的量化矩阵</span>
+            <span class="c1">// 读取固定的量化矩阵，从stat中读取类型和qp_offset，利用这些预测信息进行编码</span>
+            <span class="n">x264_macroblock_tree_read</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">fenc</span><span class="p">,</span> <span class="n">pic_in</span><span class="o">-&gt;</span><span class="n">prop</span><span class="p">.</span><span class="n">quant_offsets</span> <span class="p">)</span> <span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="c1">// x264的堆栈对齐，无非就是平台优化方面考虑的对齐操作</span>
+            <span class="n">x264_stack_align</span><span class="p">(</span><span class="n">x264_adaptive_quant_frame</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">fenc</span><span class="p">,</span><span class="n">pic_in</span><span class="o">-&gt;</span><span class="n">prop</span><span class="p">.</span><span class="n">quant_offsets</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 忽略，该参数解释见x264.h中x264_image_properties_t结构体</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">pic_in</span><span class="o">-&gt;</span><span class="n">prop</span><span class="p">.</span><span class="n">quant_offsets_free</span> <span class="p">)</span>
+            <span class="n">pic_in</span><span class="o">-&gt;</span><span class="n">prop</span><span class="p">.</span><span class="n">quant_offsets_free</span><span class="p">(</span> <span class="n">pic_in</span><span class="o">-&gt;</span><span class="n">prop</span><span class="p">.</span><span class="n">quant_offsets</span> <span class="p">);</span>
+
+        <span class="c1">// 对进入待编码队列的帧进行下采样, 由参数h-&gt;frames.b_have_lowres控制；</span>
+        <span class="c1">// 亮度1/2像素值初始化，函数x264_frame_init_lowres定义在common/mc.c中</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">b_have_lowres</span> <span class="p">)</span>
+            <span class="n">x264_frame_init_lowres</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">fenc</span> <span class="p">);</span>
+
+        <span class="cm">/* 2: Place the frame into the queue for its slice type decision */</span>
+        <span class="c1">// 将编码帧fenc保存在链表h-&gt;lookahead-&gt;next中，该函数定义在encoder/lookahead.c中</span>
+        <span class="c1">// 该函数调用x264_sync_frame_list_push来实现将fenc添加到链表h-&gt;lookahead-&gt;next-&gt;list中</span>
+        <span class="c1">// 函数x264_sync_frame_list_push定义在common/frame.c中，该函数非常简短</span>
+        <span class="c1">// 该函数代码详细分析见：x264_lookahead_put_frame函数代码分析</span>
+        <span class="n">x264_lookahead_put_frame</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">fenc</span> <span class="p">);</span>
+
+        <span class="c1">// 编码的延迟帧数为h-&gt;frames.i_delay + 1 - h-&gt;i_thread_frames。</span>
+        <span class="c1">// 单线程时延迟帧数为h-&gt;frames.i_delay。当h-&gt;frames.i_input &gt; h-&gt;frames.i_delay</span>
+        <span class="c1">// 进行编码，否则返回。也就是说当编码第一帧时，next队列里缓存了</span>
+        <span class="c1">// （h-&gt;frames.i_delay + 1 - h-&gt;i_thread_frames）帧数据。</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_input</span> <span class="o">&lt;=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_delay</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_thread_frames</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="cm">/* Nothing yet to encode, waiting for filling of buffers */</span>
+            <span class="n">pic_out</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">=</span> <span class="n">X264_TYPE_AUTO</span><span class="p">;</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="c1">// 多线程有关，暂时忽略</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">lookahead</span><span class="o">-&gt;</span><span class="n">b_exit_thread</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">x264_pthread_cond_broadcast</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">h</span><span class="o">-&gt;</span><span class="n">lookahead</span><span class="o">-&gt;</span><span class="n">ifbuf</span><span class="p">.</span><span class="n">cv_fill</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_frame</span><span class="o">++</span><span class="p">;</span>       <span class="c1">// 编码帧数加1</span>
+
+    <span class="cm">/* 3: The picture is analyzed in the lookahead */</span>
+
+        <span class="c1">// 当h-&gt;frames.current[0]为空时，需要对next队列里的帧进行重排序，将排序后的当前编码帧指针放到current队列里。</span>
+        <span class="c1">// 重排序的方法是调用x264_slicetype_decide()产生next队列里各帧的帧类型，</span>
+    <span class="c1">// 然后将next队列里的非B帧先压到current队列里，再将next队列里的B帧压到current队列里。 </span>
+        <span class="c1">// 注意：当h-&gt;frames.current[0]不为空时，表明h-&gt;frames.current[0]里的帧的顺序已经重排序了，不需要再更改。</span>
+    <span class="c1">// x264_lookahead_get_frames定义在encoder/lookahead.c中，详细分析见：x264_lookahead_get_frames函数代码分析</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span>
+                <span class="n">x264_lookahead_get_frames</span><span class="p">(</span> <span class="n">h</span> <span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">x264_lookahead_is_empty</span><span class="p">(</span> <span class="n">h</span> <span class="p">)</span> <span class="p">)</span>
+                <span class="k">return</span> <span class="n">x264_encoder_frame_end</span><span class="p">(</span><span class="n">thread_oldest</span><span class="p">,</span><span class="n">thread_current</span><span class="p">,</span> <span class="n">pp_nal</span><span class="p">,</span> <span class="n">pi_nal</span><span class="p">,</span> <span class="n">pic_out</span> <span class="p">);</span>
+
+    <span class="cm">/* ------------------- Get frame to be encoded ------------------------- */</span>
+
+        <span class="cm">/* 4: get picture to encode */</span>
+        <span class="c1">// 将current[0]指针pop到fenc里，开始编码；函数x264_frame_shift定义在common/frame.c中，很简短</span>
+    <span class="c1">// 就是将h-&gt;frames.current[0]指针pop给h-&gt;fenc，然后后面的指针依次往前移动一个位置</span>
+    <span class="c1">// 该函数代码分析详见：x264_frame_xxxx 系列函数代码分析</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span> <span class="o">=</span> <span class="n">x264_frame_shift</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">current</span> <span class="p">);</span>        <span class="c1">//从当前编码帧中取出第一帧，作为当前编码帧</span>
+
+    <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">==</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_thread_frames</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_reordered_pts_delay</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_reordered_pts</span><span class="p">;</span>
+
+    <span class="c1">// 运行过程中动态调整编码参数 </span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">param</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">x264_encoder_reconfig</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">param</span> <span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">param</span><span class="o">-&gt;</span><span class="n">param_free</span> <span class="p">)</span>
+            <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">param</span><span class="o">-&gt;</span><span class="n">param_free</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">param</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+
+    <span class="c1">// 判断上一帧重构fdec是否做参考帧，如果是参考帧，放到reference队列里，</span>
+    <span class="c1">// 然后从unused队列里取出一帧作为当前的参考工作帧（即解码操作的目的帧），即h-&gt;fdec。</span>
+    <span class="c1">// 如果上一重构帧不是参考帧（比如B帧），直接返回。</span>
+    <span class="c1">// 函数x264_reference_updata定义在encoder/encoder.c中，代码分析见：x264_reference_xxxx代码分析</span>
+    <span class="c1">// ok to call this before encoding any frames, since the initial values of fdec have b_kept_as_ref=0</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">x264_reference_update</span><span class="p">(</span> <span class="n">h</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_lines_completed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>          <span class="c1">// 以像素为单位</span>
+
+
+        <span class="c1">// 如果当前编码帧不是I帧（包括普通I帧和IDR帧）</span>
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="n">IS_X264_TYPE_I</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="p">{</span>
+                <span class="c1">// 检查有效参考帧的数目</span>
+                <span class="kt">int</span> <span class="n">valid_refs_left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+                <span class="k">for</span><span class="p">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">reference</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="n">i</span><span class="o">++</span> <span class="p">)</span>
+                        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">reference</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">b_corrupt</span> <span class="p">)</span>
+                                <span class="n">valid_refs_left</span><span class="o">++</span><span class="p">;</span>
+
+                <span class="cm">/* No valid reference frames left : force an IDR. */</span>
+                <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="n">valid_refs_left</span> <span class="p">)</span>
+                <span class="p">{</span>    
+                        <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">b_keyframe</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>            <span class="c1">// 设置为关键帧</span>
+                        <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">=</span> <span class="n">X264_TYPE_IDR</span><span class="p">;</span>    <span class="c1">// IDR帧</span>
+                <span class="p">}</span>    
+        <span class="p">}</span>  
+
+    <span class="c1">// 如果当前帧是关键帧</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">b_keyframe</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// 设置关键帧的poc（播放）序号</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_last_keyframe</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_frame</span><span class="p">;</span>
+
+        <span class="c1">// 如果是IDR帧，则设置IDR帧的poc序号</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">==</span> <span class="n">X264_TYPE_IDR</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_frame_num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+            <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_last_idr</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_frame</span><span class="p">;</span>
+        <span class="p">}</span>    
+    <span class="p">}</span>
+
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_mmco_command_count</span> <span class="o">=</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_mmco_remove_from_end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">b_ref_reorder</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">b_ref_reorder</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_poc</span> <span class="o">=</span>            <span class="c1">// 考虑到场编码，POC每帧增长为2，如果是场编码POC增长为1</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_poc</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">-</span> <span class="n">X264_MAX</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_last_idr</span><span class="p">,</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">);</span>
+
+    <span class="cm">/* ------------------- Setup frame context ----------------------------- */</span>
+
+        <span class="c1">// 根据帧的类型初始化数据。五种片的类型：IDR，I，P，BREF，B 。帧类型定义在x264.h中.</span>
+        <span class="c1">// 如果是解码即时刷新片（IDR），则要对参考帧重新设置</span>
+    <span class="c1">// 下面的 x264_reference_xxxx等函数代码分析见：x264_reference_xxxx 系列函数代码分析</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">==</span> <span class="n">X264_TYPE_IDR</span> <span class="p">)</span>      <span class="c1">// 值1</span>
+        <span class="p">{</span>
+        <span class="cm">/* reset ref pictures */</span>
+        <span class="n">i_nal_type</span> <span class="o">=</span> <span class="n">NAL_SLICE_IDR</span><span class="p">;</span>         <span class="c1">// 值5，定义在x264.h中</span>
+        <span class="n">i_nal_ref_idc</span> <span class="o">=</span> <span class="n">NAL_PRIORITY_HIGHEST</span><span class="p">;</span>   <span class="c1">// 值3，定义在x264.h中</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_type</span> <span class="o">=</span> <span class="n">SLICE_TYPE_I</span><span class="p">;</span>            <span class="c1">// 值2，定义在common/common.h中</span>
+        <span class="n">x264_reference_reset</span><span class="p">(</span> <span class="n">h</span> <span class="p">);</span>          <span class="c1">// 该函数定义在encoder/encoder.c中</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_poc_last_open_gop</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">==</span> <span class="n">X264_TYPE_I</span> <span class="p">)</span>       <span class="c1">// 值2</span>
+        <span class="p">{</span>
+        <span class="n">i_nal_type</span> <span class="o">=</span> <span class="n">NAL_SLICE</span><span class="p">;</span>             <span class="c1">// 值1，定义在x264.h中</span>
+        <span class="n">i_nal_ref_idc</span> <span class="o">=</span> <span class="n">NAL_PRIORITY_HIGH</span><span class="p">;</span>      <span class="c1">// 值2，定义在x264.h中</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_type</span> <span class="o">=</span> <span class="n">SLICE_TYPE_I</span><span class="p">;</span>            <span class="c1">// 值2，定义在common/common.h中</span>
+        <span class="n">x264_reference_hierarchy_reset</span><span class="p">(</span> <span class="n">h</span> <span class="p">);</span>    <span class="c1">// 该函数定义在encoder/encoder.c中</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">b_open_gop</span> <span class="p">)</span>
+            <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_poc_last_open_gop</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">b_keyframe</span> <span class="o">?</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_poc</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">==</span> <span class="n">X264_TYPE_P</span> <span class="p">)</span>       <span class="c1">// 值3</span>
+        <span class="p">{</span>
+        <span class="n">i_nal_type</span> <span class="o">=</span> <span class="n">NAL_SLICE</span><span class="p">;</span>             <span class="c1">// 值1，定义在x264.h中</span>
+        <span class="n">i_nal_ref_idc</span> <span class="o">=</span> <span class="n">NAL_PRIORITY_HIGH</span><span class="p">;</span>      <span class="c1">// 值2，定义在x264.h中</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_type</span> <span class="o">=</span> <span class="n">SLICE_TYPE_P</span><span class="p">;</span>            <span class="c1">// 值0，定义在common/common.h中</span>
+        <span class="n">x264_reference_hierarchy_reset</span><span class="p">(</span> <span class="n">h</span> <span class="p">);</span>    <span class="c1">// 该函数定义在encoder/encoder.c中</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_poc_last_open_gop</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">==</span> <span class="n">X264_TYPE_BREF</span> <span class="p">)</span>    <span class="c1">// 值4</span>
+        <span class="p">{</span>
+        <span class="n">i_nal_type</span> <span class="o">=</span> <span class="n">NAL_SLICE</span><span class="p">;</span>             <span class="c1">// 值1，定义在x264.h中</span>
+        <span class="n">i_nal_ref_idc</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">i_bframe_pyramid</span> <span class="o">==</span> <span class="n">X264_B_PYRAMID_STRICT</span> 
+                            <span class="o">?</span> <span class="n">NAL_PRIORITY_LOW</span> <span class="o">:</span> <span class="n">NAL_PRIORITY_HIGH</span><span class="p">;</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_type</span> <span class="o">=</span> <span class="n">SLICE_TYPE_B</span><span class="p">;</span>            <span class="c1">// 值1，定义在common/common.h中</span>
+        <span class="n">x264_reference_hierarchy_reset</span><span class="p">(</span> <span class="n">h</span> <span class="p">);</span>    <span class="c1">// 该函数定义在encoder/encoder.c中</span>
+    <span class="p">}</span>
+        <span class="k">else</span>        <span class="cm">/* B frame */</span>                   <span class="c1">// 帧类型： X264_TYPE_B = 5</span>
+        <span class="p">{</span>
+        <span class="n">i_nal_type</span> <span class="o">=</span> <span class="n">NAL_SLICE</span><span class="p">;</span>             <span class="c1">// 值1，定义在x264.h中</span>
+        <span class="n">i_nal_ref_idc</span> <span class="o">=</span> <span class="n">NAL_PRIORITY_DISPOSABLE</span><span class="p">;</span>    <span class="c1">// 值0，定义在x264.h中</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_type</span> <span class="o">=</span> <span class="n">SLICE_TYPE_B</span><span class="p">;</span>            <span class="c1">// 值1，定义在common/common.h中</span>
+    <span class="p">}</span>
+
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_type</span>  <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_frame</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">b_kept_as_ref</span> <span class="o">=</span>                    <span class="c1">// 只要帧的类型不是X264_TYPE_B，就可以作为参考帧</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">b_kept_as_ref</span> <span class="o">=</span> <span class="n">i_nal_ref_idc</span> <span class="o">!=</span> <span class="n">NAL_PRIORITY_DISPOSABLE</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">i_keyint_max</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">;</span> 
+
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">mb_info</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">mb_info</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">mb_info_free</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">mb_info_free</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">mb_info</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">mb_info_free</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_pts</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_pts</span><span class="p">;</span>
+
+    <span class="c1">// B帧延迟的帧数，该值在函数 x264_encoder_open 中设置，可见：x264_encoder_open 函数代码分析</span>
+    <span class="c1">// 如果命令行参数--bframes 没有设置，在此处frames.i_bframe_delay的值就是0</span>
+    <span class="c1">// 如果--bframes设置了，在i_bframe_delay取值1或者2，由命令行参数--b-pyramid决定</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int64_t</span> <span class="o">*</span><span class="n">prev_reordered_pts</span> <span class="o">=</span> <span class="n">thread_current</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_prev_reordered_pts</span><span class="p">;</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_dts</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">&gt;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay</span>
+            <span class="o">?</span> <span class="n">prev_reordered_pts</span><span class="p">[</span> <span class="p">(</span><span class="n">h</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">-</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay</span><span class="p">)</span> <span class="o">%</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay</span> <span class="p">]</span>
+            <span class="o">:</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_reordered_pts</span> <span class="o">-</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay_time</span><span class="p">;</span>
+        <span class="n">prev_reordered_pts</span><span class="p">[</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">%</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">frames</span><span class="p">.</span><span class="n">i_bframe_delay</span> <span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_reordered_pts</span><span class="p">;</span>
+    <span class="p">}</span> 
+    <span class="k">else</span> 
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_dts</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_reordered_pts</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">==</span> <span class="n">X264_TYPE_IDR</span> <span class="p">)</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_last_idr_pts</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_pts</span><span class="p">;</span>
+
+    <span class="cm">/* -------------------  Init  ----------------------------- */</span>
+
+    <span class="cm">/* 创建list0和list1（ref0和ref1），ref0从大到小，ref1从小到大 */</span>
+    <span class="cm">/* 在这个函数中，我们将遇到参考帧列表h-&gt;frames.reference和H.264很有特色的双列表（h-&gt;fref0、h-&gt;fref1）。</span>
+<span class="cm">       前者中放置了所有可用于参考的参考帧。 首先将所有reference列表中的帧按照POC和h-&gt;fenc的POC的大小</span>
+<span class="cm">       关系不同复制到双列表中，其中h-&gt;fref0放置POC较小的那些。然后对双列表进行排序，使得h-&gt;fref0中的帧</span>
+<span class="cm">       POC按从大到小排列，h-&gt;fref1按从小到大排列，于是这两个列表中靠前的帧的POC比较接近当前帧h-&gt;fenc。</span>
+<span class="cm">      在这里，一个特殊的情况是，对于P帧（只需要用到列表h-&gt;fref0做参考），其排序依据是i_frame_num而不是</span>
+<span class="cm">      POC，因此需要对这种情况的列表h-&gt;fref0置位需重排序标记。最后对双列表的长度做限制。*/</span>
+    <span class="c1">// 该函数的详细代码分析见：x264_reference_xxxx代码分析</span>
+    <span class="n">x264_reference_build_list</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_poc</span> <span class="p">);</span>
+
+
+
+         <span class="cm">/* ---------------------- Write the bitstream -------------------------- */</span>
+        <span class="cm">/* Init bitstream context */</span>
+        <span class="c1">// 是否使用基于slice的线程，如果为false，则一个slice编码成一个NALU</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">b_sliced_threads</span> <span class="p">)</span>
+        <span class="p">{</span> 
+        <span class="k">for</span><span class="p">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">i_threads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">bs_init</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">h</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">out</span><span class="p">.</span><span class="n">bs</span><span class="p">,</span> <span class="n">h</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">out</span><span class="p">.</span><span class="n">p_bitstream</span><span class="p">,</span> <span class="n">h</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">out</span><span class="p">.</span><span class="n">i_bitstream</span> <span class="p">);</span>
+            <span class="n">h</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">out</span><span class="p">.</span><span class="n">i_nal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+        <span class="n">bs_init</span><span class="p">(</span> <span class="o">&amp;</span><span class="n">h</span><span class="o">-&gt;</span><span class="n">out</span><span class="p">.</span><span class="n">bs</span><span class="p">,</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">out</span><span class="p">.</span><span class="n">p_bitstream</span><span class="p">,</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">out</span><span class="p">.</span><span class="n">i_bitstream</span> <span class="p">);</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">out</span><span class="p">.</span><span class="n">i_nal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 是否生成访问单元分隔符，默认值为0，通常不作修改。可以使用命令行参数 -aud 改变默认值。</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">b_aud</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...}</span>      <span class="c1">// 忽略</span>
+
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_nal_type</span>    <span class="o">=</span> <span class="n">i_nal_type</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_nal_ref_idc</span> <span class="o">=</span> <span class="n">i_nal_ref_idc</span><span class="p">;</span>
+
+    <span class="c1">// 是否用周期帧内刷新替代IDR，默认值为0</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">b_intra_refresh</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+    <span class="c1">// 待编码的是否是关键帧</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">b_keyframe</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="cm">/* Write SPS and PPS */</span>
+        <span class="c1">// 是否需要复制SPS和PPS放置在每个IDR帧（关键帧）的前面</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">b_repeat_headers</span> <span class="p">)</span>
+        <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+                <span class="cm">/* when frame threading is used, buffering period sei is written in x264_encoder_frame_end,  忽略 */</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_thread_frames</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">sps</span><span class="o">-&gt;</span><span class="n">vui</span><span class="p">.</span><span class="n">b_nal_hrd_parameters_present</span> <span class="p">)</span>
+        <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cm">/* write extra sei, 忽略 */</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">extra_sei</span><span class="p">.</span><span class="n">num_payloads</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">extra_sei</span><span class="p">.</span><span class="n">sei_free</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">b_keyframe</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="cm">/* Avid&#39;s decoder strictly wants two SEIs for AVC-Intra so we can&#39;t insert the x264 SEI,忽略 */</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">b_repeat_headers</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_frame</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+                <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="o">!=</span> <span class="n">X264_TYPE_IDR</span> <span class="p">)</span> <span class="c1">// 非 IDR 帧的 I 帧</span>
+                <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+                <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">i_frame_packing</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">)</span>        <span class="c1">// 用于3D视频编码，通常该变量取值-1，忽略</span>
+                <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="cm">/* generate sei pic timing，忽略 */</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">sps</span><span class="o">-&gt;</span><span class="n">vui</span><span class="p">.</span><span class="n">b_pic_struct_present</span> <span class="o">||</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">sps</span><span class="o">-&gt;</span><span class="n">vui</span><span class="p">.</span><span class="n">b_nal_hrd_parameters_present</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+    <span class="cm">/* As required by Blu-ray.  忽略 */</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">IS_X264_TYPE_B</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_type</span> <span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">b_sh_backup</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">b_keyframe</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">b_intra_refresh</span> <span class="p">)</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_cpb_delay_pir_offset_next</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_cpb_delay</span><span class="p">;</span>
+
+
+    <span class="cm">/* Filler space: 10 or 18 SEIs&#39; worth of space, depending on resolution */</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">i_avcintra_class</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+    <span class="cm">/* Init the rate control */</span>
+    <span class="c1">// 初始化码率控制，初始化之后，从码率控制体中获取全局的QP值</span>
+    <span class="c1">// 函数x264_ratecontrol_start定义在encoder/ratecontrol.c中，</span>
+    <span class="c1">// 该函数代码详细分析可参考：x264_ratecontrol_start 函数代码分析</span>
+    <span class="n">x264_ratecontrol_start</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fenc</span><span class="o">-&gt;</span><span class="n">i_qpplus1</span><span class="p">,</span> <span class="n">overhead</span><span class="o">*</span><span class="mi">8</span> <span class="p">);</span>
+    <span class="n">i_global_qp</span> <span class="o">=</span> <span class="n">x264_ratecontrol_qp</span><span class="p">(</span> <span class="n">h</span> <span class="p">);</span> <span class="c1">// 很简短，定义在encoder/ratecontrol.c中，将h-&gt;rc-&gt;qpm四舍五入，然后取整</span>
+
+    <span class="n">pic_out</span><span class="o">-&gt;</span><span class="n">i_qpplus1</span> <span class="o">=</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_qpplus1</span> <span class="o">=</span> <span class="n">i_global_qp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">param</span><span class="p">.</span><span class="n">rc</span><span class="p">.</span><span class="n">b_stat_read</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_type</span> <span class="o">!=</span> <span class="n">SLICE_TYPE_I</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">...</span> <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">fdec</span><span class="o">-&gt;</span><span class="n">i_poc_l0ref0</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">fref</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">i_poc</span><span class="p">;</span>
+
+    <span class="cm">/* ------------------------ Create slice header  ----------------------- */</span>
+
+    <span class="c1">// 该函数定义在encoder/encoder.c中，详细分析见：x264_slice_init 函数代码分析</span>
+        <span class="n">x264_slice_init</span><span class="p">(</span> <span class="n">h</span><span class="p">,</span> <span class="n">i_nal_type</span><span class="p">,</span> <span class="n">i_global_qp</span> <span class="p">);</span>
+
+
+        <span class="cm">/*------------------------- Weights -------------------------------------*/</span>
+        <span class="c1">// 如果当前是B条带（帧），则调用x264_macroblock_bipred_init，该函数设置一些参考帧关系矩阵，</span>
+    <span class="c1">// 关系矩阵以fref0的索引为行坐标，以fref1的索引为列坐标。主要包括：dist_scale_factor，bipred_weight，</span>
+        <span class="c1">// 矩阵值主要由相应帧的POC决定。后续讨论。</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">sh</span><span class="p">.</span><span class="n">i_type</span> <span class="o">==</span> <span class="n">SLICE_TYPE_B</span> <span class="p">)</span>
+                 <span class="n">x264_macroblock_bipred_init</span><span class="p">(</span> <span class="n">h</span> <span class="p">);</span>
+
+    <span class="c1">// 权值预测 但是不清楚是哪一部分的权值，该函数定义在encoder/encoder.c中</span>
+    <span class="n">x264_weighted_pred_init</span><span class="p">(</span> <span class="n">h</span> <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">i_nal_ref_idc</span> <span class="o">!=</span> <span class="n">NAL_PRIORITY_DISPOSABLE</span> <span class="p">)</span>
+        <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_frame_num</span><span class="o">++</span><span class="p">;</span>
+
+    <span class="cm">/* Write frame , 最重要的函数，对一帧编码 */</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_threadslice_start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">h</span><span class="o">-&gt;</span><span class="n">i_threadslice_end</span> <span class="o">=</span> <span class="n">h</span><span class="o">-&gt;</span><span class="n">mb</span><span class="p">.</span><span class="n">i_mb_height</span><span class="p">;</span>
+
+    <span class="c1">// 对一个slice进行编码，详细分析见：x264_slice_write 函数代码分析</span>
+    <span class="n">x264_slices_write</span><span class="p">(</span><span class="n">h</span><span class="p">);</span>
+
+    <span class="c1">// 编码结束, 统计编码时间、psnr、mb类型比例、释放编码分配的空间，该函数定义在encoder/encoder.c中</span>
+    <span class="n">x264_encoder_frame_end</span><span class="p">(</span> <span class="n">thread_oldest</span><span class="p">,</span> <span class="n">thread_current</span><span class="p">,</span> <span class="n">pp_nal</span><span class="p">,</span> <span class="n">pi_nal</span><span class="p">,</span> <span class="n">pic_out</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>x264_reference_update           定义在文件    encoder/encoder.c 中
+x264_frame_pop_unused           定义在文件    common/frame.c 中
+x264_frame_copy_picture         定义在文件    common/frame.c 中
+x264_frame_init_lowres          定义在文件    common/mc.c 中
+x264_lookahead_put_frame        定义在文件    encoder/lookahead.c 中
+x264_lookahead_get_frames       定义在文件    encoder/lookahead.c 中
+x264_frame_shift                定义在文件    common/frame.c 中
+x264_encoder_reconfig           定义在文件    encoder/encoder.c 中
+x264_reference_build_list       定义在文件    encoder/encoder.c 中
+x264_ratecontrol_start          定义在文件    encoder/ratecontrol.c 中
+x264_ratecontrol_qp             定义在文件    encoder/ratecontrol.c 中
+x264_slice_init                 定义在文件    encoder/encoder.c 中
+x264_slices_write               定义在文件    encoder/encoder.c 中
+x264_weighted_pred_init         定义在文件    encoder/encoder.c 中
+x264_threaded_slices_write      定义在文件    encoder/encoder.c 中
+x264_encoder_frame_end          定义在文件    encoder/encoder.c 中</p>
+<p>Original post: http://nkwavelet.blog.163.com/blog/static/22775603820131115931476/</p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "x264_encoder_encode-analysis.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://icylord.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="http://icylord.github.io/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="#"><i class="icon-You can add links in your config file-sign icon-large"></i>You can add links in your config file</a></li>
+    <li><a href="#"><i class="icon-Another social link-sign icon-large"></i>Another social link</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="http://icylord.github.io/category/computer-vision.html">
+    <i class="icon-folder-open icon-large"></i>Computer Vision
+</a>
+</li>
+<li>
+<a href="http://icylord.github.io/category/multimedia.html">
+    <i class="icon-folder-open icon-large"></i>Multimedia
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/directshow.html">
+        <i class="icon-tag icon-large"></i>Directshow
+    </a>
+</li>
+<li class="tag-0">
+    <a href="http://icylord.github.io/tag/computer-vision.html">
+        <i class="icon-tag icon-large"></i>Computer Vision
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'icylord';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://icylord.github.io/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="http://icylord.github.io/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>
