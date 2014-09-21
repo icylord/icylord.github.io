@@ -111,19 +111,19 @@
 <span class="k">typedef</span> <span class="k">struct</span> <span class="kt">x264_param_t</span>
 <span class="p">{</span>
     <span class="cm">/* CPU 标志位 */</span>
-<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
-<span class="kt">int</span>  <span class="n">i_threads</span><span class="p">;</span>                 <span class="c1">// 并行编码多帧; 线程数，为0则自动多线程编码</span>
-<span class="kt">int</span>  <span class="n">b_sliced_threads</span><span class="p">;</span>          <span class="c1">// 如果为false，则一个slice只编码成一个NALU;</span>
-                                <span class="c1">// 否则有几个线程，在编码成几个NALU。缺省为true。</span>
-<span class="kt">int</span>  <span class="n">b_deterministic</span><span class="p">;</span>           <span class="c1">// 是否允许非确定性时线程优化</span>
-<span class="kt">int</span>  <span class="n">b_cpu_independent</span><span class="p">;</span>     <span class="c1">// 强制采用典型行为，而不是采用独立于cpu的优化算法</span>
-<span class="kt">int</span>  <span class="n">i_sync_lookahead</span><span class="p">;</span>          <span class="c1">// 线程超前缓存帧数</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
+    <span class="kt">int</span>  <span class="n">i_threads</span><span class="p">;</span>                 <span class="c1">// 并行编码多帧; 线程数，为0则自动多线程编码</span>
+    <span class="kt">int</span>  <span class="n">b_sliced_threads</span><span class="p">;</span>          <span class="c1">// 如果为false，则一个slice只编码成一个NALU;</span>
+                                    <span class="c1">// 否则有几个线程，在编码成几个NALU。缺省为true。</span>
+    <span class="kt">int</span>  <span class="n">b_deterministic</span><span class="p">;</span>           <span class="c1">// 是否允许非确定性时线程优化</span>
+    <span class="kt">int</span>  <span class="n">b_cpu_independent</span><span class="p">;</span>     <span class="c1">// 强制采用典型行为，而不是采用独立于cpu的优化算法</span>
+    <span class="kt">int</span>  <span class="n">i_sync_lookahead</span><span class="p">;</span>          <span class="c1">// 线程超前缓存帧数</span>
 
-<span class="cm">/* 视频属性 */</span>
-<span class="kt">int</span>  <span class="n">i_width</span><span class="p">;</span>               <span class="c1">// 视频图像的宽</span>
-<span class="kt">int</span>  <span class="n">i_height</span><span class="p">;</span>              <span class="c1">// 视频图像的高</span>
-<span class="kt">int</span>  <span class="n">i_csp</span><span class="p">;</span>                     <span class="c1">// 编码比特流的CSP，仅支持i420，色彩空间设置</span>
-<span class="kt">int</span>  <span class="n">i_level_idc</span><span class="p">;</span>           <span class="c1">// 指明作用的level值 ...</span></pre></div>
+    <span class="cm">/* 视频属性 */</span>
+    <span class="kt">int</span>  <span class="n">i_width</span><span class="p">;</span>               <span class="c1">// 视频图像的宽</span>
+    <span class="kt">int</span>  <span class="n">i_height</span><span class="p">;</span>              <span class="c1">// 视频图像的高</span>
+    <span class="kt">int</span>  <span class="n">i_csp</span><span class="p">;</span>                     <span class="c1">// 编码比特流的CSP，仅支持i420，色彩空间设置</span>
+    <span class="kt">int</span>  <span class="n">i_level_idc</span><span class="p">;</span>           <span class="c1">// 指明作用的level值 ...</span></pre></div>
                         <a class="btn primary xsmall" href="http://icylord.github.io/libx264-x264_param_t.html">more ...</a>
                 </div>
         </div>
@@ -381,24 +381,24 @@ mkl_libs ...</code></pre></p>
         <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
-    </a>
-</li>
 <li class="tag-0">
     <a href="http://icylord.github.io/tag/computer-vision.html">
         <i class="icon-tag icon-large"></i>Computer Vision
     </a>
 </li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/directshow.html">
-        <i class="icon-tag icon-large"></i>Directshow
-    </a>
-</li>
 <li class="tag-2">
     <a href="http://icylord.github.io/tag/opencv.html">
         <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/directshow.html">
+        <i class="icon-tag icon-large"></i>Directshow
     </a>
 </li>
 
