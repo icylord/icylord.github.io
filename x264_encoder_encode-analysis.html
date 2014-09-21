@@ -534,25 +534,26 @@
     <span class="c1">// 编码结束, 统计编码时间、psnr、mb类型比例、释放编码分配的空间，该函数定义在encoder/encoder.c中</span>
     <span class="n">x264_encoder_frame_end</span><span class="p">(</span> <span class="n">thread_oldest</span><span class="p">,</span> <span class="n">thread_current</span><span class="p">,</span> <span class="n">pp_nal</span><span class="p">,</span> <span class="n">pi_nal</span><span class="p">,</span> <span class="n">pic_out</span> <span class="p">);</span>
 <span class="p">}</span>
+
+<span class="n">x264_reference_update</span>           <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">encoder</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_frame_pop_unused</span>           <span class="err">定义在文件</span>    <span class="n">common</span><span class="o">/</span><span class="n">frame</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_frame_copy_picture</span>         <span class="err">定义在文件</span>    <span class="n">common</span><span class="o">/</span><span class="n">frame</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_frame_init_lowres</span>          <span class="err">定义在文件</span>    <span class="n">common</span><span class="o">/</span><span class="n">mc</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_lookahead_put_frame</span>        <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">lookahead</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_lookahead_get_frames</span>       <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">lookahead</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_frame_shift</span>                <span class="err">定义在文件</span>    <span class="n">common</span><span class="o">/</span><span class="n">frame</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_encoder_reconfig</span>           <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">encoder</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_reference_build_list</span>       <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">encoder</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_ratecontrol_start</span>          <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">ratecontrol</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_ratecontrol_qp</span>             <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">ratecontrol</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_slice_init</span>                 <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">encoder</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_slices_write</span>               <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">encoder</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_weighted_pred_init</span>         <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">encoder</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_threaded_slices_write</span>      <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">encoder</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
+<span class="n">x264_encoder_frame_end</span>          <span class="err">定义在文件</span>    <span class="n">encoder</span><span class="o">/</span><span class="n">encoder</span><span class="p">.</span><span class="n">c</span> <span class="err">中</span>
 </pre></div>
 
 
-<p>x264_reference_update           定义在文件    encoder/encoder.c 中
-x264_frame_pop_unused           定义在文件    common/frame.c 中
-x264_frame_copy_picture         定义在文件    common/frame.c 中
-x264_frame_init_lowres          定义在文件    common/mc.c 中
-x264_lookahead_put_frame        定义在文件    encoder/lookahead.c 中
-x264_lookahead_get_frames       定义在文件    encoder/lookahead.c 中
-x264_frame_shift                定义在文件    common/frame.c 中
-x264_encoder_reconfig           定义在文件    encoder/encoder.c 中
-x264_reference_build_list       定义在文件    encoder/encoder.c 中
-x264_ratecontrol_start          定义在文件    encoder/ratecontrol.c 中
-x264_ratecontrol_qp             定义在文件    encoder/ratecontrol.c 中
-x264_slice_init                 定义在文件    encoder/encoder.c 中
-x264_slices_write               定义在文件    encoder/encoder.c 中
-x264_weighted_pred_init         定义在文件    encoder/encoder.c 中
-x264_threaded_slices_write      定义在文件    encoder/encoder.c 中
-x264_encoder_frame_end          定义在文件    encoder/encoder.c 中</p>
 <p>Original post: http://nkwavelet.blog.163.com/blog/static/22775603820131115931476/</p>
                 </div><!-- /.entry-content -->
                 <div class="comments">
@@ -594,13 +595,13 @@ x264_encoder_frame_end          定义在文件    encoder/encoder.c 中</p>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
     </a>
 </li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/directshow.html">
-        <i class="icon-tag icon-large"></i>Directshow
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
 <li class="tag-0">
@@ -608,9 +609,9 @@ x264_encoder_frame_end          定义在文件    encoder/encoder.c 中</p>
         <i class="icon-tag icon-large"></i>Computer Vision
     </a>
 </li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/directshow.html">
+        <i class="icon-tag icon-large"></i>Directshow
     </a>
 </li>
 <li class="tag-2">
