@@ -239,11 +239,13 @@ echo &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;字符串截取相关
- - ${parameter%word} 最小限度从后面截取word，用途是从右边开始删除第一次出现子字符串即其右边字符，保留左边字符，用法为%substr&lt;em&gt;
- - ${parameter%%word} 最大限度从后面截取word，用途是从右边开始删除最后一次出现子字符串即其右边字符，保留左边字符，用法为%%substr&lt;/em&gt;
- - ${parameter#word} 最小限度从前面截取word，用途是从左边开始删除第一次出现子字符串即其左边字符，保留右边字符，用法为"#&lt;em&gt;substr"
- - ${parameter##word} 最大限度从前面截取word，用途是从左边开始删除最后一次出现子字符串即其左边字符，保留右边字符，用法为""##&lt;/em&gt;substr"&lt;/p&gt;
+&lt;p&gt;字符串截取相关&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;${parameter%word} 最小限度从后面截取word，用途是从右边开始删除第一次出现子字符串即其右边字符，保留左边字符，用法为%substr*&lt;/li&gt;
+&lt;li&gt;${parameter%%word} 最大限度从后面截取word，用途是从右边开始删除最后一次出现子字符串即其右边字符，保留左边字符，用法为%%substr*&lt;/li&gt;
+&lt;li&gt;${parameter#word} 最小限度从前面截取word，用途是从左边开始删除第一次出现子字符串即其左边字符，保留右边字符，用法为"#*substr"&lt;/li&gt;
+&lt;li&gt;${parameter##word} 最大限度从前面截取word，用途是从左边开始删除最后一次出现子字符串即其左边字符，保留右边字符，用法为""##*substr"&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2&gt;Shell if else语句&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;if ... fi 语句；&lt;/li&gt;
