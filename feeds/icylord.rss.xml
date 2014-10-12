@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>icylord's blog</title><link>http://icylord.github.io/</link><description></description><atom:link href="http://icylord.github.io/feeds/icylord.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 12 Oct 2014 00:00:00 +0200</lastBuildDate><item><title>CPP Api Design Reading Notes 1 : Design Pattern</title><link>http://icylord.github.io/cpp-api-design-reading-notes-1-design-pattern.html</link><description>&lt;h1&gt;PIMPL IDIOM&lt;/h1&gt;
 &lt;p&gt;Pointer to implemetation : as a way to avoid exposing private details in your header files.&lt;/p&gt;
-&lt;p&gt;So, how much logic to locate in the Impl class ?
- - Private member variables and methods. Lets you maintain the encapsulation of data and methods that acts on those data and lets you avoiding declearing private methods in the public header files.&lt;/p&gt;
+&lt;p&gt;So, how much logic to locate in the Impl class ?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Private member variables and methods. Lets you maintain the encapsulation of data and methods that acts on those data and lets you avoiding declearing private methods in the public header files.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2&gt;Copy Sematics&lt;/h2&gt;
-&lt;p&gt;Impl&lt;em&gt; only does shallow copy.
- - make your class uncopyable.
- - explicitly define the copy sematics.
- - use scoped_ptr to hold Impl&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Impl* only does shallow copy.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;make your class uncopyable.&lt;/li&gt;
+&lt;li&gt;explicitly define the copy sematics.&lt;/li&gt;
+&lt;li&gt;use scoped_ptr to hold Impl*&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2&gt;Advantages of PIMPL&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Information hiding&lt;/li&gt;
