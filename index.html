@@ -79,6 +79,11 @@
 						<i class="icon-folder-open icon-large"></i>Multimedia
 					</a>
                   </li>
+                  <li >
+                    <a href="http://icylord.github.io/category/shell.html">
+						<i class="icon-folder-open icon-large"></i>Shell
+					</a>
+                  </li>
 
                           <ul class="nav pull-right">
                                 <li><a href="http://icylord.github.io/archives.html"><i class="icon-th-list"></i>Archives</a></li>
@@ -190,6 +195,52 @@
 <ul>
 <li>it contains hardcoded knowledge of the avaliable derived classes ...</li></ul>
                         <a class="btn primary xsmall" href="http://icylord.github.io/cpp-api-design-reading-notes-3-design-pattern.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
+                <h1><a href="http://icylord.github.io/shell-study-notes.html">Shell study notes</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-10-12T00:00:00">
+        <i class="icon-calendar"></i>Sun 12 October 2014
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/shell.html"><i class="icon-folder-open"></i>Shell</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/shell.html"><i class="icon-tag"></i>Shell</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><h1>Shell 学习笔记</h1>
+<h2>开始</h2>
+<div class="highlight"><pre><span class="cp">#!/bin/bash</span>
+<span class="n">echo</span> <span class="s">&quot;Hello World !&quot;</span>
+</pre></div>
+
+
+<p>"#!"" 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种Shell。echo命令用于向窗口输出文本。</p>
+<p>运行Shell脚本</p>
+<p>作为可执行程序  chmod a+x xxx.sh ./xxx.sh</p>
+<p>使用 read 命令从 stdin 获取输入</p>
+<div class="highlight"><pre><span class="n">echo</span> <span class="s">&quot;What is your name?&quot;</span>
+<span class="n">read</span> <span class="n">PERSON</span>
+<span class="n">echo</span> <span class="s">&quot;Hello, $PERSON&quot;</span>
+</pre></div>
+
+
+<h2>定义变量</h2>
+<ul>
+<li>定义变量时，变量名不加美元符号（$)，量名和等号之间不能有空格。</li>
+<li>首个字符必须为字母（a-z，A-Z）。</li>
+<li>中间不能有空格，可以使用下划线（_）。</li>
+<li>不能使用标点符号。</li>
+<li>不能使用bash里的关键字（可用help命令查看保留关键字）。</li>
+</ul>
+<div class="highlight"><pre><span class="n">variableName ...</span></pre></div>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/shell-study-notes.html">more ...</a>
                 </div>
         </div>
         <hr />
@@ -399,42 +450,6 @@ bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
                 </div>
         </div>
         <hr />
-        <div class="article">
-                <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html">opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2013-10-05T00:00:00">
-        <i class="icon-calendar"></i>Sat 05 October 2013
-</abbr>
-<span class="label">By</span>
-<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
-<span class="label">Category</span>
-<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
-
-
-<span class="label">Tags</span>
-	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
-	<a href="http://icylord.github.io/tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><pre><code>
-级联分类器训练函数
-bool CvCascadeClassifier::train( const string _cascadeDirName,
-                                const string _posFilename,
-                                const string _negFilename,
-                                int _numPos, int _numNeg,
-                                int _precalcValBufSize, int _precalcIdxBufSize,
-                                int _numStages,
-                                const CvCascadeParams& _cascadeParams,
-                                const CvFeatureParams& _featureParams,
-                                const CvCascadeBoostParams& _stageParams,
-                                bool baseFormatSave )
-{
-    if( _cascadeDirName.empty() || _posFilename.empty() || _negFilename.empty() )
-        CV_Error( CV_StsBadArg, "_cascadeDirName or _bgfileName or _vecFileName is NULL ...</code></pre>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html">more ...</a>
-                </div>
-        </div>
-        <hr />
 
         <div class="pagination">
         <ul>
@@ -470,21 +485,21 @@ bool CvCascadeClassifier::train( const string _cascadeDirName,
     <i class="icon-folder-open icon-large"></i>Multimedia
 </a>
 </li>
+<li>
+<a href="http://icylord.github.io/category/shell.html">
+    <i class="icon-folder-open icon-large"></i>Shell
+</a>
+</li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
-    </a>
-</li>
 <li class="tag-2">
     <a href="http://icylord.github.io/tag/c.html">
         <i class="icon-tag icon-large"></i>C++
     </a>
 </li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
     </a>
 </li>
 <li class="tag-0">
@@ -493,13 +508,23 @@ bool CvCascadeClassifier::train( const string _cascadeDirName,
     </a>
 </li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
     </a>
 </li>
 <li class="tag-4">
     <a href="http://icylord.github.io/tag/directshow.html">
         <i class="icon-tag icon-large"></i>Directshow
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/shell.html">
+        <i class="icon-tag icon-large"></i>Shell
     </a>
 </li>
 

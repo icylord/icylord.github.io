@@ -85,7 +85,224 @@
 &lt;li&gt;it contains hardcoded knowledge of the avaliable derived classes&lt;/li&gt;
 &lt;li&gt;users can not add new rendered to the systems.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Extensible Factory Example&lt;/h2&gt;</summary><category term="C++"></category></entry><entry><title>libx264 x264_param_t</title><link href="http://icylord.github.io/libx264-x264_param_t.html" rel="alternate"></link><updated>2014-09-21T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-09-21:libx264-x264_param_t.html</id><summary type="html">&lt;h2&gt;libx264 x264_param_t&lt;/h2&gt;
+&lt;h2&gt;Extensible Factory Example&lt;/h2&gt;</summary><category term="C++"></category></entry><entry><title>Shell study notes</title><link href="http://icylord.github.io/shell-study-notes.html" rel="alternate"></link><updated>2014-10-12T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-10-12:shell-study-notes.html</id><summary type="html">&lt;h1&gt;Shell 学习笔记&lt;/h1&gt;
+&lt;h2&gt;开始&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hello World !&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;"#!"" 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种Shell。echo命令用于向窗口输出文本。&lt;/p&gt;
+&lt;p&gt;运行Shell脚本&lt;/p&gt;
+&lt;p&gt;作为可执行程序  chmod a+x xxx.sh ./xxx.sh&lt;/p&gt;
+&lt;p&gt;使用 read 命令从 stdin 获取输入&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;What is your name?&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;read&lt;/span&gt; &lt;span class="n"&gt;PERSON&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hello, $PERSON&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;定义变量&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;定义变量时，变量名不加美元符号（$)，量名和等号之间不能有空格。&lt;/li&gt;
+&lt;li&gt;首个字符必须为字母（a-z，A-Z）。&lt;/li&gt;
+&lt;li&gt;中间不能有空格，可以使用下划线（_）。&lt;/li&gt;
+&lt;li&gt;不能使用标点符号。&lt;/li&gt;
+&lt;li&gt;不能使用bash里的关键字（可用help命令查看保留关键字）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;variableName&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;value&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;使用变量&lt;/h2&gt;
+&lt;p&gt;使用一个定义过的变量，只要在变量名前面加美元符号（$）即可，变量名外面的花括号是可选的&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;your_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;mozhiyan&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;your_name&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;your_name&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;使用 readonly 命令可以将变量定义为只读变量，只读变量的值不能被改变。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;myUrl&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;xxx&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;readonly&lt;/span&gt; &lt;span class="n"&gt;myUrl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;使用 unset 命令可以删除变量&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;myUrl&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;xxx&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;unset&lt;/span&gt; &lt;span class="n"&gt;myUrl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Shell特殊变量&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;$0 当前脚本的文件名&lt;/li&gt;
+&lt;li&gt;$n 传递给脚本或函数的参数。n是一个数字，表示第几个参数。例如，第一个参数是$1&lt;/li&gt;
+&lt;li&gt;$# 传递给脚本或函数的参数个数。&lt;/li&gt;
+&lt;li&gt;$* 传递给脚本或函数的所有参数。&lt;/li&gt;
+&lt;li&gt;$@ 传递给脚本或函数的所有参数。被双引号(" ")包含时，与 $* 稍有不同。&lt;/li&gt;
+&lt;li&gt;$? 上个命令的退出状态，或函数的返回值。&lt;/li&gt;
+&lt;li&gt;$$ 当前Shell进程ID。对于 Shell 脚本，就是这些脚本所在的进程ID。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;File Name: $0&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;First Parameter : $1&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;First Parameter : $2&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Quoted Values: $@&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Quoted Values: $*&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Total Number of Parameters : $#&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;命令替换&lt;/h2&gt;
+&lt;p&gt;命令替换是指Shell可以先执行命令，将输出结果暂时保存，在适当的地方输出。&lt;/p&gt;
+&lt;p&gt;命令替换的语法：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;command&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;变量替换&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;${var}   变量本来的值&lt;/li&gt;
+&lt;li&gt;${var:-word} 如果变量 var 为空或已被删除(unset)，那么返回 word，但不改变 var 的值。&lt;/li&gt;
+&lt;li&gt;${var:=word} 如果变量 var 为空或已被删除(unset)，那么返回 word，并将 var 的值设置为 word。&lt;/li&gt;
+&lt;li&gt;${var:?message}  如果变量 var 为空或已被删除(unset)，那么将消息 message 送到标准错误输出，可以用来检测变量 var 是否可以被正常赋值。若此替换出现在Shell脚本中，那么脚本将停止运行。&lt;/li&gt;
+&lt;li&gt;${var:+word} 如果变量 var 被定义，那么返回 word，但不改变 var 的值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Shell运算符&lt;/h2&gt;
+&lt;p&gt;Bash 支持很多运算符，包括算数运算符、关系运算符、布尔运算符、字符串运算符和文件测试运算符。&lt;/p&gt;
+&lt;p&gt;expr 是一款表达式计算工具，使用它能完成表达式的求值操作。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;``cpp
+val=&lt;/code&gt;expr 2 + 2`
+echo "Total value : $val"&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;两点注意：&lt;/span&gt;
+
+ &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;表达式和运算符之间要有空格，例如&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="err"&gt;是不对的，必须写成&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="err"&gt;，这与我们熟悉的大多数编程语言不一样。&lt;/span&gt;
+ &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;完整的表达式要被&lt;/span&gt; &lt;span class="err"&gt;`&lt;/span&gt; &lt;span class="err"&gt;`&lt;/span&gt; &lt;span class="err"&gt;包含，注意这个字符不是常用的单引号，在&lt;/span&gt; &lt;span class="n"&gt;Esc&lt;/span&gt; &lt;span class="err"&gt;键下边。&lt;/span&gt;
+
+ &lt;span class="err"&gt;例子：&lt;/span&gt;
+  &lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;
+&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;a + b : $val&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;a - b : $val&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;a * b : $val&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;b / a : $val&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;b % a : $val&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;then&lt;/span&gt;
+   &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;a is equal to b&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;then&lt;/span&gt;
+   &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;a is not equal to b&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;算术运算符列表&lt;/h2&gt;
+&lt;h3&gt;运算符  说明  举例&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;"+"  加法  &lt;code&gt;expr $a + $b&lt;/code&gt; 结果为 30。&lt;/li&gt;
+&lt;li&gt;"-"  减法  &lt;code&gt;expr $a - $b&lt;/code&gt; 结果为 10。&lt;/li&gt;
+&lt;li&gt;"*"  乘法  &lt;code&gt;expr $a \* $b&lt;/code&gt; 结果为  200。&lt;/li&gt;
+&lt;li&gt;"/"  除法  &lt;code&gt;expr $b / $a&lt;/code&gt; 结果为 2。&lt;/li&gt;
+&lt;li&gt;"%"  取余  &lt;code&gt;expr $b % $a&lt;/code&gt; 结果为 0。&lt;/li&gt;
+&lt;li&gt;"="  赋值  a=$b 将把变量 b 的值赋给 a。&lt;/li&gt;
+&lt;li&gt;"==" 相等。用于比较两个数字，相同则返回 true。[ $a == $b ] 返回 false。&lt;/li&gt;
+&lt;li&gt;"!="     不相等。用于比较两个数字，不相同则返回 true。[ $a != $b ] 返回 true。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Shell字符串&lt;/h2&gt;
+&lt;p&gt;单引号
+ ```cpp
+str='this is a string'&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;双引号&lt;/span&gt;
+ &lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;
+&lt;span class="n"&gt;your_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;qinjx&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello, I know your are &lt;/span&gt;&lt;span class="se"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;$your_name&lt;/span&gt;&lt;span class="se"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;! &lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;获取字符串长度
+ ```cpp
+string="abcd"
+echo ${#string} #输出 4&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;提取子字符串
+ ```cpp
+string=&amp;quot;alibaba is a great company&amp;quot;
+echo &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt; #输出liba
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;字符串截取相关
+- ${parameter%word} 最小限度从后面截取word，用途是从右边开始删除第一次出现子字符串即其右边字符，保留左边字符，用法为%substr&lt;em&gt;
+- ${parameter%%word} 最大限度从后面截取word，用途是从右边开始删除最后一次出现子字符串即其右边字符，保留左边字符，用法为%%substr&lt;/em&gt;
+- ${parameter#word} 最小限度从前面截取word，用途是从左边开始删除第一次出现子字符串即其左边字符，保留右边字符，用法为"#&lt;em&gt;substr"
+- ${parameter##word} 最大限度从前面截取word，用途是从左边开始删除最后一次出现子字符串即其左边字符，保留右边字符，用法为""##&lt;/em&gt;substr"&lt;/p&gt;
+&lt;h2&gt;Shell if else语句&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;if ... fi 语句；&lt;/li&gt;
+&lt;li&gt;if ... else ... fi 语句；&lt;/li&gt;
+&lt;li&gt;if ... elif ... else ... fi 语句。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;if ... else 语句的语法：
+ ```cpp
+if [ expression ]
+then
+    Statement(s) to be executed if expression is true
+fi&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;fi&lt;/span&gt; &lt;span class="err"&gt;语句的语法：&lt;/span&gt;
+ &lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="n"&gt;expression&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;then&lt;/span&gt; 
+    &lt;span class="n"&gt;Statement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;executed&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;expression&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="n"&gt;Statement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;executed&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;expression&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="nb"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;if ... elif ... fi 语句
+  ```cpp
+if [ expression ]
+then 
+    Statement(s) to be executed if expression is true
+elif
+then
+    Statement(s) to be executed if expression is false
+elif
+then
+    XXX
+else
+then 
+    XXX
+fi&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;## Shell for循环&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="err"&gt;循环一般格式为：&lt;/span&gt;
+&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="err"&gt;变量&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="err"&gt;列表&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;command1&lt;/span&gt;
+    &lt;span class="n"&gt;command2&lt;/span&gt;
+    &lt;span class="p"&gt;...&lt;/span&gt;
+    &lt;span class="n"&gt;commandN&lt;/span&gt;
+&lt;span class="n"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;例子，列出当前文件目录的png&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;png&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt; 
+    &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Shell"></category></entry><entry><title>libx264 x264_param_t</title><link href="http://icylord.github.io/libx264-x264_param_t.html" rel="alternate"></link><updated>2014-09-21T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-09-21:libx264-x264_param_t.html</id><summary type="html">&lt;h2&gt;libx264 x264_param_t&lt;/h2&gt;
 &lt;h3&gt;转一个别人写好的libx264参数结构体x264_param_t的参数解析&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cm"&gt;/* 结构体x264_param_t定义在x264.h中 */&lt;/span&gt;
 &lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="kt"&gt;x264_param_t&lt;/span&gt;

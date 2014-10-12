@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>icylord's blog - Directshow</title>
+    <title>icylord's blog - Shell</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="icylord">
@@ -100,27 +100,48 @@
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
-                <h1><a href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html">Implement virtual camera on Windows 7 using DirectShow</a></h1>
+                <h1><a href="http://icylord.github.io/shell-study-notes.html">Shell study notes</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-07-01T00:00:00">
-        <i class="icon-calendar"></i>Tue 01 July 2014
+<abbr class="published" title="2014-10-12T00:00:00">
+        <i class="icon-calendar"></i>Sun 12 October 2014
 </abbr>
 <span class="label">By</span>
 <a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
 <span class="label">Category</span>
-<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
+<a href="http://icylord.github.io/category/shell.html"><i class="icon-folder-open"></i>Shell</a>.
 
 
 <span class="label">Tags</span>
-	<a href="http://icylord.github.io/tag/directshow.html"><i class="icon-tag"></i>Directshow</a>
+	<a href="http://icylord.github.io/tag/shell.html"><i class="icon-tag"></i>Shell</a>
 </footer><!-- /.post-info --></div>
-                <div class="summary"><h2>Windows7下使用Directshow实现虚拟摄像头</h2>
-<h3>介绍</h3>
-<p>近期碰到了个项目，破解了某个摄像头设备的视频数据流到PC的方法(Linux+RTSP Streaming -&gt; PC -&gt; Virtual Camera -&gt; Skype/Link/QQ)，打算扔掉这个设备自带的驱动，自己写一个，需要在Windows平台下实现一个虚拟摄像头，使得Skype、QQ等聊天软件能够使用远端的Web Camera设备的视频数据作为输入端进行视频聊天，在网上搜刮了一番资料后，花了点时间将其实现了。近期有时间，就把整个实现方法和过程写下来方便以后回顾</p>
-<p>在进行之前首先需要知道什么是<strong>DirectShow</strong>和<strong>DirectShow filter。</strong></p>
-<p><strong>DirectShow</strong>（摘自wikipedia）：DirectShow (sometimes abbreviated as DS or DShow), codename Quartz, is a multimedia framework and API produced by Microsoft for software ...</p>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/implement-virtual-camera-on-windows-7-using-directshow.html">more ...</a>
+                <div class="summary"><h1>Shell 学习笔记</h1>
+<h2>开始</h2>
+<div class="highlight"><pre><span class="cp">#!/bin/bash</span>
+<span class="n">echo</span> <span class="s">&quot;Hello World !&quot;</span>
+</pre></div>
+
+
+<p>"#!"" 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种Shell。echo命令用于向窗口输出文本。</p>
+<p>运行Shell脚本</p>
+<p>作为可执行程序  chmod a+x xxx.sh ./xxx.sh</p>
+<p>使用 read 命令从 stdin 获取输入</p>
+<div class="highlight"><pre><span class="n">echo</span> <span class="s">&quot;What is your name?&quot;</span>
+<span class="n">read</span> <span class="n">PERSON</span>
+<span class="n">echo</span> <span class="s">&quot;Hello, $PERSON&quot;</span>
+</pre></div>
+
+
+<h2>定义变量</h2>
+<ul>
+<li>定义变量时，变量名不加美元符号（$)，量名和等号之间不能有空格。</li>
+<li>首个字符必须为字母（a-z，A-Z）。</li>
+<li>中间不能有空格，可以使用下划线（_）。</li>
+<li>不能使用标点符号。</li>
+<li>不能使用bash里的关键字（可用help命令查看保留关键字）。</li>
+</ul>
+<div class="highlight"><pre><span class="n">variableName ...</span></pre></div>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/shell-study-notes.html">more ...</a>
                 </div>
         </div>
         <hr />

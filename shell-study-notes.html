@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Shell study notes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="icylord">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="http://icylord.github.io/theme/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      .tag-1 {
+        font-size: 13pt;
+      }
+      .tag-2 {
+        font-size: 10pt;
+      }
+      .tag-2 {
+        font-size: 8pt;
+      }
+      .tag-4 {
+        font-size: 6pt;
+     }
+    </style>
+    <link href="http://icylord.github.io/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="http://icylord.github.io/theme/css/font-awesome.css" rel="stylesheet">
+
+    <link href="http://icylord.github.io/theme/css/pygments.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://icylord.github.io/theme/images/favicon.ico">
+    <link rel="apple-touch-icon" href="http://icylord.github.io/theme/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://icylord.github.io/theme/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="http://icylord.github.io/theme/images/apple-touch-icon-114x114.png">
+
+    <link href="http://icylord.github.io/" type="application/atom+xml" rel="alternate" title="icylord's blog ATOM Feed" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="http://icylord.github.io/index.html">icylord's blog </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                          <li class="divider-vertical"></li>
+                  <li >
+                    <a href="http://icylord.github.io/category/c.html">
+						<i class="icon-folder-open icon-large"></i>C++
+					</a>
+                  </li>
+                  <li >
+                    <a href="http://icylord.github.io/category/computer-vision.html">
+						<i class="icon-folder-open icon-large"></i>Computer Vision
+					</a>
+                  </li>
+                  <li >
+                    <a href="http://icylord.github.io/category/multimedia.html">
+						<i class="icon-folder-open icon-large"></i>Multimedia
+					</a>
+                  </li>
+                  <li class="active">
+                    <a href="http://icylord.github.io/category/shell.html">
+						<i class="icon-folder-open icon-large"></i>Shell
+					</a>
+                  </li>
+
+                          <ul class="nav pull-right">
+                                <li><a href="http://icylord.github.io/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+                          </ul>
+
+            </ul>
+            <!--<p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>-->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="span9" id="content">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Shell study notes">
+                                        Shell study notes
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-10-12T00:00:00">
+        <i class="icon-calendar"></i>Sun 12 October 2014
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/shell.html"><i class="icon-folder-open"></i>Shell</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/shell.html"><i class="icon-tag"></i>Shell</a>
+</footer><!-- /.post-info -->                </div>
+                <h1>Shell 学习笔记</h1>
+<h2>开始</h2>
+<div class="highlight"><pre><span class="cp">#!/bin/bash</span>
+<span class="n">echo</span> <span class="s">&quot;Hello World !&quot;</span>
+</pre></div>
+
+
+<p>"#!"" 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种Shell。echo命令用于向窗口输出文本。</p>
+<p>运行Shell脚本</p>
+<p>作为可执行程序  chmod a+x xxx.sh ./xxx.sh</p>
+<p>使用 read 命令从 stdin 获取输入</p>
+<div class="highlight"><pre><span class="n">echo</span> <span class="s">&quot;What is your name?&quot;</span>
+<span class="n">read</span> <span class="n">PERSON</span>
+<span class="n">echo</span> <span class="s">&quot;Hello, $PERSON&quot;</span>
+</pre></div>
+
+
+<h2>定义变量</h2>
+<ul>
+<li>定义变量时，变量名不加美元符号（$)，量名和等号之间不能有空格。</li>
+<li>首个字符必须为字母（a-z，A-Z）。</li>
+<li>中间不能有空格，可以使用下划线（_）。</li>
+<li>不能使用标点符号。</li>
+<li>不能使用bash里的关键字（可用help命令查看保留关键字）。</li>
+</ul>
+<div class="highlight"><pre><span class="n">variableName</span><span class="o">=</span><span class="s">&quot;value&quot;</span>
+</pre></div>
+
+
+<h2>使用变量</h2>
+<p>使用一个定义过的变量，只要在变量名前面加美元符号（$）即可，变量名外面的花括号是可选的</p>
+<div class="highlight"><pre><span class="n">your_name</span><span class="o">=</span><span class="s">&quot;mozhiyan&quot;</span>
+<span class="n">echo</span> <span class="err">$</span><span class="n">your_name</span>
+<span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">your_name</span><span class="p">}</span>
+</pre></div>
+
+
+<p>使用 readonly 命令可以将变量定义为只读变量，只读变量的值不能被改变。</p>
+<div class="highlight"><pre><span class="n">myUrl</span><span class="o">=</span><span class="s">&quot;xxx&quot;</span>
+<span class="n">readonly</span> <span class="n">myUrl</span>
+</pre></div>
+
+
+<p>使用 unset 命令可以删除变量</p>
+<div class="highlight"><pre><span class="n">myUrl</span><span class="o">=</span><span class="s">&quot;xxx&quot;</span>
+<span class="n">unset</span> <span class="n">myUrl</span>
+</pre></div>
+
+
+<h2>Shell特殊变量</h2>
+<ul>
+<li>$0 当前脚本的文件名</li>
+<li>$n 传递给脚本或函数的参数。n是一个数字，表示第几个参数。例如，第一个参数是$1</li>
+<li>$# 传递给脚本或函数的参数个数。</li>
+<li>$* 传递给脚本或函数的所有参数。</li>
+<li>$@ 传递给脚本或函数的所有参数。被双引号(" ")包含时，与 $* 稍有不同。</li>
+<li>$? 上个命令的退出状态，或函数的返回值。</li>
+<li>$$ 当前Shell进程ID。对于 Shell 脚本，就是这些脚本所在的进程ID。</li>
+</ul>
+<p>例子：</p>
+<div class="highlight"><pre><span class="n">echo</span> <span class="s">&quot;File Name: $0&quot;</span>
+<span class="n">echo</span> <span class="s">&quot;First Parameter : $1&quot;</span>
+<span class="n">echo</span> <span class="s">&quot;First Parameter : $2&quot;</span>
+<span class="n">echo</span> <span class="s">&quot;Quoted Values: $@&quot;</span>
+<span class="n">echo</span> <span class="s">&quot;Quoted Values: $*&quot;</span>
+<span class="n">echo</span> <span class="s">&quot;Total Number of Parameters : $#&quot;</span>
+</pre></div>
+
+
+<h2>命令替换</h2>
+<p>命令替换是指Shell可以先执行命令，将输出结果暂时保存，在适当的地方输出。</p>
+<p>命令替换的语法：</p>
+<div class="highlight"><pre><span class="err">`</span><span class="n">command</span><span class="err">`</span>
+</pre></div>
+
+
+<h2>变量替换</h2>
+<ul>
+<li>${var}   变量本来的值</li>
+<li>${var:-word} 如果变量 var 为空或已被删除(unset)，那么返回 word，但不改变 var 的值。</li>
+<li>${var:=word} 如果变量 var 为空或已被删除(unset)，那么返回 word，并将 var 的值设置为 word。</li>
+<li>${var:?message}  如果变量 var 为空或已被删除(unset)，那么将消息 message 送到标准错误输出，可以用来检测变量 var 是否可以被正常赋值。若此替换出现在Shell脚本中，那么脚本将停止运行。</li>
+<li>${var:+word} 如果变量 var 被定义，那么返回 word，但不改变 var 的值。</li>
+</ul>
+<h2>Shell运算符</h2>
+<p>Bash 支持很多运算符，包括算数运算符、关系运算符、布尔运算符、字符串运算符和文件测试运算符。</p>
+<p>expr 是一款表达式计算工具，使用它能完成表达式的求值操作。</p>
+<p><code>``cpp
+val=</code>expr 2 + 2`
+echo "Total value : $val"</p>
+<div class="highlight"><pre><span class="err">两点注意：</span>
+
+ <span class="o">-</span> <span class="err">表达式和运算符之间要有空格，例如</span> <span class="mi">2</span><span class="o">+</span><span class="mi">2</span> <span class="err">是不对的，必须写成</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="err">，这与我们熟悉的大多数编程语言不一样。</span>
+ <span class="o">-</span> <span class="err">完整的表达式要被</span> <span class="err">`</span> <span class="err">`</span> <span class="err">包含，注意这个字符不是常用的单引号，在</span> <span class="n">Esc</span> <span class="err">键下边。</span>
+
+ <span class="err">例子：</span>
+  <span class="err">```</span><span class="n">cpp</span>
+<span class="n">a</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">b</span><span class="o">=</span><span class="mi">20</span>
+<span class="n">val</span><span class="o">=</span><span class="err">`</span><span class="n">expr</span> <span class="err">$</span><span class="n">a</span> <span class="o">+</span> <span class="err">$</span><span class="n">b</span><span class="err">`</span>
+<span class="n">echo</span> <span class="s">&quot;a + b : $val&quot;</span>
+<span class="n">val</span><span class="o">=</span><span class="err">`</span><span class="n">expr</span> <span class="err">$</span><span class="n">a</span> <span class="o">-</span> <span class="err">$</span><span class="n">b</span><span class="err">`</span>
+<span class="n">echo</span> <span class="s">&quot;a - b : $val&quot;</span>
+<span class="n">val</span><span class="o">=</span><span class="err">`</span><span class="n">expr</span> <span class="err">$</span><span class="n">a</span> <span class="err">\</span><span class="o">*</span> <span class="err">$</span><span class="n">b</span><span class="err">`</span>
+<span class="n">echo</span> <span class="s">&quot;a * b : $val&quot;</span>
+<span class="n">val</span><span class="o">=</span><span class="err">`</span><span class="n">expr</span> <span class="err">$</span><span class="n">b</span> <span class="o">/</span> <span class="err">$</span><span class="n">a</span><span class="err">`</span>
+<span class="n">echo</span> <span class="s">&quot;b / a : $val&quot;</span>
+<span class="n">val</span><span class="o">=</span><span class="err">`</span><span class="n">expr</span> <span class="err">$</span><span class="n">b</span> <span class="o">%</span> <span class="err">$</span><span class="n">a</span><span class="err">`</span>
+<span class="n">echo</span> <span class="s">&quot;b % a : $val&quot;</span>
+<span class="k">if</span> <span class="p">[</span> <span class="err">$</span><span class="n">a</span> <span class="o">==</span> <span class="err">$</span><span class="n">b</span> <span class="p">]</span>
+<span class="n">then</span>
+   <span class="n">echo</span> <span class="s">&quot;a is equal to b&quot;</span>
+<span class="n">fi</span>
+<span class="k">if</span> <span class="p">[</span> <span class="err">$</span><span class="n">a</span> <span class="o">!=</span> <span class="err">$</span><span class="n">b</span> <span class="p">]</span>
+<span class="n">then</span>
+   <span class="n">echo</span> <span class="s">&quot;a is not equal to b&quot;</span>
+<span class="n">fi</span>
+</pre></div>
+
+
+<h2>算术运算符列表</h2>
+<h3>运算符  说明  举例</h3>
+<ul>
+<li>"+"  加法  <code>expr $a + $b</code> 结果为 30。</li>
+<li>"-"  减法  <code>expr $a - $b</code> 结果为 10。</li>
+<li>"*"  乘法  <code>expr $a \* $b</code> 结果为  200。</li>
+<li>"/"  除法  <code>expr $b / $a</code> 结果为 2。</li>
+<li>"%"  取余  <code>expr $b % $a</code> 结果为 0。</li>
+<li>"="  赋值  a=$b 将把变量 b 的值赋给 a。</li>
+<li>"==" 相等。用于比较两个数字，相同则返回 true。[ $a == $b ] 返回 false。</li>
+<li>"!="     不相等。用于比较两个数字，不相同则返回 true。[ $a != $b ] 返回 true。</li>
+</ul>
+<h2>Shell字符串</h2>
+<p>单引号
+ ```cpp
+str='this is a string'</p>
+<div class="highlight"><pre><span class="err">双引号</span>
+ <span class="err">```</span><span class="n">cpp</span>
+<span class="n">your_name</span><span class="o">=</span><span class="err">&#39;</span><span class="n">qinjx</span><span class="err">&#39;</span>
+<span class="n">str</span><span class="o">=</span><span class="s">&quot;Hello, I know your are </span><span class="se">\&quot;</span><span class="s">$your_name</span><span class="se">\&quot;</span><span class="s">! </span><span class="se">\n</span><span class="s">&quot;</span>
+</pre></div>
+
+
+<p>获取字符串长度
+ ```cpp
+string="abcd"
+echo ${#string} #输出 4</p>
+<div class="highlight"><pre>提取子字符串
+ ```cpp
+string=&quot;alibaba is a great company&quot;
+echo <span class="cp">${</span><span class="n">string</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="cp">}</span> #输出liba
+</pre></div>
+
+
+<p>字符串截取相关
+- ${parameter%word} 最小限度从后面截取word，用途是从右边开始删除第一次出现子字符串即其右边字符，保留左边字符，用法为%substr<em>
+- ${parameter%%word} 最大限度从后面截取word，用途是从右边开始删除最后一次出现子字符串即其右边字符，保留左边字符，用法为%%substr</em>
+- ${parameter#word} 最小限度从前面截取word，用途是从左边开始删除第一次出现子字符串即其左边字符，保留右边字符，用法为"#<em>substr"
+- ${parameter##word} 最大限度从前面截取word，用途是从左边开始删除最后一次出现子字符串即其左边字符，保留右边字符，用法为""##</em>substr"</p>
+<h2>Shell if else语句</h2>
+<ul>
+<li>if ... fi 语句；</li>
+<li>if ... else ... fi 语句；</li>
+<li>if ... elif ... else ... fi 语句。</li>
+</ul>
+<p>if ... else 语句的语法：
+ ```cpp
+if [ expression ]
+then
+    Statement(s) to be executed if expression is true
+fi</p>
+<div class="highlight"><pre><span class="k">if</span> <span class="p">...</span> <span class="k">else</span> <span class="p">...</span> <span class="n">fi</span> <span class="err">语句的语法：</span>
+ <span class="err">```</span><span class="n">cpp</span>
+<span class="k">if</span> <span class="p">[</span> <span class="n">expression</span> <span class="p">]</span>
+<span class="n">then</span> 
+    <span class="n">Statement</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">to</span> <span class="n">be</span> <span class="n">executed</span> <span class="k">if</span> <span class="n">expression</span> <span class="n">is</span> <span class="nb">true</span>
+<span class="k">else</span>
+    <span class="n">Statement</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">to</span> <span class="n">be</span> <span class="n">executed</span> <span class="k">if</span> <span class="n">expression</span> <span class="n">is</span> <span class="nb">false</span>
+<span class="n">fi</span>
+</pre></div>
+
+
+<p>if ... elif ... fi 语句
+  ```cpp
+if [ expression ]
+then 
+    Statement(s) to be executed if expression is true
+elif
+then
+    Statement(s) to be executed if expression is false
+elif
+then
+    XXX
+else
+then 
+    XXX
+fi</p>
+<div class="highlight"><pre><span class="cp">## Shell for循环</span>
+
+<span class="k">for</span><span class="err">循环一般格式为：</span>
+<span class="err">```</span><span class="n">cpp</span>
+<span class="k">for</span> <span class="err">变量</span> <span class="n">in</span> <span class="err">列表</span>
+<span class="k">do</span>
+    <span class="n">command1</span>
+    <span class="n">command2</span>
+    <span class="p">...</span>
+    <span class="n">commandN</span>
+<span class="n">done</span>
+</pre></div>
+
+
+<p>例子，列出当前文件目录的png</p>
+<div class="highlight"><pre><span class="cp">#!/bin/bash</span>
+<span class="k">for</span> <span class="n">file</span> <span class="n">in</span> <span class="o">*</span><span class="p">.</span><span class="n">png</span>
+<span class="k">do</span> 
+    <span class="n">echo</span> <span class="err">$</span><span class="p">{</span><span class="n">file</span><span class="p">}</span>
+<span class="n">done</span>
+</pre></div>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "shell-study-notes.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://icylord.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
+                </div>
+        </article>
+</section>
+        </div><!--/span-->
+
+                <div class="span3 well sidebar-nav" id="sidebar">
+<ul class="nav nav-list">
+<li class="nav-header"><h4><i class="icon-home icon-large"></i> social</h4></li>
+<li><a href="http://icylord.github.io/" rel="alternate"><i class="icon-bookmark icon-large"></i>atom feed</a></li>
+    <li><a href="#"><i class="icon-You can add links in your config file-sign icon-large"></i>You can add links in your config file</a></li>
+    <li><a href="#"><i class="icon-Another social link-sign icon-large"></i>Another social link</a></li>
+
+<li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
+<li>
+<a href="http://icylord.github.io/category/c.html">
+    <i class="icon-folder-open icon-large"></i>C++
+</a>
+</li>
+<li>
+<a href="http://icylord.github.io/category/computer-vision.html">
+    <i class="icon-folder-open icon-large"></i>Computer Vision
+</a>
+</li>
+<li>
+<a href="http://icylord.github.io/category/multimedia.html">
+    <i class="icon-folder-open icon-large"></i>Multimedia
+</a>
+</li>
+<li>
+<a href="http://icylord.github.io/category/shell.html">
+    <i class="icon-folder-open icon-large"></i>Shell
+</a>
+</li>
+
+<li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/c.html">
+        <i class="icon-tag icon-large"></i>C++
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-0">
+    <a href="http://icylord.github.io/tag/computer-vision.html">
+        <i class="icon-tag icon-large"></i>Computer Vision
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/directshow.html">
+        <i class="icon-tag icon-large"></i>Directshow
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/shell.html">
+        <i class="icon-tag icon-large"></i>Shell
+    </a>
+</li>
+
+
+</ul>        </div><!--/.well -->
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <address id="about">
+                Proudly powered by <a href="http://pelican.notmyidea.org/">Pelican <i class="icon-external-link"></i></a>,
+                                which takes great advantage of <a href="http://python.org">Python <i class="icon-external-link"></i></a>.
+        </address><!-- /#about -->
+
+        <p>The theme is from <a href="http://twitter.github.com/bootstrap/">Bootstrap from Twitter <i class="icon-external-link"></i></a>,
+                   and <a href="http://fortawesome.github.com/Font-Awesome/">Font-Awesome <i class="icon-external-link"></i></a>, thanks!</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'icylord';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://icylord.github.io/theme/js/jquery-1.7.2.min.js"></script>
+    <script src="http://icylord.github.io/theme/js/bootstrap.min.js"></script>
+  </body>
+</html>
