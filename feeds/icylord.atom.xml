@@ -1,5 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/icylord.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2014-09-21T00:00:00+02:00</updated><entry><title>libx264 x264_param_t</title><link href="http://icylord.github.io/libx264-x264_param_t.html" rel="alternate"></link><updated>2014-09-21T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-09-21:libx264-x264_param_t.html</id><summary type="html">&lt;h2&gt;libx264 x264_param_t&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>icylord's blog</title><link href="http://icylord.github.io/" rel="alternate"></link><link href="http://icylord.github.io/feeds/icylord.atom.xml" rel="self"></link><id>http://icylord.github.io/</id><updated>2014-10-12T00:00:00+02:00</updated><entry><title>CPP Api Design Reading Notes 1 : Design Pattern</title><link href="http://icylord.github.io/cpp-api-design-reading-notes-1-design-pattern.html" rel="alternate"></link><updated>2014-10-12T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-10-12:cpp-api-design-reading-notes-1-design-pattern.html</id><summary type="html">&lt;h1&gt;PIMPL IDIOM&lt;/h1&gt;
+&lt;p&gt;Pointer to implemetation : as a way to avoid exposing private details in your header files.&lt;/p&gt;
+&lt;p&gt;So, how much logic to locate in the Impl class ?
+ - Private member variables and methods. Lets you maintain the encapsulation of data and methods that acts on those data and lets you avoiding declearing private methods in the public header files.&lt;/p&gt;
+&lt;h2&gt;Copy Sematics&lt;/h2&gt;
+&lt;p&gt;Impl&lt;em&gt; only does shallow copy.
+ - make your class uncopyable.
+ - explicitly define the copy sematics.
+ - use scoped_ptr to hold Impl&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Advantages of PIMPL&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Information hiding&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#define private public&lt;/span&gt;
+&lt;span class="cp"&gt;#include &amp;quot;yourapi.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#undef private&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Reduced coupling&lt;/li&gt;
+&lt;li&gt;Faster compiles&lt;/li&gt;
+&lt;li&gt;Greater binary compatibility&lt;/li&gt;
+&lt;li&gt;Lazy allocation&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="C++"></category></entry><entry><title>CPP Api Design Reading Notes 2 : Design Pattern</title><link href="http://icylord.github.io/cpp-api-design-reading-notes-2-design-pattern.html" rel="alternate"></link><updated>2014-10-12T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-10-12:cpp-api-design-reading-notes-2-design-pattern.html</id><summary type="html">&lt;h1&gt;Singleton&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;ensure that a class only ever has one instance.&lt;/li&gt;
+&lt;li&gt;also privades a global pointer of access to that single instance.&lt;/li&gt;
+&lt;li&gt;a singleton as a more elegant global var.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Several advantages&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Enforce that only one instance of that class.&lt;/li&gt;
+&lt;li&gt;Provides control over the allocation and deseruction of the object.&lt;/li&gt;
+&lt;li&gt;Allows support for thread-safe access to the object's global state.&lt;/li&gt;
+&lt;li&gt;Avoids polluting the global namespace &lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Singleton&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;get_instance&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nl"&gt;private:&lt;/span&gt;
+    &lt;span class="n"&gt;Singleton&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;Singleton&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;Singleton&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;operator&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;singleton&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Thread-safe issue&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;locking on get_instance();&lt;/li&gt;
+&lt;li&gt;avoiding lazy instatiation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;(1) Static intialization&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;foo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;get_instance&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(2) Explicit API intialization&lt;/p&gt;</summary><category term="C++"></category></entry><entry><title>CPP Api Design Reading Notes 3 : Design Pattern</title><link href="http://icylord.github.io/cpp-api-design-reading-notes-3-design-pattern.html" rel="alternate"></link><updated>2014-10-12T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-10-12:cpp-api-design-reading-notes-3-design-pattern.html</id><summary type="html">&lt;h1&gt;Factory methods&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Create objects without having to specify&lt;/li&gt;
+&lt;li&gt;a generalization of a constructor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Limitations of C++ constructors&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;No return result.&lt;/li&gt;
+&lt;li&gt;Constrained naming.&lt;/li&gt;
+&lt;li&gt;Statically bound creation.&lt;/li&gt;
+&lt;li&gt;No virtual constuctors.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Simple Factory&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Factory&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="nl"&gt;public:&lt;/span&gt;
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="n"&gt;Factory&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;CreateSomething&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;some_type&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Drawbacks&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;it contains hardcoded knowledge of the avaliable derived classes&lt;/li&gt;
+&lt;li&gt;users can not add new rendered to the systems.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Extensible Factory Example&lt;/h2&gt;</summary><category term="C++"></category></entry><entry><title>libx264 x264_param_t</title><link href="http://icylord.github.io/libx264-x264_param_t.html" rel="alternate"></link><updated>2014-09-21T00:00:00+02:00</updated><author><name>icylord</name></author><id>tag:icylord.github.io,2014-09-21:libx264-x264_param_t.html</id><summary type="html">&lt;h2&gt;libx264 x264_param_t&lt;/h2&gt;
 &lt;h3&gt;转一个别人写好的libx264参数结构体x264_param_t的参数解析&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cm"&gt;/* 结构体x264_param_t定义在x264.h中 */&lt;/span&gt;
 &lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="kt"&gt;x264_param_t&lt;/span&gt;

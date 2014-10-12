@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>icylord's blog - Python</title>
+    <title>icylord's blog - icylord</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="icylord">
@@ -95,11 +95,11 @@
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
-                <h1><a href="http://icylord.github.io/compile-mysql-in-vs2010.html">Compile MYSQL++ in VS2010</a></h1>
+                <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html">opencv_traincascade 代码阅读(ml/boost.cpp)</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-02-11T00:00:00">
-        <i class="icon-calendar"></i>Tue 11 February 2014
+<abbr class="published" title="2013-10-04T00:00:00">
+        <i class="icon-calendar"></i>Fri 04 October 2013
 </abbr>
 <span class="label">By</span>
 <a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
@@ -109,19 +109,20 @@
 
 <span class="label">Tags</span>
 	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
-	<a href="http://icylord.github.io/tag/python.html"><i class="icon-tag"></i>Python</a>
+	<a href="http://icylord.github.io/tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
 </footer><!-- /.post-info --></div>
-                <div class="summary"><p>1、到http://tangentsoft.net/mysql++/下载mysql++-3.2.1 </p>
-<p>链接:<a href="http://tangentsoft.net/mysql++/releases/mysql++-3.2.1.tar.gz">MYSQL++</a></p>
-<p>2、解压缩文件</p>
-<p>3、进入mysql++-3.2.1\vc2008目录</p>
-<p>4、打开mysql++.
-sln，让VS2010做自动转换，因为VS2010的工程配置目录改变了，因此VS2008的一些配置会丢失，因此需要手动添加mysql c connector的目录。同时只需要编译mysqlpp的lib，因此其他例子程序就编译了，所以下文只修改mysqlpp的工程目录。
-5、默认的工程是编译x64的库，非常好编译，因此下文主要处理32位的情况。</p>
-<p>6、首先点击vs2010上方的x64，选择Configuration Manager，在active sulution 
-platform选择new一个win32的配置，并复制x64的配置。然后把mysqlpp的platform改成win32。</p>
-<p>7、接着在工程中additional include directories添加mysql connector c的include路径 ...</p>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/compile-mysql-in-vs2010.html">more ...</a>
+                <div class="summary"><h1>两个分支CART作为弱分类器太弱了 -____-!!!</h1>
+<pre><code>
+CvDTreeSplit*
+CvBoostTree::find_split_cat_reg( CvDTreeNode* node, int vi, float init_quality, CvDTreeSplit* _split, uchar* _ext_buf )
+{
+    const double* weights = ensemble->get_subtree_weights()->data.db;
+    int ci = data->get_var_type(vi);
+    int n = node->sample_count;
+    int mi = data->cat_count->data.i[ci];
+    int base_size = (2*mi+3)*sizeof(double) + mi*sizeof(double*);
+    cv::AutoBuffer ...</code></pre>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-mlboostcpp.html">more ...</a>
                 </div>
         </div>
         <hr />
@@ -161,6 +162,40 @@ mkl_libs ...</code></pre></p>
                 </div>
         </div>
         <hr />
+        <div class="article">
+                <h1><a href="http://icylord.github.io/szu-face-detector-performance.html">SZU Face Detector Performance</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-09-10T00:00:00">
+        <i class="icon-calendar"></i>Tue 10 September 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><p>Our new face detection algorithm(Shenzhen University Face Detector) reach <strong>state of the art</strong>  on FDDB and AFW dataset.</p>
+<p>For FDDB result please refer to <a href="http://vis-www.cs.umass.edu/fddb/results.html">FDDB</a></p>
+<p>For AFW result please refer to <a href="http://www.ics.uci.edu/~xzhu/face">AFW</a></p>
+<p><img src="/static/img/MV_FDDB_Disc_FPPI.png" height="480" width="640" alt="FDDB Result" />
+<img src="/static/img/MV_AFW_Disc_RP.png" height="480" width="640" alt="AFW Result" /></p>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/szu-face-detector-performance.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+
+        <div class="pagination">
+        <ul>
+                        <li class="prev"><a href="http://icylord.github.io/author/icylord.html">&larr; Previous</a></li>
+                        <li class=""><a href="http://icylord.github.io/author/icylord.html">1</a></li>
+                        <li class="active"><a href="http://icylord.github.io/author/icylord2.html">2</a></li>
+                        <li class="next disabled"><a href="#">&rarr; Next</a></li>
+        </ul>
+        </div>
 
         </div><!--/span-->
 
