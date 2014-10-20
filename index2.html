@@ -65,6 +65,11 @@
             <ul class="nav">
                           <li class="divider-vertical"></li>
                   <li >
+                    <a href="http://icylord.github.io/category/android.html">
+						<i class="icon-folder-open icon-large"></i>Android
+					</a>
+                  </li>
+                  <li >
                     <a href="http://icylord.github.io/category/c.html">
 						<i class="icon-folder-open icon-large"></i>C++
 					</a>
@@ -99,6 +104,46 @@
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
+        <div class="article">
+                <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2013-10-05T00:00:00">
+        <i class="icon-calendar"></i>Sat 05 October 2013
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/opencv.html"><i class="icon-tag"></i>OpenCV</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><pre><code>
+//每个Stage的训练函数
+bool CvCascadeBoost::train( const CvFeatureEvaluator* _featureEvaluator,
+                           int _numSamples,
+                           int _precalcValBufSize, int _precalcIdxBufSize,
+                           const CvCascadeBoostParams& _params )
+{
+    bool isTrained = false;
+    CV_Assert( !data );
+    clear();
+    // 准备CART tree的训练数据，其中包括预先计算所有训练样本的特征值
+    data = new CvCascadeBoostTrainData( _featureEvaluator, _numSamples,
+                                        _precalcValBufSize, _precalcIdxBufSize, _params );
+    CvMemStorage *storage = cvCreateMemStorage();
+    weak = cvCreateSeq( 0, sizeof(CvSeq), sizeof(CvBoostTree*), storage );
+    storage = 0;
+
+    set_params( _params );
+    if ( (_params ...</code></pre>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">more ...</a>
+                </div>
+        </div>
+        <hr />
         <div class="article">
                 <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadecascadeclassifiercpp.html">opencv_traincascade 代码阅读(apps/traincascade/cascadeclassifier.cpp)</a></h1>
                 <div class="well small"><footer class="post-info">
@@ -249,6 +294,11 @@ mkl_libs ...</code></pre></p>
 
 <li class="nav-header"><h4><i class="icon-folder-close icon-large"></i>Categories</h4></li>
 <li>
+<a href="http://icylord.github.io/category/android.html">
+    <i class="icon-folder-open icon-large"></i>Android
+</a>
+</li>
+<li>
 <a href="http://icylord.github.io/category/c.html">
     <i class="icon-folder-open icon-large"></i>C++
 </a>
@@ -270,29 +320,14 @@ mkl_libs ...</code></pre></p>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
 <li class="tag-4">
     <a href="http://icylord.github.io/tag/shell.html">
         <i class="icon-tag icon-large"></i>Shell
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/c.html">
-        <i class="icon-tag icon-large"></i>C++
-    </a>
-</li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/directshow.html">
-        <i class="icon-tag icon-large"></i>Directshow
-    </a>
-</li>
-<li class="tag-0">
-    <a href="http://icylord.github.io/tag/computer-vision.html">
-        <i class="icon-tag icon-large"></i>Computer Vision
     </a>
 </li>
 <li class="tag-2">
@@ -301,8 +336,28 @@ mkl_libs ...</code></pre></p>
     </a>
 </li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
+    <a href="http://icylord.github.io/tag/c.html">
+        <i class="icon-tag icon-large"></i>C++
+    </a>
+</li>
+<li class="tag-0">
+    <a href="http://icylord.github.io/tag/computer-vision.html">
+        <i class="icon-tag icon-large"></i>Computer Vision
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/android-c.html">
+        <i class="icon-tag icon-large"></i>Android C++
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/directshow.html">
+        <i class="icon-tag icon-large"></i>Directshow
     </a>
 </li>
 

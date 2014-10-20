@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>icylord's blog - H.264</title>
+    <title>icylord's blog - Android</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="icylord">
@@ -64,7 +64,7 @@
           <div class="nav-collapse">
             <ul class="nav">
                           <li class="divider-vertical"></li>
-                  <li >
+                  <li class="active">
                     <a href="http://icylord.github.io/category/android.html">
 						<i class="icon-folder-open icon-large"></i>Android
 					</a>
@@ -105,112 +105,26 @@
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
-                <h1><a href="http://icylord.github.io/libx264-x264_param_t.html">libx264 x264_param_t</a></h1>
+                <h1><a href="http://icylord.github.io/android-mediarecorder-notes.html">Android MediaRecorder Notes</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
-<abbr class="published" title="2014-09-21T00:00:00">
-        <i class="icon-calendar"></i>Sun 21 September 2014
+<abbr class="published" title="2014-10-12T00:00:00">
+        <i class="icon-calendar"></i>Sun 12 October 2014
 </abbr>
 <span class="label">By</span>
 <a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
 <span class="label">Category</span>
-<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
+<a href="http://icylord.github.io/category/android.html"><i class="icon-folder-open"></i>Android</a>.
 
 
 <span class="label">Tags</span>
-	<a href="http://icylord.github.io/tag/h264.html"><i class="icon-tag"></i>H.264</a>
+	<a href="http://icylord.github.io/tag/android-c.html"><i class="icon-tag"></i>Android C++</a>
 </footer><!-- /.post-info --></div>
-                <div class="summary"><h2>libx264 x264_param_t</h2>
-<h3>转一个别人写好的libx264参数结构体x264_param_t的参数解析</h3>
-<div class="highlight"><pre><span class="cm">/* 结构体x264_param_t定义在x264.h中 */</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="kt">x264_param_t</span>
-<span class="p">{</span>
-    <span class="cm">/* CPU 标志位 */</span>
-    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
-    <span class="kt">int</span>  <span class="n">i_threads</span><span class="p">;</span>                 <span class="c1">// 并行编码多帧; 线程数，为0则自动多线程编码</span>
-    <span class="kt">int</span>  <span class="n">b_sliced_threads</span><span class="p">;</span>          <span class="c1">// 如果为false，则一个slice只编码成一个NALU;</span>
-                                    <span class="c1">// 否则有几个线程，在编码成几个NALU。缺省为true。</span>
-    <span class="kt">int</span>  <span class="n">b_deterministic</span><span class="p">;</span>           <span class="c1">// 是否允许非确定性时线程优化</span>
-    <span class="kt">int</span>  <span class="n">b_cpu_independent</span><span class="p">;</span>     <span class="c1">// 强制采用典型行为，而不是采用独立于cpu的优化算法</span>
-    <span class="kt">int</span>  <span class="n">i_sync_lookahead</span><span class="p">;</span>          <span class="c1">// 线程超前缓存帧数</span>
-
-    <span class="cm">/* 视频属性 */</span>
-    <span class="kt">int</span>  <span class="n">i_width</span><span class="p">;</span>               <span class="c1">// 视频图像的宽</span>
-    <span class="kt">int</span>  <span class="n">i_height</span><span class="p">;</span>              <span class="c1">// 视频图像的高</span>
-    <span class="kt">int</span>  <span class="n">i_csp</span><span class="p">;</span>                     <span class="c1">// 编码比特流的CSP，仅支持i420，色彩空间设置</span>
-    <span class="kt">int</span>  <span class="n">i_level_idc</span><span class="p">;</span>           <span class="c1">// 指明作用的level值 ...</span></pre></div>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/libx264-x264_param_t.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="http://icylord.github.io/libx264-x264_param_t-2.html">libx264 x264_param_t (2)</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2014-09-21T00:00:00">
-        <i class="icon-calendar"></i>Sun 21 September 2014
-</abbr>
-<span class="label">By</span>
-<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
-<span class="label">Category</span>
-<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
-
-
-<span class="label">Tags</span>
-	<a href="http://icylord.github.io/tag/h264.html"><i class="icon-tag"></i>H.264</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h2>libx264 x264_param_t (2)</h2>
-<div class="highlight"><pre><span class="cm">/********************************************************************************************</span>
-<span class="cm"> x264_image_t 结构用于存放一帧图像实际像素数据。该结构体定义在x264.h中</span>
-<span class="cm">*********************************************************************************************/</span>
-<span class="k">typedef</span> <span class="k">struct</span>
-<span class="p">{</span>
-    <span class="kt">int</span>     <span class="n">i_csp</span><span class="p">;</span>           <span class="c1">// 设置彩色空间，通常取值 X264_CSP_I420，所有可能取值定义在x264.h中</span>
-    <span class="kt">int</span>     <span class="n">i_plane</span><span class="p">;</span>        <span class="c1">//  图像平面个数，例如彩色空间是YUV420格式的，此处取值3</span>
-    <span class="kt">int</span>     <span class="n">i_stride</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>    <span class="c1">// 每个图像平面的跨度，也就是每一行数据的字节数</span>
-    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">plane</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>      <span class="c1">//  每个图像平面存放数据的起始地址, plane[0]是Y平面，</span>
-                <span class="c1">// plane[1]和plane[2]分别代表U和V平面</span>
-<span class="p">}</span>  <span class="kt">x264_image_t</span><span class="p">;</span>
-
-
-<span class="cm">/********************************************************************************************</span>
-<span class="cm">x264_picture_t 结构体描述一视频帧的特征，该结构体定义在x264.h中。</span>
-<span class="cm">*********************************************************************************************/</span>
-<span class="k">typedef</span> <span class="k">struct</span>
-<span class="p">{</span>
-    <span class="kt">int</span>   <span class="n">i_type</span><span class="p">;</span>               <span class="c1">// 帧的类型，取值有X264_TYPE_KEYFRAME、X264_TYPE_P ...</span></pre></div>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/libx264-x264_param_t-2.html">more ...</a>
-                </div>
-        </div>
-        <hr />
-        <div class="article">
-                <h1><a href="http://icylord.github.io/x264_encoder_encode-analysis.html">x264_encoder_encode analysis</a></h1>
-                <div class="well small"><footer class="post-info">
-<span class="label">Date</span>
-<abbr class="published" title="2014-09-21T00:00:00">
-        <i class="icon-calendar"></i>Sun 21 September 2014
-</abbr>
-<span class="label">By</span>
-<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
-<span class="label">Category</span>
-<a href="http://icylord.github.io/category/multimedia.html"><i class="icon-folder-open"></i>Multimedia</a>.
-
-
-<span class="label">Tags</span>
-	<a href="http://icylord.github.io/tag/h264.html"><i class="icon-tag"></i>H.264</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><div class="highlight"><pre><span class="cm">/*****************************************************************************************</span>
-<span class="cm"> *  x264_encoder_encode:    该函数定义在encoder/encoder.c文件中</span>
-<span class="cm"> *  XXX : i_poc   :  is the poc of the current given picture</span>
-<span class="cm"> *         i_frame  :  is the number of the frame being coded</span>
-<span class="cm"> *  ex:  type  frame    poc</span>
-<span class="cm"> *         I       0       2*0</span>
-<span class="cm"> *         P       1       2*3</span>
-<span class="cm"> *         B       2       2*1</span>
-<span class="cm"> *         B       3       2*2</span>
-<span class="cm"> *         P       4       2*6</span>
-<span class="cm"> *         B       5       2 ...</span></pre></div>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/x264_encoder_encode-analysis.html">more ...</a>
+                <div class="summary"><div class="highlight"><pre><span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setCamera</span><span class="p">()</span> <span class="c1">// - Set the camera to be used for video capture, use your application&#39;s current instance of Camera.</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setAudioSource</span><span class="p">()</span> <span class="c1">// - Set the audio source, use MediaRecorder.AudioSource.CAMCORDER.</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setVideoSource</span><span class="p">()</span> <span class="c1">//  - Set the video source, use MediaRecorder.VideoSource.CAMERA.</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setAudioEncoder</span><span class="p">()</span> <span class="c1">//  - Set the sound encoding type, specify the default setting ...</span></pre></div>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/android-mediarecorder-notes.html">more ...</a>
                 </div>
         </div>
         <hr />

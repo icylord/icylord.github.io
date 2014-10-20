@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>icylord's blog - Shell</title>
+    <title>Android MediaRecorder Notes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="icylord">
@@ -64,7 +64,7 @@
           <div class="nav-collapse">
             <ul class="nav">
                           <li class="divider-vertical"></li>
-                  <li >
+                  <li class="active">
                     <a href="http://icylord.github.io/category/android.html">
 						<i class="icon-folder-open icon-large"></i>Android
 					</a>
@@ -104,9 +104,20 @@
     <div class="container-fluid">
       <div class="row">
         <div class="span9" id="content">
-        <div class="article">
-                <h1><a href="http://icylord.github.io/shell-study-notes.html">Shell study notes</a></h1>
-                <div class="well small"><footer class="post-info">
+<section id="content">
+        <article>
+                <header>
+                        <h1>
+                                <a href=""
+                                        rel="bookmark"
+                                        title="Permalink to Android MediaRecorder Notes">
+                                        Android MediaRecorder Notes
+                                </a>
+                        </h1>
+                </header>
+                <div class="entry-content">
+                <div class="well">
+<footer class="post-info">
 <span class="label">Date</span>
 <abbr class="published" title="2014-10-12T00:00:00">
         <i class="icon-calendar"></i>Sun 12 October 2014
@@ -114,43 +125,41 @@
 <span class="label">By</span>
 <a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
 <span class="label">Category</span>
-<a href="http://icylord.github.io/category/shell.html"><i class="icon-folder-open"></i>Shell</a>.
+<a href="http://icylord.github.io/category/android.html"><i class="icon-folder-open"></i>Android</a>.
 
 
 <span class="label">Tags</span>
-	<a href="http://icylord.github.io/tag/shell.html"><i class="icon-tag"></i>Shell</a>
-</footer><!-- /.post-info --></div>
-                <div class="summary"><h1>Shell 学习笔记</h1>
-<h2>开始</h2>
-<div class="highlight"><pre><span class="cp">#!/bin/bash</span>
-<span class="n">echo</span> <span class="s">&quot;Hello World !&quot;</span>
+	<a href="http://icylord.github.io/tag/android-c.html"><i class="icon-tag"></i>Android C++</a>
+</footer><!-- /.post-info -->                </div>
+                <div class="highlight"><pre><span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setCamera</span><span class="p">()</span> <span class="c1">// - Set the camera to be used for video capture, use your application&#39;s current instance of Camera.</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setAudioSource</span><span class="p">()</span> <span class="c1">// - Set the audio source, use MediaRecorder.AudioSource.CAMCORDER.</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setVideoSource</span><span class="p">()</span> <span class="c1">//  - Set the video source, use MediaRecorder.VideoSource.CAMERA.</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setAudioEncoder</span><span class="p">()</span> <span class="c1">//  - Set the sound encoding type, specify the default setting or MediaRecorder.AudioEncoder.AMR_NB.</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">setVideoEncoder</span><span class="p">()</span> <span class="c1">//  - Set the video encoding type, specify the default setting or MediaRecorder.VideoEncoder.MPEG_4_SP.</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">Prepare</span><span class="p">()</span> <span class="c1">// MediaRecorder - Prepare the MediaRecorder with provided configuration settings by calling MediaRecorder.prepare().</span>
+<span class="n">MediaRecorder</span><span class="p">.</span><span class="n">Start</span><span class="p">()</span> <span class="c1">//  MediaRecorder - Start recording video by calling MediaRecorder.start().</span>
 </pre></div>
 
 
-<p>"#!"" 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种Shell。echo命令用于向窗口输出文本。</p>
-<p>运行Shell脚本</p>
-<p>作为可执行程序  chmod a+x xxx.sh ./xxx.sh</p>
-<p>使用 read 命令从 stdin 获取输入</p>
-<div class="highlight"><pre><span class="n">echo</span> <span class="s">&quot;What is your name?&quot;</span>
-<span class="n">read</span> <span class="n">PERSON</span>
-<span class="n">echo</span> <span class="s">&quot;Hello, $PERSON&quot;</span>
-</pre></div>
-
-
-<h2>定义变量</h2>
-<ul>
-<li>定义变量时，变量名不加美元符号（$)，量名和等号之间不能有空格。</li>
-<li>首个字符必须为字母（a-z，A-Z）。</li>
-<li>中间不能有空格，可以使用下划线（_）。</li>
-<li>不能使用标点符号。</li>
-<li>不能使用bash里的关键字（可用help命令查看保留关键字）。</li>
-</ul>
-<div class="highlight"><pre><span class="n">variableName ...</span></pre></div>
-                        <a class="btn primary xsmall" href="http://icylord.github.io/shell-study-notes.html">more ...</a>
+<p><img src="/static/img/MediaRecordersetCamera.png" height="480" width="640" alt="MediaRecorder.setCamera()" />
+<img src="/static/img/MediaRecorderstart.png" height="480" width="640" alt="MediaRecorder.start()" /></p>
+                </div><!-- /.entry-content -->
+                <div class="comments">
+                <h2>Comments !</h2>
+                        <div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                           var disqus_identifier = "android-mediarecorder-notes.html";
+                           (function() {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript'; dsq.async = true;
+                                dsq.src = 'http://icylord.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] ||
+                                 document.getElementsByTagName('body')[0]).appendChild(dsq);
+                          })();
+                        </script>
                 </div>
-        </div>
-        <hr />
-
+        </article>
+</section>
         </div><!--/span-->
 
                 <div class="span3 well sidebar-nav" id="sidebar">
