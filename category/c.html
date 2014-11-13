@@ -189,17 +189,18 @@
 <li>No virtual constuctors.</li>
 </ul>
 <h2>Simple Factory</h2>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Factory</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Stooge</span>
 <span class="p">{</span>
-<span class="nl">public:</span>
-    <span class="k">static</span> <span class="n">Factory</span><span class="o">*</span> <span class="n">CreateSomething</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">some_type</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
+  <span class="nl">public:</span>
+    <span class="c1">// Factory Method</span>
+    <span class="k">static</span> <span class="n">Stooge</span> <span class="o">*</span><span class="n">make_stooge</span><span class="p">(</span><span class="kt">int</span> <span class="n">choice</span><span class="p">);</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">slap_stick</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
 
-
-<h2>Drawbacks</h2>
-<ul>
-<li>it contains hardcoded knowledge of the avaliable derived classes ...</li></ul>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">Stooge</span><span class="o">*&gt;</span> <span class="n">roles</span><span class="p">;</span>
+  <span class="kt">int ...</span></pre></div>
                         <a class="btn primary xsmall" href="http://icylord.github.io/cpp-api-design-reading-notes-3-design-pattern.html">more ...</a>
                 </div>
         </div>
@@ -242,14 +243,24 @@
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/c.html">
+        <i class="icon-tag icon-large"></i>C++
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
+    </a>
+</li>
 <li class="tag-0">
     <a href="http://icylord.github.io/tag/computer-vision.html">
         <i class="icon-tag icon-large"></i>Computer Vision
-    </a>
-</li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/shell.html">
-        <i class="icon-tag icon-large"></i>Shell
     </a>
 </li>
 <li class="tag-4">
@@ -263,23 +274,13 @@
     </a>
 </li>
 <li class="tag-4">
+    <a href="http://icylord.github.io/tag/shell.html">
+        <i class="icon-tag icon-large"></i>Shell
+    </a>
+</li>
+<li class="tag-4">
     <a href="http://icylord.github.io/tag/android-c.html">
         <i class="icon-tag icon-large"></i>Android C++
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/c.html">
-        <i class="icon-tag icon-large"></i>C++
     </a>
 </li>
 

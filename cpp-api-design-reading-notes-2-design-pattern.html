@@ -144,15 +144,53 @@
 <li>Allows support for thread-safe access to the object's global state.</li>
 <li>Avoids polluting the global namespace </li>
 </ul>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Singleton</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">GlobalClass</span>
 <span class="p">{</span>
-<span class="nl">public:</span>
-    <span class="k">static</span> <span class="n">Singleton</span><span class="o">&amp;</span> <span class="n">get_instance</span><span class="p">();</span>
-<span class="nl">private:</span>
-    <span class="n">Singleton</span><span class="p">();</span>
-    <span class="o">~</span><span class="n">Singleton</span><span class="p">();</span>
-    <span class="n">Singleton</span><span class="p">(</span><span class="k">const</span> <span class="n">Singleton</span><span class="o">&amp;</span><span class="p">);</span>
-    <span class="k">const</span> <span class="n">Singleton</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span> <span class="p">(</span><span class="k">const</span> <span class="n">Singleton</span><span class="o">&amp;</span> <span class="n">singleton</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">m_value</span><span class="p">;</span>
+    <span class="k">static</span> <span class="n">GlobalClass</span> <span class="o">*</span><span class="n">s_instance</span><span class="p">;</span>
+    <span class="n">GlobalClass</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">m_value</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">get_value</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">set_value</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">m_value</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">static</span> <span class="n">GlobalClass</span> <span class="o">*</span><span class="n">instance</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s_instance</span><span class="p">)</span>
+          <span class="n">s_instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GlobalClass</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">s_instance</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Allocating and initializing GlobalClass&#39;s</span>
+<span class="c1">// static data member.  The pointer is being</span>
+<span class="c1">// allocated - not the object inself.</span>
+<span class="n">GlobalClass</span> <span class="o">*</span><span class="n">GlobalClass</span><span class="o">::</span><span class="n">s_instance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">foo</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_value</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;foo: global_ptr is &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">bar</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_value</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;bar: global_ptr is &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;main: global_ptr is &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+  <span class="n">foo</span><span class="p">();</span>
+  <span class="n">bar</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -222,14 +260,24 @@
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/c.html">
+        <i class="icon-tag icon-large"></i>C++
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
+    </a>
+</li>
 <li class="tag-0">
     <a href="http://icylord.github.io/tag/computer-vision.html">
         <i class="icon-tag icon-large"></i>Computer Vision
-    </a>
-</li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/shell.html">
-        <i class="icon-tag icon-large"></i>Shell
     </a>
 </li>
 <li class="tag-4">
@@ -243,23 +291,13 @@
     </a>
 </li>
 <li class="tag-4">
+    <a href="http://icylord.github.io/tag/shell.html">
+        <i class="icon-tag icon-large"></i>Shell
+    </a>
+</li>
+<li class="tag-4">
     <a href="http://icylord.github.io/tag/android-c.html">
         <i class="icon-tag icon-large"></i>Android C++
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/c.html">
-        <i class="icon-tag icon-large"></i>C++
     </a>
 </li>
 
