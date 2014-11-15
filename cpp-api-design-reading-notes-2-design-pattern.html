@@ -134,7 +134,7 @@
                 <h1>Singleton</h1>
 <ul>
 <li>ensure that a class only ever has one instance.</li>
-<li>also privades a global pointer of access to that single instance.</li>
+<li>also privades a global pointer or reference of access to that single instance.</li>
 <li>a singleton as a more elegant global var.</li>
 </ul>
 <h2>Several advantages</h2>
@@ -161,11 +161,11 @@
     <span class="p">{</span>
         <span class="n">m_value</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">static</span> <span class="n">GlobalClass</span> <span class="o">*</span><span class="n">instance</span><span class="p">()</span>
+    <span class="k">static</span> <span class="n">GlobalClass</span> <span class="o">&amp;</span><span class="n">instance</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s_instance</span><span class="p">)</span>
           <span class="n">s_instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GlobalClass</span><span class="p">;</span>
-        <span class="k">return</span> <span class="n">s_instance</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">*</span><span class="n">s_instance</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
@@ -260,21 +260,6 @@
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/python.html">
-        <i class="icon-tag icon-large"></i>Python
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/c.html">
-        <i class="icon-tag icon-large"></i>C++
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
-    </a>
-</li>
 <li class="tag-0">
     <a href="http://icylord.github.io/tag/computer-vision.html">
         <i class="icon-tag icon-large"></i>Computer Vision
@@ -285,9 +270,19 @@
         <i class="icon-tag icon-large"></i>Directshow
     </a>
 </li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/android-c.html">
+        <i class="icon-tag icon-large"></i>Android C++
+    </a>
+</li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/python.html">
+        <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
 <li class="tag-4">
@@ -295,9 +290,14 @@
         <i class="icon-tag icon-large"></i>Shell
     </a>
 </li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/android-c.html">
-        <i class="icon-tag icon-large"></i>Android C++
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/c.html">
+        <i class="icon-tag icon-large"></i>C++
     </a>
 </li>
 
