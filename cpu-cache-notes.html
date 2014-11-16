@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>CPP Api Design Reading Notes 2 : Design Pattern</title>
+    <title>CPU Cache Notes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="icylord">
@@ -110,8 +110,8 @@
                         <h1>
                                 <a href=""
                                         rel="bookmark"
-                                        title="Permalink to CPP Api Design Reading Notes 2 : Design Pattern">
-                                        CPP Api Design Reading Notes 2 : Design Pattern
+                                        title="Permalink to CPU Cache Notes">
+                                        CPU Cache Notes
                                 </a>
                         </h1>
                 </header>
@@ -131,87 +131,89 @@
 <span class="label">Tags</span>
 	<a href="http://icylord.github.io/tag/c.html"><i class="icon-tag"></i>C++</a>
 </footer><!-- /.post-info -->                </div>
-                <h1>Singleton</h1>
+                <h1>CPU Caches</h1>
 <ul>
-<li>ensure that a class only ever has one instance.</li>
-<li>also privades a global pointer or reference of access to that single instance.</li>
-<li>a singleton as a more elegant global var.</li>
+<li>Traversal order matters : cache lines</li>
+<li>Thread memory access matters : false sharing</li>
 </ul>
-<h2>Several advantages</h2>
+<h1>Three common types</h1>
 <ul>
-<li>Enforce that only one instance of that class.</li>
-<li>Provides control over the allocation and deseruction of the object.</li>
-<li>Allows support for thread-safe access to the object's global state.</li>
-<li>Avoids polluting the global namespace </li>
+<li>Data(D-cache)</li>
+<li>Instrument(I-cache)</li>
+<li>TLB</li>
 </ul>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">GlobalClass</span>
-<span class="p">{</span>
-    <span class="kt">int</span> <span class="n">m_value</span><span class="p">;</span>
-    <span class="k">static</span> <span class="n">GlobalClass</span> <span class="o">*</span><span class="n">s_instance</span><span class="p">;</span>
-    <span class="n">GlobalClass</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_value</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="nl">public:</span>
-    <span class="kt">int</span> <span class="n">get_value</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">set_value</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_value</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">static</span> <span class="n">GlobalClass</span> <span class="o">&amp;</span><span class="n">instance</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s_instance</span><span class="p">)</span>
-          <span class="n">s_instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GlobalClass</span><span class="p">;</span>
-        <span class="k">return</span> <span class="o">*</span><span class="n">s_instance</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="c1">// Allocating and initializing GlobalClass&#39;s</span>
-<span class="c1">// static data member.  The pointer is being</span>
-<span class="c1">// allocated - not the object inself.</span>
-<span class="n">GlobalClass</span> <span class="o">*</span><span class="n">GlobalClass</span><span class="o">::</span><span class="n">s_instance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="kt">void</span> <span class="nf">foo</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_value</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;foo: global_ptr is &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">bar</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">set_value</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;bar: global_ptr is &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;main: global_ptr is &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">GlobalClass</span><span class="o">::</span><span class="n">instance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
-  <span class="n">foo</span><span class="p">();</span>
-  <span class="n">bar</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h2>Thread-safe issue</h2>
+<h1>Cache Lines</h1>
 <ul>
-<li>locking on get_instance();</li>
-<li>avoiding lazy instatiation</li>
+<li>X86 CPU 64 Bytes</li>
+<li>ARM CPU 32 Bytes</li>
 </ul>
-<p>(1) Static intialization</p>
-<div class="highlight"><pre><span class="k">static</span> <span class="n">Singleton</span> <span class="o">&amp;</span><span class="n">foo</span> <span class="o">=</span> <span class="n">Singleton</span><span class="o">::</span><span class="n">get_instance</span><span class="p">();</span>
-</pre></div>
-
-
-<p>(2) Explicit API intialization</p>
+<p>Main memory read/write in terms of cache lines</p>
+<p>Cache Coherrncy / False sharing
+ - Indepentent values fall on one cache line.
+ - Differnt cores concurrently access that line
+ - Frequently
+ - At least one is a writer</p>
+<h1>Cache Policy</h1>
+<ul>
+<li>Inclusive Multilevel cache L3</li>
+<li>Exclusive Multilevel cache L1-&gt;L2-&gt;L3</li>
+</ul>
+<h1>Cache coherency</h1>
+<ul>
+<li>MESI</li>
+<li>MOESI (AMD)</li>
+</ul>
+<h1>Atomic Operation</h1>
+<ul>
+<li>Simple read/write int a = 1; int b; b = a;</li>
+<li>Read-Modify-Write a++; -&gt; Three instrument</li>
+</ul>
+<h1>Non-Atomic Damage</h1>
+<ul>
+<li>Half write / Half Read / Compostive write</li>
+</ul>
+<h1>Atomic Instrution</h1>
+<ul>
+<li>CMPXCHG</li>
+<li>XCHG</li>
+<li>XADD</li>
+</ul>
+<h1>NON Atomic Eliminate</h1>
+<ul>
+<li>Aligned 2,4 byte</li>
+<li>Aligned 8 byte</li>
+</ul>
+<h1>Memory ordering (Reordering)</h1>
+<ul>
+<li>Compiler recordering</li>
+<li>CPU Memory Ordering</li>
+</ul>
+<h1>Compiler recordering Compiler memory barrier</h1>
+<ul>
+<li>asm volatile("""":::"memory");</li>
+<li>_asm__volatile__("":::"memory");</li>
+<li>__memory_barrier();</li>
+<li>ReadWriteBarrier();</li>
+</ul>
+<h1>Compiler recordering CPU Memory Ordering</h1>
+<ul>
+<li>asm volatile("mfence");</li>
+</ul>
+<h1>Compiler recordering 1+2</h1>
+<ul>
+<li>asm volatile("mfence":::"memory");</li>
+<li>asm volatile("lock;addl $0, 0(%%esp)":::"memory");</li>
+</ul>
+<h1>volatile C/C++ and Java</h1>
+<ul>
+<li>not caching them in registers</li>
+</ul>
                 </div><!-- /.entry-content -->
                 <div class="comments">
                 <h2>Comments !</h2>
                         <div id="disqus_thread"></div>
                         <script type="text/javascript">
-                           var disqus_identifier = "cpp-api-design-reading-notes-2-design-pattern.html";
+                           var disqus_identifier = "cpu-cache-notes.html";
                            (function() {
                                 var dsq = document.createElement('script');
                                 dsq.type = 'text/javascript'; dsq.async = true;

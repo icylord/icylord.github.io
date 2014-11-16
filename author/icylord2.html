@@ -105,6 +105,37 @@
       <div class="row">
         <div class="span9" id="content">
         <div class="article">
+                <h1><a href="http://icylord.github.io/compile-mysql-in-vs2010.html">Compile MYSQL++ in VS2010</a></h1>
+                <div class="well small"><footer class="post-info">
+<span class="label">Date</span>
+<abbr class="published" title="2014-02-11T00:00:00">
+        <i class="icon-calendar"></i>Tue 11 February 2014
+</abbr>
+<span class="label">By</span>
+<a href="http://icylord.github.io/author/icylord.html"><i class="icon-user"></i>icylord</a>
+<span class="label">Category</span>
+<a href="http://icylord.github.io/category/computer-vision.html"><i class="icon-folder-open"></i>Computer Vision</a>.
+
+
+<span class="label">Tags</span>
+	<a href="http://icylord.github.io/tag/computer-vision.html"><i class="icon-tag"></i>Computer Vision</a>
+	<a href="http://icylord.github.io/tag/python.html"><i class="icon-tag"></i>Python</a>
+</footer><!-- /.post-info --></div>
+                <div class="summary"><p>1、到http://tangentsoft.net/mysql++/下载mysql++-3.2.1 </p>
+<p>链接:<a href="http://tangentsoft.net/mysql++/releases/mysql++-3.2.1.tar.gz">MYSQL++</a></p>
+<p>2、解压缩文件</p>
+<p>3、进入mysql++-3.2.1\vc2008目录</p>
+<p>4、打开mysql++.
+sln，让VS2010做自动转换，因为VS2010的工程配置目录改变了，因此VS2008的一些配置会丢失，因此需要手动添加mysql c connector的目录。同时只需要编译mysqlpp的lib，因此其他例子程序就编译了，所以下文只修改mysqlpp的工程目录。
+5、默认的工程是编译x64的库，非常好编译，因此下文主要处理32位的情况。</p>
+<p>6、首先点击vs2010上方的x64，选择Configuration Manager，在active sulution 
+platform选择new一个win32的配置，并复制x64的配置。然后把mysqlpp的platform改成win32。</p>
+<p>7、接着在工程中additional include directories添加mysql connector c的include路径 ...</p>
+                        <a class="btn primary xsmall" href="http://icylord.github.io/compile-mysql-in-vs2010.html">more ...</a>
+                </div>
+        </div>
+        <hr />
+        <div class="article">
                 <h1><a href="http://icylord.github.io/opencv_traincascade-dai-ma-yue-du-appstraincascadeboostcpp.html">opencv_traincascade 代码阅读(apps/traincascade/boost.cpp)</a></h1>
                 <div class="well small"><footer class="post-info">
 <span class="label">Date</span>
@@ -320,9 +351,24 @@ mkl_libs ...</code></pre></p>
 </li>
 
 <li class="nav-header"><h4><i class="icon-tags icon-large"></i>Tags</h4></li>
-<li class="tag-0">
-    <a href="http://icylord.github.io/tag/computer-vision.html">
-        <i class="icon-tag icon-large"></i>Computer Vision
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/h264.html">
+        <i class="icon-tag icon-large"></i>H.264
+    </a>
+</li>
+<li class="tag-4">
+    <a href="http://icylord.github.io/tag/shell.html">
+        <i class="icon-tag icon-large"></i>Shell
+    </a>
+</li>
+<li class="tag-2">
+    <a href="http://icylord.github.io/tag/opencv.html">
+        <i class="icon-tag icon-large"></i>OpenCV
+    </a>
+</li>
+<li class="tag-1">
+    <a href="http://icylord.github.io/tag/c.html">
+        <i class="icon-tag icon-large"></i>C++
     </a>
 </li>
 <li class="tag-4">
@@ -336,28 +382,13 @@ mkl_libs ...</code></pre></p>
     </a>
 </li>
 <li class="tag-2">
-    <a href="http://icylord.github.io/tag/h264.html">
-        <i class="icon-tag icon-large"></i>H.264
-    </a>
-</li>
-<li class="tag-2">
     <a href="http://icylord.github.io/tag/python.html">
         <i class="icon-tag icon-large"></i>Python
     </a>
 </li>
-<li class="tag-4">
-    <a href="http://icylord.github.io/tag/shell.html">
-        <i class="icon-tag icon-large"></i>Shell
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/opencv.html">
-        <i class="icon-tag icon-large"></i>OpenCV
-    </a>
-</li>
-<li class="tag-2">
-    <a href="http://icylord.github.io/tag/c.html">
-        <i class="icon-tag icon-large"></i>C++
+<li class="tag-0">
+    <a href="http://icylord.github.io/tag/computer-vision.html">
+        <i class="icon-tag icon-large"></i>Computer Vision
     </a>
 </li>
 
